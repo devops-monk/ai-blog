@@ -213,7 +213,7 @@ Chapters 1 and 2 were rewritten to this standard after an initial draft pitched 
 ## Writing a chapter
 
 1. Re-read the source slides, then fetch every documentation page listed for the chapter. Never write a technical claim from the deck alone.
-2. Draft with the front matter from `archetypes/default.md`. Date it today or earlier, or remember that Hugo drops future-dated content unless you pass `--buildFuture` (CI does; a bare local `hugo` does not). `series` is the part name, `series_order` is the chapter's position within that part, `draft: true` until verified.
+2. Draft with the front matter from `archetypes/default.md`. **Date it in the past.** CI passes `--buildFuture` but a bare local `hugo` does not, so a future-dated chapter builds in CI and vanishes locally — the two stop agreeing, which is the worst way for this to fail. `series` is the part name, `series_order` is the chapter's position within that part, `draft: true` until verified.
 3. Diagrams as ` ```mermaid ` fences. No semicolons inside labels — a semicolon silently kills the whole diagram.
 4. Widget as a single raw HTML block with no blank lines anywhere inside it. Styles into `custom-styles.css` under a short prefix, with a `[data-theme="dark"]` variant and a `40em` fallback.
 5. Cover: add an `art_*()` motif and a `COVERS` entry, then `python3 tools/gen_covers.py <slug>` and `python3 tools/gen_social.py`.

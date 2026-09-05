@@ -2,7 +2,7 @@
 title: "Permission Modes"
 image: /images/articles/cc-03-permission-modes.webp
 toc: true
-date: 2026-09-06T10:00:00+00:00
+date: 2026-09-05T12:00:00+00:00
 description: "The six permission modes, what each one auto-approves, the auto-mode classifier's default block and allow lists, the thresholds at which it stops trusting itself, and the protected and critical paths no mode will auto-approve."
 tags: ["claude-code", "permissions", "auto-mode", "security", "classifier"]
 categories: ["Fundamentals"]

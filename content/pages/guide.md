@@ -22,7 +22,7 @@ Every chapter stands alone. Read top to bottom and you'll finish an expert.
 What the thing is, how you talk to it, and how to stop it doing something you'll regret.
 
 1. [What Claude Code Actually Is](/2026/09/what-claude-code-actually-is/) — an LLM cannot read your files, so how does Claude Code read your files? The agentic loop, the tool list, and the one rule the whole permission system grows from.
-2. Three Ways to Talk to It
+2. [Three Ways to Talk to Claude Code](/2026/09/three-ways-to-talk-to-claude-code/) — CLI flags, slash commands and the sigils you type mid-sentence. Two of the three never reach the model, and one of them stopped being free.
 3. Permission Modes
 4. Permissions & Sandboxing
 

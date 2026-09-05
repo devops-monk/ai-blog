@@ -13,7 +13,7 @@ A 23-chapter tutorial that takes a reader from "I installed it" to genuine exper
 | # | Chapter | Part | Status |
 |---|---|---|---|
 | 1 | What Claude Code Actually Is | Foundations | ✅ [Published](https://ai.devops-monk.com/2026/09/what-claude-code-actually-is/) |
-| 2 | Three Ways to Talk to It | Foundations | ⬜ Not started |
+| 2 | Three Ways to Talk to It | Foundations | ✅ [Published](https://ai.devops-monk.com/2026/09/three-ways-to-talk-to-claude-code/) |
 | 3 | Permission Modes | Foundations | ⬜ Not started |
 | 4 | Permissions & Sandboxing | Foundations | ⬜ Not started |
 | 5 | Settings: the Control Panel | Context Engineering | ⬜ Not started |
@@ -186,6 +186,9 @@ The source deck predates the current documentation. These must be written correc
 | Skill frontmatter is `name`, `description`, `tools`, `model` | Around twenty fields, including `allowed-tools`, `disallowed-tools`, `disable-model-invocation`, `user-invocable`, `context: fork`, `agent`, `background`, `paths`, `arguments` and `hooks`, plus dynamic context injection |
 | Custom commands are deprecated | Legacy but fully supported. Skills are recommended and win on a name conflict — the nuance matters if you already have `.claude/commands/` |
 | Context window: 1,000,000 tokens, 100k system prompt, 400k history | An illustration, not real figures. Present as a schematic or use verified numbers; never assert those totals |
+| Shell mode (`!`) is free and consumes no tokens | Not since v2.1.186. Claude responds to `!` output automatically and that response costs a normal prompt. `respondToBashCommands: false` restores the silent behaviour |
+| `#` adds a note to Claude's memory | No longer in the documentation. Say "remember that…" in plain language; auto memory picks it up |
+| Voice dictation is hold-`Space` | Two modes, hold and tap, and `voice:pushToTalk` is rebindable |
 
 Unverified deck claims to confirm while writing the relevant chapter: checkpoint expiry, the `MEMORY.md` line limit and path, the `--worktree` flag, voice dictation's push-to-talk key, and `/loop` task expiry.
 

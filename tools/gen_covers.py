@@ -99,6 +99,30 @@ def art_loop():
     return f'<svg width="640" height="420" viewBox="0 0 640 420">{"".join(out)}</svg>'
 
 
+def art_channels():
+    """Three prompt lines, each with its channel sigil picked out."""
+    rows = [
+        ("$", "claude --model opus", GREEN, "before the session"),
+        (">", "/context", BLUE, "during the session"),
+        (">", "explain @auth.ts", PINK, "inside the prompt"),
+    ]
+    out = ['<rect x="30" y="40" width="580" height="290" rx="10" fill="#0d0a1a" '
+           f'opacity=".55" stroke="{FAINT}" stroke-opacity=".7"/>']
+    for i, (sigil, text, col, note) in enumerate(rows):
+        y = 100 + i * 82
+        out.append(f'<text x="58" y="{y}" fill="{col}" font-size="24">{sigil}</text>')
+        x = 86
+        for ch in text:
+            # The sigil that names the channel is the only coloured glyph.
+            hot = (ch in "-/@" and (ch != "-" or text.startswith("claude")))
+            fill = col if hot else "#9d92bd"
+            out.append(f'<text x="{x}" y="{y}" fill="{fill}" font-size="20">{ch}</text>')
+            x += 12
+        out.append(f'<text x="58" y="{y+26}" fill="{DIM}" font-size="13">{note}</text>')
+    # No caption here — the shell already prints one at the bottom right.
+    return f'<svg width="640" height="420" viewBox="0 0 640 420">{"".join(out)}</svg>'
+
+
 def art_tokens():
     """A token stream with the next-token distribution hanging off the end."""
     s, x = [], 40
@@ -169,6 +193,9 @@ COVERS = [
     ("cc-01-what-claude-code-is", "PART 1 · CH 1", "What Claude Code<br>Actually Is", 54,
      "An LLM cannot read your files. So how does Claude Code read your files?",
      "the model never touches your <i>disk</i>", art_loop),
+    ("cc-02-three-ways-to-talk", "PART 1 · CH 2", "Three Ways to Talk<br>to Claude Code", 50,
+     "CLI flags, slash commands, and sigils. Three channels, three rules.",
+     "two of the three never reach the <i>model</i>", art_channels),
     ("hello-transformers", "PART 1 · CH 1", "How a Transformer<br>Actually Predicts", 54,
      "One token at a time, and everything else follows from that.",
      "the model outputs a <i>distribution</i>, not a word", art_tokens),

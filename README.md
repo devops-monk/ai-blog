@@ -151,7 +151,9 @@ push to main → checkout → setup Hugo 0.160.1 extended
              → GitHub Pages serves ai.devops-monk.com
 ```
 
-`--buildFuture` matters: articles dated ahead of today still build.
+`--buildFuture` matters: articles dated ahead of today still build. The workflow also fails the build if `public/CNAME` is missing — Hugo copies `static/CNAME` into `public/`, and a CNAME at the repo root would never reach the published branch, silently unsetting the custom domain on every deploy.
+
+`.gitlab-ci.yml` is the same pipeline for GitLab Pages. The live site deploys from GitHub Actions; that file only does anything if the repo is mirrored to GitLab, and is kept in step so either host can build.
 
 GitHub Pages and the CDN cache aggressively — **hard-refresh (Cmd+Shift+R) before concluding a change didn't ship**, or append a cache-busting query string when checking with `curl`.
 

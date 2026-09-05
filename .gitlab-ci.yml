@@ -1,0 +1,41 @@
+# GitLab CI equivalent of .github/workflows/deploy.yml.
+#
+# The live site deploys from GitHub Actions; this file only does anything if
+# the repository is mirrored to GitLab. It is kept in step with the Actions
+# workflow so either host can build the site.
+#
+# GitLab Pages requires the job to be named `pages` and the output to be in a
+# top-level `public/` directory — which is where Hugo already writes.
+
+image: hugomods/hugo:exts-0.160.1
+
+variables:
+  GIT_SUBMODULE_STRATEGY: recursive
+
+default:
+  interruptible: true
+
+# Build on every branch so merge requests catch a broken build, but only the
+# `pages` job on the default branch publishes.
+build:
+  stage: build
+  script:
+    - hugo --minify --buildFuture --cleanDestinationDir
+    - test -f public/CNAME || { echo "public/CNAME missing — static/CNAME was not copied"; exit 1; }
+  rules:
+    - if: $CI_COMMIT_BRANCH != $CI_DEFAULT_BRANCH
+  artifacts:
+    paths:
+      - public
+    expire_in: 1 week
+
+pages:
+  stage: deploy
+  script:
+    - hugo --minify --buildFuture --cleanDestinationDir
+    - test -f public/CNAME || { echo "public/CNAME missing — static/CNAME was not copied"; exit 1; }
+  artifacts:
+    paths:
+      - public
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH

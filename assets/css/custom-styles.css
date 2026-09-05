@@ -2178,3 +2178,104 @@ body.dz-open { overflow: hidden; }
   .al-tool, .al-text, .al-note { grid-row: auto; grid-column: 1; }
   .al-tool { justify-self: start; }
 }
+
+/* ---- Channel sorter (posts/2026/cc-02-three-ways-to-talk) ---- */
+.sorter {
+  margin: 1.75rem 0;
+  padding: 1.1rem 1.25rem 1.1rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+.ct-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.ct-q { font-size: 0.85rem; font-weight: 600; color: var(--text-muted); }
+.ct-score { font-family: var(--mono); font-size: 0.76rem; color: var(--text-muted); }
+
+.ct-item {
+  margin: 0.75rem 0 1rem;
+  padding: 0.85rem 1rem;
+  font-family: var(--mono);
+  font-size: 0.95rem;
+  color: var(--text);
+  background: var(--bg);
+  border: 1px dashed var(--border);
+  border-radius: var(--radius);
+  text-align: center;
+  word-break: break-word;
+}
+
+.ct-choices { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem; }
+
+.ct-btn {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  padding: 0.6rem 0.5rem;
+  font-family: inherit;
+  font-size: 0.83rem;
+  font-weight: 600;
+  color: var(--text);
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+
+.ct-btn small { font-size: 0.68rem; font-weight: 400; color: var(--text-muted); }
+.ct-btn:hover:not(:disabled) { border-color: var(--primary); }
+.ct-btn:disabled { cursor: default; }
+.ct-btn.ok { color: #fff; background: #16a34a; border-color: #16a34a; }
+.ct-btn.ok small { color: rgba(255,255,255,0.85); }
+.ct-btn.no { color: #fff; background: #dc2626; border-color: #dc2626; }
+.ct-btn.no small { color: rgba(255,255,255,0.85); }
+
+/* The right answer when you got it wrong — shown, but not celebrated. */
+.ct-btn.ok-faint { border-color: #16a34a; box-shadow: inset 0 0 0 1px #16a34a; }
+
+.ct-feedback {
+  min-height: 3.2em;
+  margin: 0.85rem 0 0;
+  font-size: 0.85rem;
+  line-height: 1.5;
+  color: var(--text-muted);
+}
+
+.ct-feedback.good { color: #15803d; }
+.ct-feedback.bad { color: #b91c1c; }
+
+.ct-reset {
+  margin-top: 0.3rem;
+  padding: 0.3rem 0.7rem;
+  font-family: inherit;
+  font-size: 0.76rem;
+  color: var(--text-muted);
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  cursor: pointer;
+}
+
+.ct-reset:hover { border-color: var(--primary); color: var(--primary-dark); }
+
+[data-theme="dark"] .sorter { background: #1e293b !important; border-color: #334155 !important; }
+[data-theme="dark"] .ct-item { color: #e2e8f0 !important; background: #0f172a !important; border-color: #334155 !important; }
+[data-theme="dark"] .ct-btn { color: #e2e8f0 !important; background: #0f172a !important; border-color: #334155 !important; }
+[data-theme="dark"] .ct-btn.ok { color: #fff !important; background: #15803d !important; border-color: #15803d !important; }
+[data-theme="dark"] .ct-btn.no { color: #fff !important; background: #b91c1c !important; border-color: #b91c1c !important; }
+[data-theme="dark"] .ct-feedback.good { color: #4ade80 !important; }
+[data-theme="dark"] .ct-feedback.bad { color: #fca5a5 !important; }
+[data-theme="dark"] .ct-reset { color: #94a3b8 !important; border-color: #334155 !important; }
+
+@media only screen and (max-width: 40em) {
+  .ct-choices { grid-template-columns: 1fr; }
+  .ct-btn { flex-direction: row; align-items: baseline; gap: 0.45rem; }
+  .ct-feedback { min-height: 4.5em; }
+}

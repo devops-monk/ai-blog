@@ -365,9 +365,24 @@ pre.mermaid {
   box-shadow: none !important;
 }
 
-/* A wide flowchart squeezed into the column shrinks its labels to nothing.
-   Give it a legibility floor and let the block scroll instead. */
-pre.mermaid svg { height: auto !important; min-width: 540px; }
+/* Diagrams render at natural size (useMaxWidth is off) so type stays the
+   same across figures. A diagram wider than the column scrolls inside the
+   block rather than shrinking its labels to nothing; click-to-zoom covers
+   the rest. */
+/* Natural size up to the column width, then scale down proportionally.
+   A diagram wider than the column would otherwise be clipped, and
+   horizontal scrolling is worse than a slightly smaller figure for the
+   dense ones. Click-to-zoom covers reading them at full size. */
+pre.mermaid svg { height: auto !important; max-width: 100%; }
+
+/* Node outlines at 1px disappear against the fill at this size. */
+pre.mermaid svg .node rect,
+pre.mermaid svg .node circle,
+pre.mermaid svg .node polygon,
+pre.mermaid svg .actor { stroke-width: 1.6px !important; }
+
+pre.mermaid svg .messageText,
+pre.mermaid svg .edgeLabel { font-weight: 500; }
 
 /* ---- Sidebar ---- */
 .sidebar { background: transparent !important; }

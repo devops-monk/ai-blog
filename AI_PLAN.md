@@ -196,6 +196,19 @@ Areas the deck never mentions, all in scope: plugins and marketplaces, agent tea
 
 ---
 
+## Voice
+
+Written for a software engineer who wants the mechanism, in detail. Specifically:
+
+- **Open on the mechanism, not a story.** No "picture this", no "imagine you're…", no analogies standing in for an explanation. State what the thing is and how it works.
+- **No coaching register.** Drop rhetorical questions, second-person pep talk, and "here's the thing" asides. Describe behaviour; let the reader draw the conclusion.
+- **Specify rather than gesture.** Exact flags, file paths, version numbers, defaults, thresholds and the conditions under which behaviour changes. "Shell mode costs a normal prompt as of v2.1.186" beats "shell mode isn't free any more".
+- **Tables and diagrams over prose** wherever the content is a set of options, a sequence, or a mapping.
+- **Length is not a constraint; completeness is.** A full reference table earns its place. Filler does not.
+- An analogy is acceptable only when it carries technical weight that plain description cannot — and never as an opener.
+
+Chapters 1 and 2 were rewritten to this standard after an initial draft pitched too low; use their current text as the reference.
+
 ## Writing a chapter
 
 1. Re-read the source slides, then fetch every documentation page listed for the chapter. Never write a technical claim from the deck alone.

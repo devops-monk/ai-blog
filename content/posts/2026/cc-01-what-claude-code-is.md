@@ -3,7 +3,7 @@ title: "What Claude Code Actually Is"
 image: /images/articles/cc-01-what-claude-code-is.webp
 toc: true
 date: 2026-09-05T10:00:00+00:00
-description: "An LLM cannot read your files. So how does Claude Code read your files? The answer is a loop and forty-five tools, and once you see it, every other behaviour in this handbook stops being surprising."
+description: "The execution model behind Claude Code: a language model with no I/O, a harness that supplies tools, and a loop that runs until the task verifies. Plus the tool table and the permission asymmetry it exposes."
 tags: ["claude-code", "agents", "tools", "getting-started", "llm"]
 categories: ["Fundamentals"]
 url: /2026/09/what-claude-code-actually-is/
@@ -11,312 +11,229 @@ series: "Part 1 — Foundations"
 series_order: 1
 ---
 
-Ask a language model to explain a file on your disk and watch what happens.
-
-> **You:** Can you explain the code in `complex.py`?
->
-> **The model:** I'm sorry — I can't read files. Paste the contents and I'll take a look.
-
-That is not the model being modest. It is the literal truth. A large language model takes text in and produces text out. It has no filesystem, no terminal, no network. It cannot open `complex.py` any more than a book can open a window.
-
-Now run the same request through Claude Code and it just… answers. It found the file, read it, and told you the thing does JWT validation.
-
-Nothing about the model changed. What changed is everything wrapped around it.
+A language model is a text-to-text function. It has no filesystem handle, no shell, no network socket. Given "explain the code in `complex.py`", the only correct response is that it cannot read files.
 
 ```mermaid
 sequenceDiagram
     participant You
     participant LLM
     You->>LLM: Explain the code in complex.py
-    LLM-->>You: I cannot read files — paste the contents
+    LLM-->>You: No file access — supply the contents
 ```
 
-That gap is the whole subject of this chapter. Close it and the rest of the handbook — permissions, context windows, hooks, subagents — stops being a pile of unrelated features and becomes one coherent design.
-
-## The one-sentence answer
-
-**Claude Code is an agentic harness: a program that gives a language model tools, runs it in a loop, and manages what it knows.**
-
-"Harness" is the load-bearing word. Claude Code is not a smarter model. It is the scaffolding that turns a model which can only produce text into something that can act on your machine.
-
-Here is the same request with the harness in place:
+Claude Code is the process that closes that gap. It is an **agentic harness**: it supplies tools, executes them on the model's behalf, and drives the model in a loop until the task is done.
 
 ```mermaid
 sequenceDiagram
     participant You
     participant CC as Claude Code
     participant LLM
-    participant FS as Your filesystem
+    participant FS as Filesystem
     You->>CC: Explain the code in complex.py
-    CC->>LLM: The request, plus a list of tools you can call
-    LLM-->>CC: Call Read with path complex.py
-    CC->>FS: Open the file
-    FS-->>CC: File contents
-    CC->>LLM: Here are the contents
-    LLM-->>CC: It validates JWTs and refuses expired ones
-    CC-->>You: It validates JWTs and refuses expired ones
+    CC->>LLM: prompt + tool definitions
+    LLM-->>CC: tool call — Read(complex.py)
+    CC->>FS: open, read
+    FS-->>CC: contents
+    CC->>LLM: tool result
+    LLM-->>CC: JWT validation, rejects expired tokens
+    CC-->>You: JWT validation, rejects expired tokens
 ```
 
-The model never touched your disk. It asked for something, and the harness did the touching. Every capability in Claude Code is a variation on that exchange — and so is every safety mechanism, because the harness sits in the middle and can say no.
+The model never touches the disk. It emits a tool call; the harness executes it and returns the result. Every capability and every safety control in Claude Code is a property of that intermediary position.
 
 ## The agentic loop
 
-One tool call is a party trick. What makes this agentic is that the harness runs the exchange in a loop, and the model decides what happens next based on what came back.
-
-The official framing has three phases: **gather context**, **take action**, **verify results**.
+The harness runs the exchange repeatedly. Each iteration has three phases — **gather context**, **take action**, **verify results** — and the model chooses the next action from the previous result.
 
 ```mermaid
 flowchart LR
-    P([Your prompt]) --> G[Gather context]
+    P([Prompt]) --> G[Gather context]
     G --> A[Take action]
     A --> V[Verify results]
-    V -->|not done yet| G
-    V --> D([Task complete])
-    You[You can interrupt<br/>at any point] -.-> G
-    You -.-> A
-    You -.-> V
+    V -->|incomplete| G
+    V --> D([Done])
 ```
 
-The phases blur in practice. A question about your codebase might never leave *gather*. A refactor might spend most of its time in *verify*. Claude picks what each step needs based on what the last step returned, chains dozens of actions together, and course-corrects when something surprises it.
+The phases are descriptive, not sequential. A codebase question may never leave *gather*; a refactor spends most of its iterations in *verify*.
 
-Take a real task — "fix the failing tests" — and the loop looks like this:
-
-1. Run the test suite to see what's actually failing
-2. Read the error output
-3. Search for the source files it names
-4. Read those files
-5. Edit them
-6. Run the tests again
-
-Nobody specified those steps. Step 3 only exists because step 2 produced a stack trace. Step 6 only exists because step 5 changed something that needs proving. That dependency — each step's existence justified by the previous step's result — is what separates an agent from a macro.
-
-Step through it yourself:
+For the task "fix the failing tests", a typical trace is six tool calls:
 
 <div class="al-demo"> <div class="al-head"> <span class="al-task">Task: <strong>fix the failing tests</strong></span> <div class="al-phases"> <span class="al-phase" data-phase="gather">Gather context</span> <span class="al-phase" data-phase="act">Take action</span> <span class="al-phase" data-phase="verify">Verify results</span> </div> </div> <ol class="al-log" id="al-log"></ol> <div class="al-controls"> <button type="button" id="al-step" class="al-btn al-btn-primary">Next step</button> <button type="button" id="al-reset" class="al-btn">Reset</button> <span class="al-count" id="al-count">0 of 6</span> </div> </div> <script> (function () { var steps = [ { phase: "act", tool: "Bash", text: "npm test", note: "No idea what is broken yet. Find out." }, { phase: "gather", tool: "Read", text: "the test output", note: "Two failures, both in auth.test.js, both a TypeError." }, { phase: "gather", tool: "Grep", text: "search for validateToken", note: "The stack trace named it. Where does it live?" }, { phase: "gather", tool: "Read", text: "src/auth/token.js", note: "It returns undefined when the header is missing." }, { phase: "act", tool: "Edit", text: "src/auth/token.js", note: "Guard the missing-header case and return null." }, { phase: "verify", tool: "Bash", text: "npm test", note: "Green. The fix is proven, not assumed." } ]; var log = document.getElementById("al-log"), stepBtn = document.getElementById("al-step"), resetBtn = document.getElementById("al-reset"), count = document.getElementById("al-count"), phases = document.querySelectorAll(".al-phase"), i = 0; function render() { count.textContent = i + " of " + steps.length; stepBtn.disabled = i >= steps.length; stepBtn.textContent = i >= steps.length ? "Task complete" : "Next step"; var active = i > 0 ? steps[i - 1].phase : null; Array.prototype.forEach.call(phases, function (p) { p.classList.toggle("on", p.getAttribute("data-phase") === active); }); } function add() { var s = steps[i]; var li = document.createElement("li"); li.className = "al-item al-" + s.phase; li.innerHTML = '<code class="al-tool">' + s.tool + '</code>' + '<span class="al-text">' + s.text + '</span>' + '<span class="al-note">' + s.note + '</span>'; log.appendChild(li); i++; render(); } stepBtn.addEventListener("click", function () { if (i < steps.length) add(); }); resetBtn.addEventListener("click", function () { log.innerHTML = ""; i = 0; render(); }); render(); })(); </script>
 
-Notice that the first action comes *before* any context gathering. Claude ran the tests to find out what was wrong, because reading files at random would have been guesswork. The phases are a description, not a procedure.
+Note that the first call is an action, not context gathering: running the suite is how the failure set is determined. Step 3 exists only because step 2 returned a stack trace; step 6 exists only because step 5 modified a file. Each call is conditioned on the previous result — that dependency is what distinguishes an agent from a scripted sequence.
 
-**You are in this loop too.** You can interrupt at any point — and there are two different ways to do it, which matter more than people expect:
+### Interrupt semantics
 
-- **`Esc`** stops Claude immediately. The running tool call is cancelled and it waits for you.
-- **Type a correction and press `Enter`** without stopping anything. Claude reads it as soon as the current action finishes and adjusts before choosing its next step.
+Two mechanisms, with different effects:
 
-The second one is the underused one. If Claude is heading somewhere wrong but the current command is harmless, you don't need to kill it — just say so, and it course-corrects at the next decision point.
-
-## The tools
-
-Tools are what make any of this possible. Without them, Claude can only produce text. With them, it can read, write, search, execute and fetch — and each result feeds back into the loop.
-
-They fall into five broad categories:
-
-| Category | What Claude can do |
+| Input | Effect |
 |---|---|
-| **File operations** | Read files, edit code, create files, rename and reorganise |
-| **Search** | Find files by pattern, search contents with regex, explore a codebase |
-| **Execution** | Run shell commands, start servers, run tests, use git |
-| **Web** | Search the web, fetch documentation, look up error messages |
-| **Code intelligence** | See type errors after edits, jump to definitions, find references |
+| `Esc` | Cancels the in-flight tool call immediately and returns control |
+| Text + `Enter` | Does not interrupt. Read after the current tool call completes, before the next action is chosen |
 
-That is the shape of it. The actual list is longer, and worth seeing in full once — partly because it is the best map of what Claude Code can do, and partly because the **Asks first?** column is your first glimpse of the permission system that Chapters 3 and 4 are about.
+The second is the one to use when the current command is harmless but the direction is wrong.
 
-| Tool | What it does | Asks first? |
+## Tools
+
+Tools are the harness's exposed capabilities. They fall into five categories:
+
+| Category | Capability |
+|---|---|
+| File operations | Read, edit, create, move files |
+| Search | Match files by pattern, search contents by regex |
+| Execution | Shell commands, servers, tests, git |
+| Web | Search, fetch URLs |
+| Code intelligence | Type errors after edits, definitions, references |
+
+Forty-five tools are available. The complete set, with the column that determines Chapters 3 and 4:
+
+| Tool | Function | Permission required |
 |---|---|---|
-| `Read` | Read a file's contents | No |
-| `Glob` | Find files by pattern | No |
+| `Read` | Read file contents | No |
+| `Glob` | Match files by pattern | No |
 | `Grep` | Search file contents | No |
-| `Edit` | Make targeted edits to a file | **Yes** |
+| `LSP` | Definitions, references, type errors via language servers | No |
+| `Edit` | Targeted edit to an existing file | **Yes** |
 | `Write` | Create or overwrite a file | **Yes** |
 | `NotebookEdit` | Modify Jupyter notebook cells | **Yes** |
-| `Bash` | Execute shell commands | **Yes** |
+| `Bash` | Execute a shell command | **Yes** |
 | `PowerShell` | Execute PowerShell natively | **Yes** |
-| `Monitor` | Run a command in the background, stream output back | **Yes** |
-| `WebSearch` | Search the web | **Yes** |
+| `Monitor` | Background command, streams output lines back | **Yes** |
+| `WebSearch` | Web search | **Yes** |
 | `WebFetch` | Fetch a URL | **Yes** |
-| `LSP` | Language-server intelligence — definitions, references, type errors | No |
 | `Agent` | Spawn a subagent with its own context window | No |
 | `Skill` | Execute a skill in the main conversation | **Yes** |
 | `Workflow` | Run a dynamic workflow orchestrating many subagents | **Yes** |
-| `EnterPlanMode` / `ExitPlanMode` | Enter plan mode; present a plan for approval | No / **Yes** |
-| `EnterWorktree` / `ExitWorktree` | Create and enter an isolated git worktree; leave it | **Yes** / No |
-| `TodoWrite` | Manage the session checklist | No |
-| `TaskCreate` / `TaskList` / `TaskGet` / `TaskUpdate` / `TaskOutput` / `TaskStop` | Create and manage background tasks | No |
-| `CronCreate` / `CronList` / `CronDelete` | Schedule prompts within the session | No |
+| `EnterPlanMode` | Switch to plan mode | No |
+| `ExitPlanMode` | Present a plan for approval and exit plan mode | **Yes** |
+| `EnterWorktree` | Create an isolated git worktree and switch into it | **Yes** |
+| `ExitWorktree` | Leave a worktree, return to the original directory | No |
+| `TodoWrite` | Session checklist | No |
+| `TaskCreate` | Create a task | No |
+| `TaskList` | List tasks and status | No |
+| `TaskGet` | Retrieve one task's detail | No |
+| `TaskUpdate` | Update status, dependencies, detail; delete tasks | No |
+| `TaskOutput` | Retrieve output from a background task | No |
+| `TaskStop` | Stop a running background task | No |
+| `CronCreate` | Schedule a recurring or one-shot prompt in-session | No |
+| `CronList` | List scheduled tasks | No |
+| `CronDelete` | Cancel a scheduled task | No |
 | `ScheduleWakeup` | Reschedule the next iteration of a self-paced `/loop` | No |
-| `SendMessage` / `ListAgents` | Message other agents and sessions | No |
-| `AskUserQuestion` | Ask you a multiple-choice question | No |
+| `SendMessage` | Message another agent or session | No |
+| `ListAgents` | List agents reachable via `SendMessage` | No |
+| `AskUserQuestion` | Ask a multiple-choice question | No |
 | `ToolSearch` | Load deferred tool definitions on demand | No |
-| `ListMcpResourcesTool` / `ReadMcpResourceTool` / `WaitForMcpServers` | Work with MCP server resources | No |
-| `Artifact` | Publish a page to claude.ai | **Yes** |
+| `ListMcpResourcesTool` | List MCP server resources | No |
+| `ReadMcpResourceTool` | Read an MCP resource by URI | No |
+| `WaitForMcpServers` | Wait for MCP servers still connecting | No |
+| `Artifact` | Publish an HTML or Markdown page to claude.ai | **Yes** |
 | `PushNotification` | Desktop notification and phone push | No |
 | `SendUserFile` | Send a file from the session to your device | No |
-| `RemoteTrigger` | Create and run Routines on claude.ai | No |
+| `RemoteTrigger` | Create, update, run and list Routines | No |
 | `ReportFindings` | Report code-review findings as structured data | No |
-| `SendFeedback` | Draft feedback about Claude Code | No |
-| `ShareOnboardingGuide` | Upload `ONBOARDING.md` and return a share link | **Yes** |
-| `EndConversation` | End the session after sustained abuse | No |
+| `SendFeedback` | Draft a feedback report | No |
+| `ShareOnboardingGuide` | Upload `ONBOARDING.md`, return a share link | **Yes** |
+| `EndConversation` | End the session after sustained abusive input | No |
 
-Read that column and the design philosophy falls out immediately. **Looking is free. Changing costs a question.** Reading, searching and listing never prompt. Editing, executing and reaching the network do. Everything in Chapters 3 and 4 is a refinement of that one rule.
+The permission column follows one rule: **read-only operations do not prompt; state-changing and network operations do.** Reading, searching and listing are unrestricted. Editing, executing and network access require approval. The permission system in Chapters 3 and 4 is a set of refinements on that rule, not a departure from it.
 
-And this is only the floor. You can add capabilities with [skills](/guide/), connect external services with MCP, enforce behaviour with hooks, and delegate work to subagents — all of which are chapters of their own.
+Tool coverage is extensible: [skills](/guide/) add procedures, MCP adds external services, hooks add enforced behaviour, and subagents add isolated context. Each has its own chapter.
 
-## What Claude can actually see
+## What a session loads
 
-Running `claude` in a directory hands it more than the files:
+Starting `claude` in a directory gives the session access to:
 
-- **Your project** — everything in the directory and its subdirectories, plus anything else you explicitly permit
-- **Your terminal** — any command you could run yourself: builds, git, package managers, scripts
-- **Your git state** — current branch, uncommitted changes, recent history
-- **Your `CLAUDE.md`** — project instructions loaded at the start of every session (Chapter 6)
-- **Auto memory** — things Claude wrote down for itself last time. The first 200 lines or 25 KB of `MEMORY.md`, whichever comes first (Chapter 7)
-- **Whatever you've plugged in** — MCP servers, skills, subagents, browser access
+| Source | Detail |
+|---|---|
+| Project files | The working directory and subdirectories; others via `--add-dir` |
+| Shell | Any command the invoking user can run |
+| Git state | Current branch, uncommitted changes, recent history |
+| `CLAUDE.md` | Project instructions, loaded at session start (Chapter 6) |
+| Auto memory | First 200 lines or 25 KB of `MEMORY.md`, whichever comes first (Chapter 7) |
+| Extensions | MCP servers, skills, subagents, browser access |
 
-That last-but-one point is worth pausing on, because it is the most common misconception about how the memory works. Claude does not read your whole project at startup. It reads what it needs, when it needs it. A repository with forty thousand files does not cost forty thousand files' worth of context — it costs whatever Claude actually opened.
+Files are read on demand, not at startup. A repository's size does not determine context consumption; the number of files actually opened does.
 
-This is also why Claude Code behaves differently from an inline editor assistant. An autocomplete plugin sees the file you're in. Claude Code sees the project, so "fix the authentication bug" can span six files, a config change and a test run, in one coherent piece of work.
+Because the harness sees the whole project rather than one open buffer, a single request can span multiple files, a configuration change and a test run in one unit of work.
 
-## Where it runs
+### Session state on disk
 
-The loop and the tools are identical everywhere. What changes is where the code executes and how you talk to it.
+The conversation is written locally as it happens: every message, tool call and result appends to a plaintext JSONL file under `~/.claude/projects/`. That file is what makes resuming, forking and rewinding possible — they are operations on a transcript, not on a server-side session.
 
-**Execution environments** — where the work actually happens:
+Separately, before Claude edits a file, the harness snapshots the current contents. Checkpoints are independent of git and survive across resumes. They cover file edits only: changes made by shell commands, and anything affecting remote systems, are outside their scope. Chapter 9 covers both mechanisms.
 
-| Environment | Code runs on | Use it for |
+### Context window
+
+The context window holds conversation history, file contents, command output, `CLAUDE.md`, auto memory, loaded skills and system instructions. As it fills, Claude Code clears older tool output first, then summarises the conversation. Requests and key code survive; detailed instructions given early in a conversation may not — which is the argument for putting durable rules in `CLAUDE.md` rather than in chat. `/context` reports current usage. Chapter 8 covers the mechanics.
+
+MCP tool definitions are deferred by default and loaded on demand through tool search, so connected servers cost only their tool names until a specific tool is used.
+
+### Models
+
+The harness is model-agnostic within the Claude family. Sonnet handles most coding work; Opus provides stronger reasoning for architectural decisions. Select with `--model <alias>` at launch or `/model` during a session, and set reasoning depth with `--effort` or `/effort`. Chapter 5 covers the selection and its cost implications.
+
+## Execution environments and interfaces
+
+The loop and the tool set are identical across all of them. What varies is where code executes:
+
+| Environment | Execution host | Use |
 |---|---|---|
-| **Local** | Your machine | The default. Full access to your files and tooling |
-| **Cloud** | Anthropic-managed VMs, or self-hosted runners your org operates | Offloading long tasks, working on repos you don't have locally |
-| **Remote Control** | Your machine, driven from a browser | The web UI while your files and execution stay local |
+| Local | Your machine | Default; full access to local files and tooling |
+| Cloud | Anthropic-managed VMs, or self-hosted runners | Long tasks, repositories not checked out locally |
+| Remote Control | Your machine, driven from a browser | Web UI with local execution |
 
-**Interfaces** — how you interact:
+Interfaces: terminal, VS Code, JetBrains, desktop app, `claude.ai/code`, mobile, Slack, and CI via GitHub Actions or GitLab. All read the same `CLAUDE.md`, settings and MCP configuration. Chapter 20 covers them individually; this handbook uses the terminal.
 
-Terminal, [VS Code](https://code.claude.com/docs/en/vs-code), [JetBrains](https://code.claude.com/docs/en/jetbrains), the [desktop app](https://code.claude.com/docs/en/desktop), [claude.ai/code](https://claude.ai/code), the mobile app, [Slack](https://code.claude.com/docs/en/slack), and CI via GitHub Actions or GitLab.
+## Installation and authentication
 
-They share your repo's `CLAUDE.md`, your settings and your MCP servers, so configuration you do once applies everywhere. Chapter 20 goes through each surface properly; this handbook uses the terminal throughout, because it is the one where everything is visible.
-
-## Getting it running
-
-**What you need:** basic programming knowledge in any language, comfort with a terminal, and a Claude account — Pro, Max, Team or Enterprise, a Claude Console account, or access through Bedrock, Google Cloud or Microsoft Foundry. You do not need any machine-learning background. If you can write a function and use git, you're ready.
-
-**Install** — pick one:
+Requirements: a terminal, a project, and a Claude subscription (Pro, Max, Team, Enterprise), a Claude Console account, or access via Amazon Bedrock, Google Cloud or Microsoft Foundry.
 
 ```bash
-# macOS, Linux, WSL — native install, auto-updates in the background
+# macOS, Linux, WSL — auto-updates in the background
 curl -fsSL https://claude.ai/install.sh | bash
 
 # Windows PowerShell
 irm https://claude.ai/install.ps1 | iex
 
-# macOS via Homebrew — does NOT auto-update
+# Homebrew — does not auto-update; run brew upgrade yourself
 brew install --cask claude-code
 ```
 
-Homebrew offers two casks: `claude-code` tracks the stable channel, roughly a week behind and skipping releases with known regressions; `claude-code@latest` gets everything as it ships. Neither updates itself — you run `brew upgrade` yourself. The native installer does update in the background, which is why it's the recommended path. There's also `winget install Anthropic.ClaudeCode`, and apt/dnf/apk on Linux.
+Homebrew provides two casks: `claude-code` tracks the stable channel (roughly a week behind, skipping releases with known regressions) and `claude-code@latest` tracks current. `winget install Anthropic.ClaudeCode` and apt/dnf/apk are also available.
 
-Confirm it worked:
-
-```bash
-claude --version
-```
-
-You should get a version number followed by `(Claude Code)`.
-
-**Log in.** Start a session and it prompts you the first time:
+Verify and authenticate:
 
 ```bash
-cd /path/to/your/project
-claude
+claude --version     # prints a version followed by (Claude Code)
+cd /path/to/project
+claude               # browser auth flow on first run
 ```
 
-Follow the browser flow. Credentials are stored, so this is a one-time step — `/login` inside a session switches accounts later. If you have `ANTHROPIC_API_KEY` set, Claude Code skips the login prompt and asks you to approve the key instead.
+Credentials persist; `/login` switches accounts later. Setting `ANTHROPIC_API_KEY` skips the login prompt and asks you to approve the key instead. On native Windows, install [Git for Windows](https://git-scm.com/downloads/win) so the Bash tool is available; without it Claude Code falls back to PowerShell. WSL does not need it.
 
-> On native Windows, install [Git for Windows](https://git-scm.com/downloads/win) so Claude Code can use the Bash tool. Without it, it falls back to PowerShell. WSL doesn't need it.
+Two commands to know at setup time: `/init` generates a starting `CLAUDE.md` from the codebase, and `/doctor` runs a configuration checkup that diagnoses and offers to fix installation and settings problems.
 
-## Your first ten minutes
+## Permission mode at first run
 
-Resist the urge to ask for code. Ask for understanding first — it costs almost nothing and it is how you find out whether Claude has the shape of your project right before it starts changing things.
+On Pro, Max and Team plans, interactive terminal and VS Code sessions start in **auto mode**, where a classifier reviews actions in the background instead of prompting you. On other plans the starting mode is Manual, which prompts before edits and shell commands. `Shift+Tab` changes mode at any point. Chapter 3 covers all six modes and the classifier's rules.
+
+## Prompt construction
+
+Specify the target and the symptom; leave the procedure unspecified. The harness derives the procedure from tool results, and a prescribed sequence discards that.
 
 ```text
-what does this project do?
+The checkout flow fails for users with expired cards.
+Relevant code is in src/payments/. Investigate and fix.
 ```
 
-```text
-what technologies does this project use?
-```
+This is shorter than naming files and line numbers, and it does not encode an assumption about where the defect is. Corrections mid-task are cheaper than re-prompting: the accumulated context from the failed attempt is retained.
 
-```text
-explain the folder structure
-```
+## Summary
 
-```text
-where is the main entry point?
-```
+- A language model produces text. Claude Code supplies tools, executes them, and drives the model in a loop.
+- The loop is gather → act → verify, with each call conditioned on the previous result.
+- Read-only tools do not prompt; state-changing and network tools do. That asymmetry is the basis of the permission system.
+- Files load on demand; repository size does not dictate context usage.
+- `Esc` cancels the in-flight tool call; typed text is read at the next decision point without interrupting.
 
-Then move to git, which is where the conversational framing first feels genuinely better than the alternative:
-
-```text
-what files have I changed?
-```
-
-```text
-commit my changes with a descriptive message
-```
-
-Then a real change:
-
-```text
-add input validation to the user registration form
-```
-
-Claude locates the code, reads enough context to understand it, implements something, and runs your tests if you have them.
-
-One thing to know before that first edit lands: **on Pro, Max and Team plans, interactive terminal sessions now start in auto mode**, where a classifier reviews Claude's actions in the background instead of stopping to ask you. On other plans you start in Manual mode and approve each action yourself. Either way, `Shift+Tab` switches between modes at any time, and Chapter 3 is entirely about what each one lets through.
-
-Two commands worth knowing on day one:
-
-- **`/init`** walks you through creating a `CLAUDE.md` for your project
-- **`/doctor`** runs a setup checkup, diagnoses installation and configuration problems, and can fix them
-
-And a genuinely useful trick: **Claude Code can teach you Claude Code.** "How do I set up hooks?" and "what's the best way to structure my CLAUDE.md?" are questions it answers well, because the documentation is something it can go and read.
-
-## Two habits that change your results
-
-**Delegate, don't dictate.** The instinct is to specify every step. Resist it. Compare:
-
-```text
-Open src/payments/card.js, look at line 47, change the expiry
-check to use Date.now(), then run npm test
-```
-
-against:
-
-```text
-The checkout flow is broken for users with expired cards.
-The relevant code is in src/payments/. Can you investigate and fix it?
-```
-
-The second is shorter *and* better. The first assumes you already know where the bug is — and if you're wrong, you've just steered Claude away from the actual problem. The second gives direction and a starting point and lets the loop do what the loop is for. Say what you want and where to look; let Claude work out which files to read.
-
-**It's a conversation, not a prompt.** You don't need to get it right first time.
-
-```text
-Fix the login bug
-```
-
-*Claude investigates, tries something, misses.*
-
-```text
-That's not quite right — the issue is in the session handling.
-```
-
-*Claude adjusts.*
-
-That correction cost you eight words. Rewriting a perfect prompt from scratch would have cost you a paragraph and lost everything Claude had already learned about your codebase.
-
-## What to take away
-
-- An LLM produces text. **Claude Code is the harness** that gives it tools, runs it in a loop, and manages what it knows.
-- The loop is **gather context → take action → verify results**, repeating, with each step's existence justified by what the last one returned.
-- **Looking is free, changing costs a question.** Read, search and list never prompt; edit, execute and network access do. That single rule is the seed of the entire permission system.
-- Claude reads **what it needs, when it needs it** — not your whole repository.
-- You are inside the loop. `Esc` stops Claude; typing a correction steers it without stopping it.
-
-Next: the three completely different ways of talking to Claude Code, and why the difference between typing `!npm test` and asking it to run your tests is bigger than it looks.
+Chapter 3 covers the six permission modes, the auto-mode classifier, and the thresholds at which it stops trusting itself.

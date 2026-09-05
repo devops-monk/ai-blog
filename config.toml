@@ -1,0 +1,108 @@
+baseURL = "https://ai.devops-monk.com/"
+languageCode = "en-us"
+title = "AI Engineering"
+theme = "wellington"
+paginate = 10
+
+[outputs]
+  home = ["HTML", "RSS", "JSON"]
+
+disqusShortname = ""
+googleAnalytics = ""
+enableRobotsTXT = true
+preserveTaxonomyNames = true
+
+[markup]
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      unsafe = true
+  [markup.highlight]
+    style = "nord"
+    codeFences = true
+    lineNos = false
+    noClasses = true
+  [markup.tableOfContents]
+    startLevel = 2
+    endLevel = 3
+
+[taxonomies]
+  category = "categories"
+  tag = "tags"
+
+[Params.widgets]
+    search = true
+    recent_articles = true
+    recent_articles_num = 5
+    categories = true
+    tags = true
+    tags_counter = false
+
+[menu]
+
+  [[menu.main]]
+    name = "Home"
+    url = "/"
+    weight = 1
+
+  [[menu.main]]
+    name = "Guide"
+    url = "/guide/"
+    weight = 2
+
+  [[menu.main]]
+    name = "Topics"
+    identifier = "topics"
+    weight = 4
+
+  [[menu.main]]
+    name = "LLMs"
+    parent = "topics"
+    url = "/tags/llm/"
+    weight = 1
+
+  [[menu.main]]
+    name = "RAG"
+    parent = "topics"
+    url = "/tags/rag/"
+    weight = 2
+
+  [[menu.main]]
+    name = "Agents"
+    parent = "topics"
+    url = "/tags/agents/"
+    weight = 3
+
+  [[menu.main]]
+    name = "Evaluation"
+    parent = "topics"
+    url = "/tags/evaluation/"
+    weight = 4
+
+  [[menu.main]]
+    name = "Inference"
+    parent = "topics"
+    url = "/tags/inference/"
+    weight = 5
+
+  [[menu.main]]
+    name = "About"
+    url = "/about/"
+    weight = 5
+
+[Params]
+  # Reading order of the series, used by layouts/partials/series-nav.html to
+  # chain the volumes into one continuous order. Each article names its volume
+  # in `series` and its position in `series_order`.
+  series_sequence = [
+    "Part 1 — Foundations",
+    "Part 2 — Building Systems",
+    "Closing",
+  ]
+  author = "Abhay"
+  publisher = "AI Engineering by Abhay"
+  subtitle = "Building with LLMs in Production"
+  description = "How AI systems actually work in production — models, retrieval, agents, evaluation and inference, explained from first principles for engineers who have to ship them."
+  email = "abhaypratap3537@gmail.com"
+  github = "abhi15sep"
+  linkedin = "abhay-singh-831997b5"
+  twitter = ""

@@ -1,0 +1,38 @@
+<main id="main" class="site-main" role="main">
+    {{ if .IsHome }}
+    <div class="hero-card">
+        <img src="{{ "images/abhay.jpeg" | relURL }}" alt="Abhay" class="hero-avatar" />
+        <div class="hero-content">
+            <h2 class="hero-name">Hey, I'm Abhay 👋</h2>
+            <p class="hero-bio">Principal Software Engineer writing about AI systems — how models, retrieval and agents actually behave once they are in production, and what each design choice costs.</p>
+            <div class="hero-links">
+                <a href="/about/">About Me</a>
+                <a href="https://github.com/abhi15sep" target="_blank" rel="noopener"><i class="fa-brands fa-github"></i> GitHub</a>
+                <a href="https://system-design.devops-monk.com" target="_blank" rel="noopener"><i class="fa-solid fa-sitemap"></i> System Design</a>
+                <a href="https://blog.devops-monk.com" target="_blank" rel="noopener"><i class="fa-solid fa-blog"></i> DevOps Blog</a>
+            </div>
+        </div>
+    </div>
+    <h3 class="posts-section-title">Latest Posts</h3>
+    {{ end }}
+
+    <div id="post-wrapper" class="post-wrapper clearfix">
+        <div class="post-column clearfix">
+            {{/* Filter on Section, not Type: posts that omit `type: post` in front
+     matter still belong to the posts section. */}}
+            {{ $sourcePages := cond .IsHome (where .Site.RegularPages "Section" "posts") .Pages }}
+            {{ $paginator := .Paginate $sourcePages }}
+            {{ range $paginator.Pages }}
+            <article class="post type-post hentry">
+                {{ partial "post-cover.html" (dict "page" . "variant" "card") }}
+                {{ partial "post-meta.html" . }}
+                <div class="entry-content entry-excerpt clearfix">
+                    <p>{{ .Summary }}</p>
+                    <a href="{{ .Permalink }}" class="more-link">Continue reading &raquo;</a>
+                </div>
+            </article>
+            {{ end }}
+        </div>
+    </div>
+    {{ partial "pagination.html" . }}
+</main>

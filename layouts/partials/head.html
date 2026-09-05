@@ -1,0 +1,134 @@
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="title" property="title" content="{{ $isHomePage := eq .Title .Site.Title }}{{ .Site.Title }}{{ if eq $isHomePage false }} - {{ .Title }}{{ end }}{{ if eq $isHomePage true }} - {{ .Site.Params.Subtitle}}{{ end }}">
+    <meta name="description" property="description" content="{{ $isHomePage := eq .Title .Site.Title }}{{ .Site.Params.description }}{{ if eq $isHomePage false }} - {{ .Description }}{{ end }}" >
+    <title>{{ $isHomePage := eq .Title .Site.Title }}{{ .Site.Title }}{{ if eq $isHomePage false }} - {{ .Title }}{{ end }} {{ if eq $isHomePage true }} - {{ .Site.Params.Subtitle}}{{ end }}</title>
+    {{ template "_internal/opengraph.html" . }}
+    {{ partial "social-meta.html" . }}
+
+    <link rel='stylesheet' href="{{"assets/css/custom-fonts.css" | relURL }}" type='text/css' media='all'/>
+
+    <link rel='stylesheet' href="{{"assets/css/style.css" | relURL }}" type='text/css' media='all'/>
+    <link rel='stylesheet' href="{{"assets/css/genericons.css" | relURL }}" type='text/css' media='all'/>
+    <link rel='stylesheet' href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" media='all'/>
+    <link rel='stylesheet' href="{{"assets/css/socicon.css" | relURL }}" type='text/css' media='all'/>
+    <link rel="stylesheet" href="{{"assets/css/social-logos/social-logos.css" | relURL }}" type="text/css" media="all">
+    <link rel='stylesheet' href="{{"assets/css/jetpack.css" | relURL }}" type='text/css' media='all'/>
+    <link rel='stylesheet' href="{{"assets/css/custom-styles.css" | relURL }}" type='text/css' media='all'/>
+
+    <script type='text/javascript' src="{{"assets/js/jquery-1.12.4.min.js" | relURL }}"></script>
+    <script type='text/javascript' src="{{"assets/js/html5shiv.min.js" | relURL }}"></script>
+    <script type='text/javascript' src="{{"assets/js/navigation.js" | relURL }}"></script>
+
+    <link rel="shortcut icon" href="{{ "favicon.png" | relURL }}" type="image/x-icon" />
+    {{ with .OutputFormats.Get "RSS" }}
+    <link href="{{ .Permalink }}" rel="alternate" type="application/rss+xml" title="{{ $.Site.Title }}" />
+    <link href="{{ .Permalink }}" rel="feed" type="application/rss+xml" title="{{ $.Site.Title }}" />
+    {{ end }}
+    {{ partial "site-schema.html" . }}
+    <script src="https://cdn.jsdelivr.net/npm/fuse.js@7/dist/fuse.min.js" defer></script>
+    <script src="{{ "assets/js/search.js" | relURL }}" defer></script>
+    <script src="{{ "assets/js/enhancements.js" | relURL }}" defer></script>
+    {{ if .IsPage }}
+    <script type="module">
+      import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+
+      // Theme follows data-theme, and diagrams re-render when the toggle flips it.
+      const isDark = () =>
+        document.documentElement.getAttribute('data-theme') === 'dark';
+
+      // Style every diagram from a shared palette rather than relying on per-node
+      // `style` directives, which most diagrams do not carry.
+      const vars = {
+        light: {
+          background: '#ffffff', mainBkg: '#f5f3ff',
+          primaryColor: '#f5f3ff', primaryTextColor: '#1e293b',
+          primaryBorderColor: '#7c3aed', secondaryColor: '#f0fdf4',
+          secondaryTextColor: '#166534', secondaryBorderColor: '#10b981',
+          tertiaryColor: '#f8fafc', tertiaryTextColor: '#1e293b',
+          tertiaryBorderColor: '#cbd5e1',
+          lineColor: '#64748b', textColor: '#1e293b', titleColor: '#0f172a',
+          clusterBkg: '#f8fafc', clusterBorder: '#cbd5e1',
+          edgeLabelBackground: '#ffffff', nodeBorder: '#7c3aed',
+          actorBkg: '#f5f3ff', actorBorder: '#7c3aed', actorTextColor: '#1e293b',
+          signalColor: '#475569', signalTextColor: '#1e293b',
+          labelBoxBkgColor: '#f5f3ff', labelBoxBorderColor: '#7c3aed',
+          labelTextColor: '#1e293b', loopTextColor: '#1e293b',
+          noteBkgColor: '#fffbeb', noteBorderColor: '#f59e0b', noteTextColor: '#92400e',
+        },
+        dark: {
+          background: '#1b1533', mainBkg: '#33235c',
+          primaryColor: '#33235c', primaryTextColor: '#e2e8f0',
+          primaryBorderColor: '#7c3aed', secondaryColor: '#10291f',
+          secondaryTextColor: '#6ee7b7', secondaryBorderColor: '#10b981',
+          tertiaryColor: '#171233', tertiaryTextColor: '#e2e8f0',
+          tertiaryBorderColor: '#4c3a75',
+          lineColor: '#94a3b8', textColor: '#e2e8f0', titleColor: '#f1f5f9',
+          clusterBkg: '#171233', clusterBorder: '#3a2c63',
+          edgeLabelBackground: '#1b1533', nodeBorder: '#7c3aed',
+          actorBkg: '#33235c', actorBorder: '#7c3aed', actorTextColor: '#e2e8f0',
+          signalColor: '#94a3b8', signalTextColor: '#e2e8f0',
+          labelBoxBkgColor: '#33235c', labelBoxBorderColor: '#7c3aed',
+          labelTextColor: '#e2e8f0', loopTextColor: '#e2e8f0',
+          noteBkgColor: '#2a1d10', noteBorderColor: '#f59e0b', noteTextColor: '#fcd34d',
+        },
+      };
+
+      // The <pre> holds diagram source as markup: the browser has already parsed
+      // <br/> into elements and encoded &, < and >. Decode via a textarea, whose
+      // content model is RCDATA — entities are decoded, tags left as text.
+      function sourceOf(el) {
+        const t = document.createElement('textarea');
+        t.innerHTML = el.dataset.src;
+        return t.value;
+      }
+
+      let seq = 0;
+
+      async function draw() {
+        const blocks = [...document.querySelectorAll('pre.mermaid')];
+        blocks.forEach((el) => {
+          if (el.dataset.src === undefined) el.dataset.src = el.innerHTML;
+        });
+
+        mermaid.initialize({
+          startOnLoad: false,
+          theme: 'base',
+          themeVariables: {
+            fontFamily: "Inter, -apple-system, BlinkMacSystemFont, sans-serif",
+            fontSize: '15px',
+            ...(isDark() ? vars.dark : vars.light),
+          },
+          securityLevel: 'loose',
+          // Without htmlLabels the <br/> in node labels is dropped and the two
+          // lines run together ("1 Bytea single char").
+          flowchart: { htmlLabels: true, useMaxWidth: true },
+          sequence: { useMaxWidth: true },
+        });
+
+        // Render one at a time with an explicit unique id. mermaid.run() derives
+        // ids from a timestamp, so diagrams produced within the same millisecond
+        // collided — on a 26-diagram page 21 of them ended up sharing an id,
+        // which broke their scoped <style> and viewBox and collapsed them to a
+        // 150px-tall empty box.
+        for (const el of blocks) {
+          const id = 'mermaid-svg-' + (seq++);
+          try {
+            const { svg, bindFunctions } = await mermaid.render(id, sourceOf(el));
+            el.innerHTML = svg;
+            if (bindFunctions) bindFunctions(el);
+          } catch (err) {
+            console.error('mermaid: failed to render diagram', err);
+          }
+        }
+      }
+
+      document.addEventListener('DOMContentLoaded', draw);
+      new MutationObserver((m) => {
+        if (m.some((r) => r.attributeName === 'data-theme')) draw();
+      }).observe(document.documentElement, { attributes: true });
+    </script>
+    {{ end }}
+</head>

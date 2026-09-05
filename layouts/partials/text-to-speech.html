@@ -1,0 +1,165 @@
+{{ if .IsPage }}
+{{/* Text-to-speech player. Styles live in static/assets/css/custom-styles.css
+     with the rest of the widget CSS, so the player picks up the site's design
+     tokens and adapts to light and dark like everything else. */}}
+<div id="tts-player" class="tts" role="region" aria-label="Article audio player">
+  <div class="tts-main">
+
+    <span class="tts-badge" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+           width="18" height="18" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M3 18v-6a9 9 0 0 1 18 0v6"/>
+        <path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3z"/>
+        <path d="M3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/>
+      </svg>
+    </span>
+
+    <div class="tts-text">
+      <div class="tts-title">Listen to this article</div>
+      <div class="tts-status" id="tts-status">Read aloud in your browser</div>
+    </div>
+
+    <div class="tts-actions">
+      <div class="tts-speed" role="group" aria-label="Playback speed">
+        <button type="button" data-rate="0.75">0.75&times;</button>
+        <button type="button" data-rate="1" class="on">1&times;</button>
+        <button type="button" data-rate="1.25">1.25&times;</button>
+        <button type="button" data-rate="1.5">1.5&times;</button>
+      </div>
+
+      <button class="tts-stop" id="tts-stop" title="Stop and reset" aria-label="Stop" hidden>
+        <svg viewBox="0 0 24 24" fill="currentColor" width="14" height="14">
+          <rect x="6" y="6" width="12" height="12" rx="2"/>
+        </svg>
+      </button>
+
+      <button class="tts-play" id="tts-play" aria-label="Play article">
+        <svg id="tts-play-icon" viewBox="0 0 24 24" fill="currentColor" width="16" height="16">
+          <path d="M7 4l13 8-13 8z"/>
+        </svg>
+        <svg id="tts-pause-icon" viewBox="0 0 24 24" fill="currentColor" width="16" height="16" hidden>
+          <rect x="6" y="4" width="4" height="16" rx="1.2"/>
+          <rect x="14" y="4" width="4" height="16" rx="1.2"/>
+        </svg>
+        <span id="tts-play-text">Play</span>
+      </button>
+    </div>
+  </div>
+
+  <div class="tts-track"><div class="tts-fill" id="tts-progress-bar"></div></div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  var synth = window.speechSynthesis;
+  var playerEl = document.getElementById('tts-player');
+  if (!synth || !playerEl) return;
+
+  var playBtn = document.getElementById('tts-play'),
+      playText = document.getElementById('tts-play-text'),
+      stopBtn = document.getElementById('tts-stop'),
+      playIcon = document.getElementById('tts-play-icon'),
+      pauseIcon = document.getElementById('tts-pause-icon'),
+      statusEl = document.getElementById('tts-status'),
+      progressEl = document.getElementById('tts-progress-bar'),
+      speedBtns = playerEl.querySelectorAll('.tts-speed button');
+
+  var contentEl = document.querySelector('.entry-content') || document.querySelector('article');
+  var paragraphs = [], currentIdx = 0, isPlaying = false, rate = 1;
+
+  function init() {
+    if (!contentEl) { playerEl.hidden = true; return; }
+    // Skip interactive widgets and diagrams — reading their labels aloud is noise.
+    var nodes = contentEl.querySelectorAll('p, h2, h3, li, blockquote');
+    paragraphs = Array.prototype.filter.call(nodes, function (n) {
+      return n.textContent.trim().length > 15 &&
+             !n.closest('#tts-player') &&
+             !n.closest('pre') &&
+             !n.closest('[class*="-demo"], [class*="-calc"], [class*="-sim"], [class*="-explorer"], [class*="-check"]');
+    });
+    if (!paragraphs.length) playerEl.hidden = true;
+  }
+
+  function setStatus(t) { statusEl.textContent = t; }
+
+  function progress(idx) {
+    if (!paragraphs.length) return;
+    progressEl.style.width = Math.round((idx / paragraphs.length) * 100) + '%';
+  }
+
+  function clearHighlight() {
+    var els = document.querySelectorAll('.tts-reading');
+    Array.prototype.forEach.call(els, function (el) { el.classList.remove('tts-reading'); });
+  }
+
+  // `hidden` is an HTMLElement property, so assigning it on an <svg> sets a
+  // stray JS property and the icon never hides. Toggle the attribute instead.
+  function setHidden(el, h) {
+    if (h) el.setAttribute('hidden', ''); else el.removeAttribute('hidden');
+  }
+
+  function setPlayingUI(playing) {
+    isPlaying = playing;
+    playerEl.classList.toggle('is-playing', playing);
+    setHidden(playIcon, playing);
+    setHidden(pauseIcon, !playing);
+    playText.textContent = playing ? 'Pause' : 'Play';
+    playBtn.setAttribute('aria-label', playing ? 'Pause article' : 'Play article');
+    stopBtn.hidden = !playing && currentIdx === 0;
+  }
+
+  function speakFrom(idx) {
+    synth.cancel();
+    clearHighlight();
+    if (idx >= paragraphs.length) {
+      setPlayingUI(false); currentIdx = 0; progress(paragraphs.length);
+      setStatus('Finished'); return;
+    }
+    currentIdx = idx;
+    var el = paragraphs[idx];
+    el.classList.add('tts-reading');
+    el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    var utt = new SpeechSynthesisUtterance(el.textContent.trim().replace(/\s+/g, ' '));
+    utt.rate = rate; utt.pitch = 1; utt.lang = 'en-US';
+    progress(idx + 1);
+    setStatus('Section ' + (idx + 1) + ' of ' + paragraphs.length +
+              ' · ' + Math.round(((idx + 1) / paragraphs.length) * 100) + '%');
+    utt.onend = function () { el.classList.remove('tts-reading'); if (isPlaying) speakFrom(idx + 1); };
+    utt.onerror = function () { el.classList.remove('tts-reading'); if (isPlaying) speakFrom(idx + 1); };
+    synth.speak(utt);
+  }
+
+  function play() { setPlayingUI(true); speakFrom(currentIdx); }
+
+  function pause() {
+    setPlayingUI(false); synth.cancel(); clearHighlight();
+    setStatus('Paused · section ' + (currentIdx + 1) + ' of ' + paragraphs.length);
+    stopBtn.hidden = false;
+  }
+
+  function stop() {
+    currentIdx = 0; setPlayingUI(false); synth.cancel(); clearHighlight();
+    progressEl.style.width = '0%';
+    setStatus('Read aloud in your browser');
+    stopBtn.hidden = true;
+  }
+
+  playBtn.addEventListener('click', function () { isPlaying ? pause() : play(); });
+  stopBtn.addEventListener('click', stop);
+
+  Array.prototype.forEach.call(speedBtns, function (b) {
+    b.addEventListener('click', function () {
+      Array.prototype.forEach.call(speedBtns, function (x) { x.classList.remove('on'); });
+      this.classList.add('on');
+      rate = parseFloat(this.getAttribute('data-rate'));
+      if (isPlaying) speakFrom(currentIdx);   // restart the section at the new rate
+    });
+  });
+
+  window.addEventListener('beforeunload', function () { synth.cancel(); });
+  document.addEventListener('visibilitychange', function () { if (document.hidden && isPlaying) pause(); });
+
+  init();
+});
+</script>
+{{ end }}

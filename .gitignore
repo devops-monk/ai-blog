@@ -1,0 +1,12 @@
+public
+
+.idea
+*.iml
+node_modules
+
+.hugo_build.lock
+.DS_Store
+
+# Intermediate render artifacts from tools/gen_covers.py
+tools/cv_*.html
+tools/cv_*.png

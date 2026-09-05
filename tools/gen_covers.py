@@ -61,6 +61,44 @@ SHELL = """<!doctype html><html><head><meta charset="utf-8">
 </body></html>"""
 
 
+def art_loop():
+    """The agentic loop: three phases on a cycle, with tools hanging off them."""
+    import math
+    cx, cy, r = 300, 200, 118
+    labels = [("gather", -90), ("act", 30), ("verify", 150)]
+    out = [f'<circle cx="{cx}" cy="{cy}" r="{r}" fill="none" stroke="{FAINT}" '
+           f'stroke-width="1.4" stroke-dasharray="4 6"/>']
+    pts = []
+    for name, deg in labels:
+        a = math.radians(deg)
+        x, y = cx + r * math.cos(a), cy + r * math.sin(a)
+        pts.append((x, y, name))
+    for i, (x, y, name) in enumerate(pts):
+        col = [BLUE, PURPLE, GREEN][i]
+        out.append(f'<circle cx="{x:.0f}" cy="{y:.0f}" r="46" fill="{col}" opacity=".14"/>')
+        out.append(f'<circle cx="{x:.0f}" cy="{y:.0f}" r="46" fill="none" stroke="{col}" '
+                   f'stroke-opacity=".75" stroke-width="1.8"/>')
+        out.append(f'<text x="{x:.0f}" y="{y+5:.0f}" fill="#dbd3f5" font-size="16" '
+                   f'text-anchor="middle">{name}</text>')
+    # Arrowheads midway along each arc. The heading is measured from two
+    # points on the circle rather than derived by hand, so it always points
+    # the way the cycle actually runs: gather -> act -> verify -> gather.
+    def on_circle(deg):
+        a = math.radians(deg)
+        return cx + r * math.cos(a), cy + r * math.sin(a)
+
+    for i in range(3):
+        mid = labels[i][1] + 60
+        x, y = on_circle(mid)
+        ax, ay = on_circle(mid + 4)          # a nudge further around the loop
+        t = math.degrees(math.atan2(ay - y, ax - x))
+        out.append(f'<path d="M -7 -6 L 7 0 L -7 6 Z" fill="{PINK}" opacity=".9" '
+                   f'transform="translate({x:.0f} {y:.0f}) rotate({t:.0f})"/>')
+    out.append(f'<text x="60" y="392" fill="{DIM}" font-size="15">'
+               f'each step exists because the last one returned something</text>')
+    return f'<svg width="640" height="420" viewBox="0 0 640 420">{"".join(out)}</svg>'
+
+
 def art_tokens():
     """A token stream with the next-token distribution hanging off the end."""
     s, x = [], 40
@@ -128,6 +166,9 @@ def art_attention():
 
 COVERS = [
     # (slug, badge, title with <br>, title font size, tagline, mono caption, motif)
+    ("cc-01-what-claude-code-is", "PART 1 · CH 1", "What Claude Code<br>Actually Is", 54,
+     "An LLM cannot read your files. So how does Claude Code read your files?",
+     "the model never touches your <i>disk</i>", art_loop),
     ("hello-transformers", "PART 1 · CH 1", "How a Transformer<br>Actually Predicts", 54,
      "One token at a time, and everything else follows from that.",
      "the model outputs a <i>distribution</i>, not a word", art_tokens),

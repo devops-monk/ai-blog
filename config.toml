@@ -55,34 +55,40 @@ preserveTaxonomyNames = true
     weight = 4
 
   [[menu.main]]
-    name = "LLMs"
+    name = "Permissions"
     parent = "topics"
-    url = "/tags/llm/"
+    url = "/tags/permissions/"
     weight = 1
 
   [[menu.main]]
-    name = "RAG"
+    name = "Context"
     parent = "topics"
-    url = "/tags/rag/"
+    url = "/tags/context/"
     weight = 2
 
   [[menu.main]]
-    name = "Agents"
+    name = "Skills"
     parent = "topics"
-    url = "/tags/agents/"
+    url = "/tags/skills/"
     weight = 3
 
   [[menu.main]]
-    name = "Evaluation"
+    name = "Hooks"
     parent = "topics"
-    url = "/tags/evaluation/"
+    url = "/tags/hooks/"
     weight = 4
 
   [[menu.main]]
-    name = "Inference"
+    name = "MCP"
     parent = "topics"
-    url = "/tags/inference/"
+    url = "/tags/mcp/"
     weight = 5
+
+  [[menu.main]]
+    name = "Subagents"
+    parent = "topics"
+    url = "/tags/subagents/"
+    weight = 6
 
   [[menu.main]]
     name = "About"
@@ -95,13 +101,17 @@ preserveTaxonomyNames = true
   # in `series` and its position in `series_order`.
   series_sequence = [
     "Part 1 — Foundations",
-    "Part 2 — Building Systems",
+    "Part 2 — Context Engineering",
+    "Part 3 — Teaching Claude New Tricks",
+    "Part 4 — Connecting Claude to the World",
+    "Part 5 — Agents & Autonomy",
+    "Part 6 — Running It for Real",
     "Closing",
   ]
   author = "Abhay"
   publisher = "AI Engineering by Abhay"
-  subtitle = "Building with LLMs in Production"
-  description = "How AI systems actually work in production — models, retrieval, agents, evaluation and inference, explained from first principles for engineers who have to ship them."
+  subtitle = "Master Claude Code"
+  description = "A 23-chapter handbook for Claude Code — permissions, context, skills, hooks, MCP and agents, worked out end to end for engineers who have to ship with it."
   email = "abhaypratap3537@gmail.com"
   github = "abhi15sep"
   linkedin = "abhay-singh-831997b5"

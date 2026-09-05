@@ -2073,3 +2073,108 @@ body.dz-open { overflow: hidden; }
   .tok-bar { grid-template-columns: 4em 1fr 3.2em; }
   .tok-row { flex-wrap: wrap; }
 }
+
+/* ---- Agentic loop walkthrough (posts/2026/cc-01-what-claude-code-is) ---- */
+.al-demo {
+  margin: 1.75rem 0;
+  padding: 1.1rem 1.25rem 1rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+.al-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding-bottom: 0.85rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.al-task { font-size: 0.85rem; color: var(--text-muted); }
+.al-phases { display: flex; gap: 0.35rem; }
+
+.al-phase {
+  padding: 0.22rem 0.6rem;
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  color: var(--text-muted);
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  transition: color 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+}
+
+.al-phase.on { color: #fff; background: var(--primary); border-color: var(--primary); }
+
+.al-log { margin: 0.9rem 0 0; padding: 0; list-style: none; min-height: 2.5rem; }
+
+.al-item {
+  display: grid;
+  grid-template-columns: 5.5rem 1fr;
+  gap: 0.2rem 0.75rem;
+  padding: 0.5rem 0 0.5rem 0.75rem;
+  border-left: 3px solid var(--border);
+}
+
+/* The left rule colour is the phase, so the shape of the loop is visible in
+   the margin without reading a word of it. */
+.al-item.al-gather { border-left-color: #38bdf8; }
+.al-item.al-act    { border-left-color: var(--primary); }
+.al-item.al-verify { border-left-color: #16a34a; }
+
+.al-tool {
+  grid-row: 1;
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  color: var(--primary-dark);
+  background: rgba(124, 58, 237, 0.1);
+  border-radius: 4px;
+  padding: 0.1rem 0.35rem;
+  text-align: center;
+}
+
+.al-text { grid-row: 1; font-size: 0.88rem; color: var(--text); }
+.al-note { grid-column: 2; font-size: 0.8rem; color: var(--text-muted); }
+
+.al-controls { display: flex; align-items: center; gap: 0.6rem; margin-top: 1rem; }
+
+.al-btn {
+  padding: 0.4rem 0.85rem;
+  font-family: inherit;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--text);
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  cursor: pointer;
+}
+
+.al-btn:hover:not(:disabled) { border-color: var(--primary); }
+.al-btn-primary { color: #fff; background: var(--primary); border-color: var(--primary); }
+.al-btn-primary:hover:not(:disabled) { filter: brightness(1.08); }
+.al-btn:disabled { opacity: 0.5; cursor: default; }
+.al-count { font-family: var(--mono); font-size: 0.74rem; color: var(--text-muted); }
+
+[data-theme="dark"] .al-demo { background: #1e293b !important; border-color: #334155 !important; }
+[data-theme="dark"] .al-head { border-color: #334155 !important; }
+[data-theme="dark"] .al-phase { background: #0f172a !important; border-color: #334155 !important; }
+[data-theme="dark"] .al-phase.on { color: #fff !important; background: var(--primary) !important; border-color: var(--primary) !important; }
+[data-theme="dark"] .al-tool { color: var(--primary-light) !important; background: rgba(167, 139, 250, 0.16) !important; }
+[data-theme="dark"] .al-text { color: #e2e8f0; }
+[data-theme="dark"] .al-btn { background: #0f172a !important; border-color: #334155 !important; color: #e2e8f0 !important; }
+[data-theme="dark"] .al-btn-primary { color: #fff !important; background: var(--primary) !important; border-color: var(--primary) !important; }
+
+@media only screen and (max-width: 40em) {
+  .al-head { flex-direction: column; align-items: flex-start; }
+  .al-phases { flex-wrap: wrap; }
+  /* One column on mobile, so the explicit row/column placement from the
+     two-column layout has to be released or the chip and the label land in
+     the same cell. */
+  .al-item { grid-template-columns: 1fr; }
+  .al-tool, .al-text, .al-note { grid-row: auto; grid-column: 1; }
+  .al-tool { justify-self: start; }
+}

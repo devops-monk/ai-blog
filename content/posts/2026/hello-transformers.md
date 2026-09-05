@@ -7,8 +7,6 @@ description: "A reference article, not a published one. It exists so every conve
 tags: ["llm", "transformers", "inference"]
 categories: ["Fundamentals"]
 url: /2026/01/hello-transformers/
-series: "Part 1 — Foundations"
-series_order: 1
 draft: true
 ---
 

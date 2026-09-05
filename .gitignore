@@ -10,3 +10,7 @@ node_modules
 # Intermediate render artifacts from tools/gen_covers.py
 tools/cv_*.html
 tools/cv_*.png
+
+# Python bytecode from importing tools/ during verification
+__pycache__/
+*.pyc

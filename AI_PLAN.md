@@ -14,7 +14,7 @@ A 23-chapter tutorial that takes a reader from "I installed it" to genuine exper
 |---|---|---|---|
 | 1 | What Claude Code Actually Is | Foundations | ✅ [Published](https://ai.devops-monk.com/2026/09/what-claude-code-actually-is/) |
 | 2 | Three Ways to Talk to It | Foundations | ✅ [Published](https://ai.devops-monk.com/2026/09/three-ways-to-talk-to-claude-code/) |
-| 3 | Permission Modes | Foundations | ⬜ Not started |
+| 3 | Permission Modes | Foundations | ✅ [Published](https://ai.devops-monk.com/2026/09/permission-modes/) |
 | 4 | Permissions & Sandboxing | Foundations | ⬜ Not started |
 | 5 | Settings: the Control Panel | Context Engineering | ⬜ Not started |
 | 6 | CLAUDE.md | Context Engineering | ⬜ Not started |
@@ -189,6 +189,7 @@ The source deck predates the current documentation. These must be written correc
 | Shell mode (`!`) is free and consumes no tokens | Not since v2.1.186. Claude responds to `!` output automatically and that response costs a normal prompt. `respondToBashCommands: false` restores the silent behaviour |
 | `#` adds a note to Claude's memory | No longer in the documentation. Say "remember that…" in plain language; auto memory picks it up |
 | Voice dictation is hold-`Space` | Two modes, hold and tap, and `voice:pushToTalk` is rebindable |
+| Plan mode cannot run bash commands | It runs them. When auto mode is available and `useAutoModeDuringPlan` is on (the default), the classifier reviews shell commands during planning and approved ones run |
 
 Unverified deck claims to confirm while writing the relevant chapter: checkpoint expiry, the `MEMORY.md` line limit and path, the `--worktree` flag, voice dictation's push-to-talk key, and `/loop` task expiry.
 

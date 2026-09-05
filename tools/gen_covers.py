@@ -123,6 +123,35 @@ def art_channels():
     return f'<svg width="640" height="420" viewBox="0 0 640 420">{"".join(out)}</svg>'
 
 
+def art_gates():
+    """An action falling through the gate stack: rules, mode, classifier."""
+    out = []
+    gates = [
+        ("deny rules", RED, 90),
+        ("ask rules", AMBER, 160),
+        ("protected / critical", PINK, 230),
+        ("permission mode", PURPLE, 300),
+    ]
+    for label, col, y in gates:
+        out.append(f'<rect x="90" y="{y-20}" width="330" height="40" rx="8" '
+                   f'fill="{col}" opacity=".13" stroke="{col}" stroke-opacity=".65"/>')
+        out.append(f'<text x="110" y="{y+6}" fill="#dbd3f5" font-size="17">{label}</text>')
+        # Each gate has a side exit for the calls it stops.
+        out.append(f'<path d="M420 {y} L470 {y}" stroke="{col}" stroke-opacity=".7" stroke-width="1.6"/>')
+        out.append(f'<path d="M-6 -5 L6 0 L-6 5 Z" fill="{col}" opacity=".8" '
+                   f'transform="translate(474 {y})"/>')
+    # The spine the surviving call travels down.
+    out.append(f'<path d="M60 60 L60 360" stroke="{FAINT}" stroke-width="1.6" stroke-dasharray="5 5"/>')
+    for _, _, y in gates:
+        out.append(f'<path d="M60 {y} L90 {y}" stroke="{FAINT}" stroke-width="1.6"/>')
+    out.append(f'<circle cx="60" cy="60" r="7" fill="{BLUE}"/>')
+    out.append(f'<text x="78" y="65" fill="{DIM}" font-size="15">tool call</text>')
+    out.append(f'<circle cx="60" cy="360" r="7" fill="{GREEN}"/>')
+    out.append(f'<text x="78" y="365" fill="{DIM}" font-size="15">runs</text>')
+    out.append(f'<text x="470" y="396" fill="{DIM}" font-size="14" text-anchor="end">stopped here</text>')
+    return f'<svg width="640" height="420" viewBox="0 0 640 420">{"".join(out)}</svg>'
+
+
 def art_tokens():
     """A token stream with the next-token distribution hanging off the end."""
     s, x = [], 40
@@ -196,6 +225,9 @@ COVERS = [
     ("cc-02-three-ways-to-talk", "PART 1 · CH 2", "Three Ways to Talk<br>to Claude Code", 50,
      "CLI flags, slash commands, and sigils. Three channels, three rules.",
      "two of the three never reach the <i>model</i>", art_channels),
+    ("cc-03-permission-modes", "PART 1 · CH 3", "Permission<br>Modes", 62,
+     "Six modes, a classifier, and the paths no mode will approve.",
+     "3 in a row and auto mode <i>stops trusting itself</i>", art_gates),
     ("hello-transformers", "PART 1 · CH 1", "How a Transformer<br>Actually Predicts", 54,
      "One token at a time, and everything else follows from that.",
      "the model outputs a <i>distribution</i>, not a word", art_tokens),

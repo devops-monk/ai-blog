@@ -23,7 +23,7 @@ What the thing is, how you talk to it, and how to stop it doing something you'll
 
 1. [What Claude Code Actually Is](/2026/09/what-claude-code-actually-is/) — the execution model: a text-to-text model with no I/O, the harness that supplies tools, the gather/act/verify loop, the full tool table, and session state on disk.
 2. [Three Ways to Talk to Claude Code](/2026/09/three-ways-to-talk-to-claude-code/) — the three input channels, a full flag and command reference, shell-mode semantics and its cost change in v2.1.186, input handling, and voice dictation.
-3. Permission Modes
+3. [Permission Modes](/2026/09/permission-modes/) — the six modes and what each auto-approves, the auto-mode classifier's block and allow lists, its 3-in-a-row circuit breaker, and the protected and critical paths no mode will approve.
 4. Permissions & Sandboxing
 
 ## Part 2 — Context Engineering

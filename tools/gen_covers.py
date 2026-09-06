@@ -612,6 +612,28 @@ def art_team():
     return f'<svg width="640" height="420" viewBox="0 0 640 420">{"".join(out)}</svg>'
 
 
+def art_clock():
+    """A loop with a seven-day fuse, and the cloud that outlives it."""
+    out = []
+    # The in-session loop.
+    out.append(f'<circle cx="180" cy="196" r="66" fill="none" stroke="{BLUE}" stroke-opacity=".65" '
+               f'stroke-width="2" stroke-dasharray="9 6"/>')
+    out.append(f'<path d="M-7 -6 L7 0 L-7 6 Z" fill="{BLUE}" opacity=".9" transform="translate(180 130) rotate(28)"/>')
+    out.append(f'<text x="180" y="192" fill="#dfe6f6" font-size="16" text-anchor="middle" '
+               f'font-family="ui-monospace,monospace">/loop</text>')
+    out.append(f'<text x="180" y="214" fill="{DIM}" font-size="12.5" text-anchor="middle">while the session is open</text>')
+    out.append(f'<text x="180" y="298" fill="{RED}" font-size="13" text-anchor="middle" opacity=".9">expires after 7 days</text>')
+    # The cloud routine that does not need you there.
+    out.append(f'<rect x="360" y="150" width="200" height="92" rx="12" fill="{PURPLE}" opacity=".2" '
+               f'stroke="{GREEN}" stroke-opacity=".7"/>')
+    out.append(f'<text x="460" y="190" fill="#e6e0f8" font-size="15" text-anchor="middle" '
+               f'font-family="ui-monospace,monospace">routine</text>')
+    out.append(f'<text x="460" y="212" fill="{GREEN}" font-size="12.5" text-anchor="middle">machine off, still runs</text>')
+    out.append(f'<path d="M252 196 L354 196" stroke="{FAINT}" stroke-width="1.4" stroke-dasharray="4 5"/>')
+    out.append(f'<text x="70" y="352" fill="{DIM}" font-size="14">machine on, session open, how often — pick two</text>')
+    return f'<svg width="640" height="420" viewBox="0 0 640 420">{"".join(out)}</svg>'
+
+
 COVERS = [
     # (slug, badge, title with <br>, title font size, tagline, mono caption, motif)
     ("cc-01-what-claude-code-is", "PART 1 · CH 1", "What Claude Code<br>Actually Is", 54,
@@ -668,6 +690,9 @@ COVERS = [
     ("cc-18-agent-teams", "PART 5 · CH 18", "Agent Teams &amp;<br>Parallel Work", 50,
      "Four ways to run sessions at once, and the questions that pick between them.",
      "teams do not <i>isolate</i> teammates", art_team),
+    ("cc-19-automation-scheduling", "PART 5 · CH 19", "Automation &amp;<br>Scheduling", 52,
+     "Four schedulers, and the constraints that pick between them.",
+     "a forgotten loop <i>expires</i>", art_clock),
     ("hello-transformers", "PART 1 · CH 1", "How a Transformer<br>Actually Predicts", 54,
      "One token at a time, and everything else follows from that.",
      "the model outputs a <i>distribution</i>, not a word", art_tokens),

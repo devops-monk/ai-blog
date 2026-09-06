@@ -34,7 +34,7 @@ Write **from the deck's coverage, in our own words**. The deck is a paid third-p
 | 16 | GitHub, GitLab & CI | Connecting to the World | ✅ [Published](https://ai.devops-monk.com/2026/09/github-gitlab-and-ci/) |
 | 17 | Sub-Agents | Agents & Autonomy | ✅ [Published](https://ai.devops-monk.com/2026/09/subagents/) |
 | 18 | Agent Teams & Parallel Work | Agents & Autonomy | ✅ [Published](https://ai.devops-monk.com/2026/09/agent-teams-and-parallel-work/) |
-| 19 | Automation & Scheduling | Agents & Autonomy | ⬜ Not started |
+| 19 | Automation & Scheduling | Agents & Autonomy | ✅ [Published](https://ai.devops-monk.com/2026/09/automation-and-scheduling/) |
 | 20 | Claude Code Everywhere | Agents & Autonomy | ⬜ Not started |
 | 21 | Cost, Monitoring & Security | Running It for Real | ⬜ Not started |
 | 22 | When It Goes Wrong | Running It for Real | ⬜ Not started |
@@ -258,7 +258,7 @@ Open rows below are chapters not yet written.
 | 110–115 | 14 | ✅ none |
 | 116–122 | 15 | ✅ fixed — Chrome DevTools, Playwright and Context7 with add commands, plus the four cross-tool shapes |
 | 123–124 | 14 | ✅ none |
-| 125–127 | 19 | ⬜ `/loop` — not yet written |
+| 125–127 | 19 | ✅ covered in Ch 19 |
 | 128–136 | 17 | ✅ covered in Ch 17 |
 
 ## Writing a chapter

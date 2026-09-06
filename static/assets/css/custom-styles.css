@@ -3037,3 +3037,97 @@ textarea.os-in { resize: vertical; line-height: 1.55; }
   .os-grid { grid-template-columns: 1fr; }
   .os-check { align-self: start; padding-bottom: 0; }
 }
+
+/* ------------------------------------------------------------------
+   Skill frontmatter builder (Chapter 11). Toggle fields, see who can
+   invoke it and what each field costs.
+   ------------------------------------------------------------------ */
+.sk-box {
+  margin: 1.5rem 0;
+  padding: 1rem 1.1rem 1.1rem;
+  background: var(--bg-alt, #f8fafc);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+}
+
+.sk-cols { display: flex; gap: 1.1rem; }
+.sk-left { flex: 0 0 19rem; }
+.sk-right { flex: 1 1 auto; min-width: 0; }
+
+.sk-lbl {
+  display: block;
+  margin-bottom: 0.4rem;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.sk-toggles { display: flex; flex-direction: column; gap: 0.25rem; }
+.sk-tog {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.32rem 0.5rem;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  cursor: pointer;
+}
+.sk-tog:hover { border-color: var(--primary); }
+.sk-tog input { width: 14px; height: 14px; accent-color: var(--primary); flex: none; }
+.sk-tog code { font-size: 0.72rem; background: none; padding: 0; color: var(--text-muted); }
+.sk-tog.dis { opacity: 0.4; cursor: default; }
+
+.sk-who { display: flex; flex-wrap: wrap; gap: 0.35rem; }
+.sk-pill {
+  padding: 0.2rem 0.6rem;
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  font-weight: 600;
+  border-radius: 999px;
+}
+.sk-yes { color: #14532d; background: #dcfce7; }
+.sk-no { color: #991b1b; background: #fee2e2; }
+
+.sk-eff { margin-top: 0.6rem; }
+.sk-e {
+  margin: 0 0 0.4rem;
+  padding: 0.42rem 0.6rem;
+  font-size: 0.79rem;
+  line-height: 1.5;
+  border-left: 3px solid;
+  border-radius: 5px;
+}
+.sk-e.sk-ok { color: #14532d; background: #dcfce7; border-color: #16a34a; }
+.sk-e.sk-warn { color: #854d0e; background: #fef3c7; border-color: #ca8a04; }
+.sk-e.sk-bad { color: #991b1b; background: #fee2e2; border-color: #dc2626; }
+.sk-e.sk-note { color: var(--text-muted); background: var(--bg); border-color: var(--border); }
+
+.sk-out {
+  margin: 0.9rem 0 0 !important;
+  padding: 0.75rem 0.9rem !important;
+  font-size: 0.76rem !important;
+  line-height: 1.6 !important;
+  white-space: pre-wrap;
+  color: #e2e8f0 !important;
+  border-radius: 6px;
+  overflow-x: auto;
+}
+
+[data-theme="dark"] .sk-box { background: #1e293b !important; border-color: #334155 !important; }
+[data-theme="dark"] .sk-tog { background: #0f172a !important; border-color: #334155 !important; }
+[data-theme="dark"] .sk-tog code { color: #94a3b8 !important; }
+[data-theme="dark"] .sk-yes { color: #bbf7d0 !important; background: #14532d !important; }
+[data-theme="dark"] .sk-no { color: #fecaca !important; background: #7f1d1d !important; }
+[data-theme="dark"] .sk-e.sk-ok { color: #bbf7d0 !important; background: #14532d !important; }
+[data-theme="dark"] .sk-e.sk-warn { color: #fde68a !important; background: #713f12 !important; }
+[data-theme="dark"] .sk-e.sk-bad { color: #fecaca !important; background: #7f1d1d !important; }
+[data-theme="dark"] .sk-e.sk-note { color: #94a3b8 !important; background: #0f172a !important; border-color: #334155 !important; }
+
+@media only screen and (max-width: 40em) {
+  .sk-box { padding: 0.8rem 0.85rem 0.9rem; }
+  .sk-cols { flex-direction: column; gap: 0.9rem; }
+  .sk-left { flex: 1 1 auto; }
+}

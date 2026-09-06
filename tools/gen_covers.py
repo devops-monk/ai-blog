@@ -407,6 +407,28 @@ def art_prompt():
     return f'<svg width="640" height="420" viewBox="0 0 640 420">{"".join(out)}</svg>'
 
 
+def art_disclosure():
+    """Three tiers: names always loaded, content on invocation, files on demand."""
+    out = []
+    tiers = [
+        ("names + descriptions", PURPLE, 100, "always", 1.0),
+        ("SKILL.md content", GREEN, 190, "on invocation", 0.55),
+        ("reference.md, scripts/", BLUE, 280, "on demand", 0.25),
+    ]
+    for label, col, y, when, fill in tiers:
+        out.append(f'<rect x="70" y="{y-24}" width="300" height="48" rx="8" fill="{col}" '
+                   f'opacity="{0.06 + 0.2 * fill:.2f}" stroke="{col}" stroke-opacity="{0.35 + 0.5 * fill:.2f}"'
+                   f'{"" if fill > 0.5 else " stroke-dasharray=\"5 4\""}/>')
+        out.append(f'<text x="90" y="{y+6}" fill="#ded7f2" font-size="15" '
+                   f'font-family="ui-monospace,monospace" opacity="{0.45 + 0.55 * fill:.2f}">{label}</text>')
+        out.append(f'<text x="392" y="{y+5}" fill="{col}" font-size="13" opacity=".8">{when}</text>')
+    # The context window only ever holds the top tier by default.
+    out.append(f'<path d="M56 76 L56 124" stroke={chr(34)}{PURPLE}{chr(34)} stroke-width="3"/>')
+    out.append(f'<text x="70" y="60" fill="{DIM}" font-size="13">in context</text>')
+    out.append(f'<text x="70" y="350" fill="{DIM}" font-size="14">a hundred skills cost about 1% of the window</text>')
+    return f'<svg width="640" height="420" viewBox="0 0 640 420">{"".join(out)}</svg>'
+
+
 COVERS = [
     # (slug, badge, title with <br>, title font size, tagline, mono caption, motif)
     ("cc-01-what-claude-code-is", "PART 1 · CH 1", "What Claude Code<br>Actually Is", 54,
@@ -439,6 +461,9 @@ COVERS = [
     ("cc-10-output-styles", "PART 3 · CH 10", "Output<br>Styles", 62,
      "The one extension point that edits the system prompt itself.",
      "keep-coding-instructions defaults to <i>false</i>", art_prompt),
+    ("cc-11-skills", "PART 3 · CH 11", "Skills", 72,
+     "Instructions that stay out of context until they are needed.",
+     "the description is the <i>trigger</i>", art_disclosure),
     ("hello-transformers", "PART 1 · CH 1", "How a Transformer<br>Actually Predicts", 54,
      "One token at a time, and everything else follows from that.",
      "the model outputs a <i>distribution</i>, not a word", art_tokens),

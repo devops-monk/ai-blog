@@ -22,7 +22,7 @@ A 23-chapter tutorial that takes a reader from "I installed it" to genuine exper
 | 8 | The Context Window | Context Engineering | ✅ [Published](https://ai.devops-monk.com/2026/09/context-window/) |
 | 9 | Sessions, Checkpoints & Rewind | Context Engineering | ✅ [Published](https://ai.devops-monk.com/2026/09/sessions-checkpoints-rewind/) |
 | 10 | Output Styles | Teaching New Tricks | ✅ [Published](https://ai.devops-monk.com/2026/09/output-styles/) |
-| 11 | Skills | Teaching New Tricks | ⬜ Not started |
+| 11 | Skills | Teaching New Tricks | ✅ [Published](https://ai.devops-monk.com/2026/09/claude-code-skills/) |
 | 12 | Hooks | Teaching New Tricks | ⬜ Not started |
 | 13 | Plugins & Marketplaces | Teaching New Tricks | ⬜ Not started |
 | 14 | MCP Fundamentals | Connecting to the World | ⬜ Not started |

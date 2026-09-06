@@ -41,7 +41,7 @@ The context window is the budget everything else spends. This part is about spen
 Turning your preferences into capabilities, and your hopes into guarantees.
 
 10. [Output Styles](/2026/09/output-styles/) — the one extension point that edits the system prompt itself, the five built-ins, and why `keep-coding-instructions` defaulting to false is the field that matters.
-11. Skills
+11. [Skills](/2026/09/claude-code-skills/) — progressive disclosure and what each tier costs, the two booleans that decide who can invoke a skill, single-turn tool grants, and the checkpoint guarantee `context: fork` takes away.
 12. Hooks
 13. Plugins & Marketplaces
 

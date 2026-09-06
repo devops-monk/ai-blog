@@ -35,7 +35,7 @@ Write **from the deck's coverage, in our own words**. The deck is a paid third-p
 | 17 | Sub-Agents | Agents & Autonomy | ✅ [Published](https://ai.devops-monk.com/2026/09/subagents/) |
 | 18 | Agent Teams & Parallel Work | Agents & Autonomy | ✅ [Published](https://ai.devops-monk.com/2026/09/agent-teams-and-parallel-work/) |
 | 19 | Automation & Scheduling | Agents & Autonomy | ✅ [Published](https://ai.devops-monk.com/2026/09/automation-and-scheduling/) |
-| 20 | Claude Code Everywhere | Agents & Autonomy | ⬜ Not started |
+| 20 | Claude Code Everywhere | Agents & Autonomy | ✅ [Published](https://ai.devops-monk.com/2026/09/claude-code-everywhere/) |
 | 21 | Cost, Monitoring & Security | Running It for Real | ⬜ Not started |
 | 22 | When It Goes Wrong | Running It for Real | ⬜ Not started |
 | 23 | Becoming an Expert | Closing | ⬜ Not started |

@@ -634,6 +634,34 @@ def art_clock():
     return f'<svg width="640" height="420" viewBox="0 0 640 420">{"".join(out)}</svg>'
 
 
+def art_surfaces():
+    """One engine, several front doors — split by where the code runs."""
+    out = []
+    out.append(f'<circle cx="320" cy="196" r="52" fill="{PURPLE}" opacity=".26" stroke="{BLUE}" stroke-opacity=".85"/>')
+    out.append(f'<text x="320" y="192" fill="#eae4fb" font-size="14" text-anchor="middle" '
+               f'font-family="ui-monospace,monospace">one</text>')
+    out.append(f'<text x="320" y="210" fill="#eae4fb" font-size="14" text-anchor="middle" '
+               f'font-family="ui-monospace,monospace">engine</text>')
+    left = [("CLI", 96), ("Desktop", 152), ("VS Code", 208), ("JetBrains", 264)]
+    right = [("web", 124), ("Slack", 186), ("routines", 248)]
+    for label, y in left:
+        out.append(f'<rect x="52" y="{y-15}" width="128" height="32" rx="6" fill="{GREEN}" opacity=".2" '
+                   f'stroke="{GREEN}" stroke-opacity=".6"/>')
+        out.append(f'<text x="116" y="{y+5}" fill="#d9efdf" font-size="13" text-anchor="middle" '
+                   f'font-family="ui-monospace,monospace">{label}</text>')
+        out.append(f'<path d="M184 {y} L266 196" stroke="{GREEN}" stroke-opacity=".3" stroke-width="1.2"/>')
+    for label, y in right:
+        out.append(f'<rect x="460" y="{y-15}" width="128" height="32" rx="6" fill="{PINK}" opacity=".2" '
+                   f'stroke="{PINK}" stroke-opacity=".6"/>')
+        out.append(f'<text x="524" y="{y+5}" fill="#f3d9e6" font-size="13" text-anchor="middle" '
+                   f'font-family="ui-monospace,monospace">{label}</text>')
+        out.append(f'<path d="M456 {y} L374 196" stroke="{PINK}" stroke-opacity=".3" stroke-width="1.2"/>')
+    out.append(f'<text x="116" y="316" fill="{GREEN}" font-size="13" text-anchor="middle" opacity=".85">your machine</text>')
+    out.append(f'<text x="524" y="316" fill="{PINK}" font-size="13" text-anchor="middle" opacity=".85">the cloud</text>')
+    out.append(f'<text x="320" y="366" fill="{DIM}" font-size="14" text-anchor="middle">the question is where the code runs</text>')
+    return f'<svg width="640" height="420" viewBox="0 0 640 420">{"".join(out)}</svg>'
+
+
 COVERS = [
     # (slug, badge, title with <br>, title font size, tagline, mono caption, motif)
     ("cc-01-what-claude-code-is", "PART 1 · CH 1", "What Claude Code<br>Actually Is", 54,
@@ -693,6 +721,9 @@ COVERS = [
     ("cc-19-automation-scheduling", "PART 5 · CH 19", "Automation &amp;<br>Scheduling", 52,
      "Four schedulers, and the constraints that pick between them.",
      "a forgotten loop <i>expires</i>", art_clock),
+    ("cc-20-everywhere", "PART 5 · CH 20", "Claude Code<br>Everywhere", 56,
+     "Same engine, different front doors — and one question that sorts them.",
+     "Remote Control runs on <i>your</i> machine", art_surfaces),
     ("hello-transformers", "PART 1 · CH 1", "How a Transformer<br>Actually Predicts", 54,
      "One token at a time, and everything else follows from that.",
      "the model outputs a <i>distribution</i>, not a word", art_tokens),

@@ -3734,3 +3734,94 @@ textarea.os-in { resize: vertical; line-height: 1.55; }
   .sc-box { padding: 0.8rem 0.85rem 0.9rem; }
   .sc-con { width: 100%; border-radius: 6px; }
 }
+
+/* ------------------------------------------------------------------
+   Surface grid (Chapter 20). Where the code runs x where you are.
+   ------------------------------------------------------------------ */
+.sf-box {
+  margin: 1.5rem 0;
+  padding: 1rem 1.1rem 1.1rem;
+  background: var(--bg-alt, #f8fafc);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+}
+
+.sf-grid {
+  display: grid;
+  grid-template-columns: 6.5rem 1fr 1fr;
+  gap: 0.35rem;
+  align-items: stretch;
+}
+.sf-axis {
+  font-size: 0.66rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  align-self: end;
+  padding-bottom: 0.3rem;
+}
+.sf-hdr {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-align: center;
+  padding-bottom: 0.2rem;
+}
+.sf-rl {
+  display: flex;
+  align-items: center;
+  font-size: 0.76rem;
+  font-weight: 600;
+  color: var(--text);
+}
+.sf-cell {
+  display: flex;
+  flex-wrap: wrap;
+  align-content: flex-start;
+  gap: 0.25rem;
+  padding: 0.45rem;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  min-height: 3rem;
+}
+.sf-s {
+  padding: 0.25rem 0.55rem;
+  font-size: 0.73rem;
+  color: var(--text-muted);
+  background: var(--bg-alt, #f8fafc);
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  cursor: pointer;
+}
+.sf-s:hover { border-color: var(--primary); color: var(--text); }
+.sf-s.on { color: #fff; background: var(--primary); border-color: var(--primary); font-weight: 600; }
+
+.sf-panel {
+  margin-top: 0.9rem;
+  padding: 0.6rem 0.75rem;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--primary);
+  border-radius: 6px;
+}
+.sf-n { display: block; font-size: 0.95rem; font-weight: 700; }
+.sf-d { margin: 0.25rem 0 0; font-size: 0.83rem; line-height: 1.5; }
+.sf-w { margin: 0.4rem 0 0; font-size: 0.82rem; line-height: 1.55; color: var(--text-muted); }
+
+[data-theme="dark"] .sf-box { background: #1e293b !important; border-color: #334155 !important; }
+[data-theme="dark"] .sf-cell,
+[data-theme="dark"] .sf-panel { background: #0f172a !important; border-color: #334155 !important; }
+[data-theme="dark"] .sf-panel { border-left-color: var(--primary) !important; }
+[data-theme="dark"] .sf-s { background: #1e293b !important; border-color: #334155 !important; color: #94a3b8 !important; }
+[data-theme="dark"] .sf-s:hover { color: #e2e8f0 !important; }
+[data-theme="dark"] .sf-s.on { color: #fff !important; background: var(--primary) !important; border-color: var(--primary) !important; }
+[data-theme="dark"] .sf-rl { color: #e2e8f0 !important; }
+
+@media only screen and (max-width: 40em) {
+  .sf-box { padding: 0.8rem 0.85rem 0.9rem; }
+  .sf-grid { grid-template-columns: 4.6rem 1fr 1fr; gap: 0.25rem; }
+  .sf-hdr, .sf-rl { font-size: 0.66rem; }
+  .sf-s { font-size: 0.66rem; padding: 0.2rem 0.4rem; }
+}

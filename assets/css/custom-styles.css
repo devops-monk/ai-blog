@@ -3656,3 +3656,81 @@ textarea.os-in { resize: vertical; line-height: 1.55; }
   .pk-box { padding: 0.8rem 0.85rem 0.9rem; }
   .pk-o { width: 100%; text-align: left; border-radius: 6px; }
 }
+
+/* ------------------------------------------------------------------
+   Scheduling filter (Chapter 19). Tick constraints, watch options fall.
+   ------------------------------------------------------------------ */
+.sc-box {
+  margin: 1.5rem 0;
+  padding: 1rem 1.1rem 1.1rem;
+  background: var(--bg-alt, #f8fafc);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+}
+
+.sc-lbl {
+  display: block;
+  margin-bottom: 0.4rem;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.sc-cons { display: flex; flex-wrap: wrap; gap: 0.3rem; margin-bottom: 1rem; }
+.sc-con {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.3rem 0.65rem;
+  font-size: 0.76rem;
+  color: var(--text-muted);
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  cursor: pointer;
+}
+.sc-con:hover { border-color: var(--primary); }
+.sc-con.on { color: var(--text); border-color: var(--primary); font-weight: 600; }
+.sc-con input { width: 13px; height: 13px; accent-color: var(--primary); }
+
+.sc-opts { display: flex; flex-direction: column; gap: 0.4rem; }
+.sc-opt {
+  padding: 0.55rem 0.7rem;
+  border: 1px solid var(--border);
+  border-left: 3px solid;
+  border-radius: 6px;
+  background: var(--bg);
+}
+.sc-opt.ok { border-left-color: #16a34a; }
+.sc-opt.out { border-left-color: var(--border); opacity: 0.5; }
+.sc-on { display: block; font-family: var(--mono); font-size: 0.85rem; font-weight: 700; }
+.sc-od { display: block; margin-top: 0.1rem; font-size: 0.8rem; color: var(--text-muted); }
+.sc-note { display: block; margin-top: 0.3rem; font-size: 0.78rem; line-height: 1.5; color: #15803d; }
+.sc-x { display: block; margin-top: 0.3rem; font-size: 0.78rem; line-height: 1.5; color: #b91c1c; }
+.sc-none {
+  margin: 0.6rem 0 0;
+  padding: 0.5rem 0.7rem;
+  font-size: 0.8rem;
+  line-height: 1.5;
+  color: #854d0e;
+  background: #fef3c7;
+  border-left: 3px solid #ca8a04;
+  border-radius: 6px;
+}
+
+[data-theme="dark"] .sc-box { background: #1e293b !important; border-color: #334155 !important; }
+[data-theme="dark"] .sc-con,
+[data-theme="dark"] .sc-opt { background: #0f172a !important; border-color: #334155 !important; }
+[data-theme="dark"] .sc-con { color: #94a3b8 !important; }
+[data-theme="dark"] .sc-con.on { color: #e2e8f0 !important; border-color: var(--primary) !important; }
+[data-theme="dark"] .sc-opt.ok { border-left-color: #4ade80 !important; }
+[data-theme="dark"] .sc-note { color: #86efac !important; }
+[data-theme="dark"] .sc-x { color: #fca5a5 !important; }
+[data-theme="dark"] .sc-none { color: #fde68a !important; background: #713f12 !important; }
+
+@media only screen and (max-width: 40em) {
+  .sc-box { padding: 0.8rem 0.85rem 0.9rem; }
+  .sc-con { width: 100%; border-radius: 6px; }
+}

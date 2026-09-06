@@ -1,0 +1,221 @@
+<!doctype html><html lang=en-US prefix="og: http://ogp.me/ns#"><head><meta charset=UTF-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=title property="title" content="AI Engineering - Automation & Scheduling"><meta name=description property="description" content="A 23-chapter handbook for Claude Code — permissions, context, skills, hooks, MCP and agents, worked out end to end for engineers who have to ship with it. - Four schedulers and the constraints that pick between them. /loop for polling while you work, routines for work that outlives your laptop, and the payload wrapper that stops a leaked token becoming an instruction."><title>AI Engineering - Automation & Scheduling</title><meta property="og:url" content="https://ai.devops-monk.com/2026/09/automation-and-scheduling/"><meta property="og:site_name" content="AI Engineering"><meta property="og:title" content="Automation & Scheduling"><meta property="og:description" content="Four schedulers and the constraints that pick between them. /loop for polling while you work, routines for work that outlives your laptop, and the payload wrapper that stops a leaked token becoming an instruction."><meta property="og:locale" content="en_us"><meta property="og:type" content="article"><meta property="article:section" content="posts"><meta property="article:published_time" content="2026-09-06T00:30:00+00:00"><meta property="article:modified_time" content="2026-09-06T00:30:00+00:00"><meta property="article:tag" content="Claude-Code"><meta property="article:tag" content="Scheduling"><meta property="article:tag" content="Automation"><meta property="article:tag" content="Routines"><meta property="article:tag" content="Loop"><meta property="og:image" content="https://ai.devops-monk.com/images/social/cc-19-automation-scheduling.jpg"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="Automation & Scheduling"><meta name=twitter:card content="summary_large_image"><meta name=twitter:title content="Automation & Scheduling"><meta name=twitter:description content="Four schedulers and the constraints that pick between them. /loop for polling while you work, routines for work that outlives your laptop, and the payload wrapper that stops a leaked token becoming an instruction."><meta name=twitter:image content="https://ai.devops-monk.com/images/social/cc-19-automation-scheduling.jpg"><meta name=twitter:image:alt content="Automation & Scheduling"><link rel=canonical href=https://ai.devops-monk.com/2026/09/automation-and-scheduling/><link rel=stylesheet href=/assets/css/custom-fonts.css type=text/css media=all><link rel=stylesheet href=/assets/css/style.css type=text/css media=all><link rel=stylesheet href=/assets/css/genericons.css type=text/css media=all><link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css media=all><link rel=stylesheet href=/assets/css/socicon.css type=text/css media=all><link rel=stylesheet href=/assets/css/social-logos/social-logos.css type=text/css media=all><link rel=stylesheet href=/assets/css/jetpack.css type=text/css media=all><link rel=stylesheet href=/assets/css/custom-styles.css type=text/css media=all><script type=text/javascript src=/assets/js/jquery-1.12.4.min.js></script><script type=text/javascript src=/assets/js/html5shiv.min.js></script><script type=text/javascript src=/assets/js/navigation.js></script><link rel="shortcut icon" href=/favicon.png type=image/x-icon><script type=application/ld+json>{"@context":"https://schema.org","@graph":[{"@type":"TechArticle","author":{"@type":"Person","name":"Abhay"},"dateModified":"2026-09-06","datePublished":"2026-09-06","description":"Four schedulers and the constraints that pick between them. /loop for polling while you work, routines for work that outlives your laptop, and the payload wrapper that stops a leaked token becoming an instruction.","headline":"Automation \u0026 Scheduling","image":"https://ai.devops-monk.com/images/social/cc-19-automation-scheduling.jpg","inLanguage":"en-US","keywords":["claude-code","scheduling","automation","routines","loop"],"mainEntityOfPage":{"@id":"https://ai.devops-monk.com/2026/09/automation-and-scheduling/","@type":"WebPage"},"name":"Automation \u0026 Scheduling","publisher":{"@type":"Organization","name":"AI Engineering by Abhay","sameAs":["https://github.com/abhi15sep","https://www.linkedin.com/in/abhay-singh-831997b5"],"url":"https://ai.devops-monk.com/"},"url":"https://ai.devops-monk.com/2026/09/automation-and-scheduling/","wordCount":1371},{"@type":"Organization","name":"AI Engineering by Abhay","sameAs":["https://github.com/abhi15sep","https://www.linkedin.com/in/abhay-singh-831997b5"],"url":"https://ai.devops-monk.com/"}]}</script><script src=https://cdn.jsdelivr.net/npm/fuse.js@7/dist/fuse.min.js defer></script><script src=/assets/js/search.js defer></script><script src=/assets/js/enhancements.js defer></script><script type=module>
+      import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+
+      
+      const isDark = () =>
+        document.documentElement.getAttribute('data-theme') === 'dark';
+
+      
+      
+      const vars = {
+        light: {
+          background: '#ffffff', mainBkg: '#ede9fe',
+          primaryColor: '#ede9fe', primaryTextColor: '#1e293b',
+          primaryBorderColor: '#7c3aed', secondaryColor: '#f0fdf4',
+          secondaryTextColor: '#166534', secondaryBorderColor: '#10b981',
+          tertiaryColor: '#f8fafc', tertiaryTextColor: '#1e293b',
+          tertiaryBorderColor: '#cbd5e1',
+          lineColor: '#475569', textColor: '#1e293b', titleColor: '#0f172a',
+          clusterBkg: '#f8fafc', clusterBorder: '#cbd5e1',
+          edgeLabelBackground: '#ffffff', nodeBorder: '#7c3aed',
+          actorBkg: '#ede9fe', actorBorder: '#7c3aed', actorTextColor: '#1e293b',
+          signalColor: '#475569', signalTextColor: '#1e293b',
+          labelBoxBkgColor: '#ede9fe', labelBoxBorderColor: '#7c3aed',
+          labelTextColor: '#1e293b', loopTextColor: '#1e293b',
+          noteBkgColor: '#fffbeb', noteBorderColor: '#f59e0b', noteTextColor: '#92400e',
+        },
+        dark: {
+          background: '#1b1533', mainBkg: '#3b2a6b',
+          primaryColor: '#3b2a6b', primaryTextColor: '#e2e8f0',
+          primaryBorderColor: '#7c3aed', secondaryColor: '#10291f',
+          secondaryTextColor: '#6ee7b7', secondaryBorderColor: '#10b981',
+          tertiaryColor: '#171233', tertiaryTextColor: '#e2e8f0',
+          tertiaryBorderColor: '#4c3a75',
+          lineColor: '#94a3b8', textColor: '#e2e8f0', titleColor: '#f1f5f9',
+          clusterBkg: '#171233', clusterBorder: '#3a2c63',
+          edgeLabelBackground: '#1b1533', nodeBorder: '#7c3aed',
+          actorBkg: '#3b2a6b', actorBorder: '#7c3aed', actorTextColor: '#e2e8f0',
+          signalColor: '#94a3b8', signalTextColor: '#e2e8f0',
+          labelBoxBkgColor: '#3b2a6b', labelBoxBorderColor: '#7c3aed',
+          labelTextColor: '#e2e8f0', loopTextColor: '#e2e8f0',
+          noteBkgColor: '#2a1d10', noteBorderColor: '#f59e0b', noteTextColor: '#fcd34d',
+        },
+      };
+
+      
+      
+      
+      function sourceOf(el) {
+        const t = document.createElement('textarea');
+        t.innerHTML = el.dataset.src;
+        return t.value;
+      }
+
+      let seq = 0;
+
+      async function draw() {
+        const blocks = [...document.querySelectorAll('pre.mermaid')];
+        blocks.forEach((el) => {
+          if (el.dataset.src === undefined) el.dataset.src = el.innerHTML;
+        });
+
+        mermaid.initialize({
+          startOnLoad: false,
+          theme: 'base',
+          themeVariables: {
+            fontFamily: "Inter, -apple-system, BlinkMacSystemFont, sans-serif",
+            fontSize: '15px',
+            ...(isDark() ? vars.dark : vars.light),
+          },
+          securityLevel: 'loose',
+          
+          
+          
+          
+          
+          
+          
+          
+          flowchart: {
+            htmlLabels: true,
+            useMaxWidth: false,
+            curve: 'basis',
+            padding: 14,
+            nodeSpacing: 46,
+            rankSpacing: 58,
+            diagramPadding: 10,
+          },
+          sequence: {
+            useMaxWidth: false,
+            
+            mirrorActors: false,
+            actorMargin: 48,
+            boxMargin: 10,
+            diagramMarginY: 12,
+            actorFontSize: 14,
+            messageFontSize: 13,
+            noteFontSize: 13,
+          },
+        });
+
+        
+        
+        
+        
+        
+        for (const el of blocks) {
+          const id = 'mermaid-svg-' + (seq++);
+          try {
+            const { svg, bindFunctions } = await mermaid.render(id, sourceOf(el));
+            el.innerHTML = svg;
+            if (bindFunctions) bindFunctions(el);
+          } catch (err) {
+            console.error('mermaid: failed to render diagram', err);
+          }
+        }
+      }
+
+      document.addEventListener('DOMContentLoaded', draw);
+      new MutationObserver((m) => {
+        if (m.some((r) => r.attributeName === 'data-theme')) draw();
+      }).observe(document.documentElement, { attributes: true });
+    </script></head><body class="home blog post-layout-one-column"><button onclick=topFunction() id=scrollTopBtn title="Go to top">
+<i class="fa-solid fa-arrow-up"></i></button><div id=header-top class=header-bar-wrap></div><div id=page class=site><a class="skip-link screen-reader-text" href=#content>Skip to content</a><header id=masthead class="site-header clearfix" role=banner><div class="header-main container clearfix"><div id=logo class="site-branding clearfix"><h1 class=site-title><a href=/ title="AI Engineering" rel=home>AI Engineering</a></h1><p class=site-description>Master Claude Code</p></div><button id=dark-mode-toggle title="Toggle dark mode" aria-label="Toggle dark mode">
+<i class="fa-solid fa-moon" id=dm-icon></i></button></div><div id=main-navigation-wrap class=primary-navigation-wrap><nav id=main-navigation class="primary-navigation navigation container clearfix" role=navigation><ul id=menu-home class=main-navigation-menu><li class="menu-item menu-item-type-custom menu-item-object-custom"><a href=/>Home</a></li><li class="menu-item menu-item-type-custom menu-item-object-custom"><a href=/guide/>Guide</a></li><li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children"><a href=#>Topics</a><ul class=sub-menu><li class=menu-item><a href=/tags/permissions/>Permissions</a></li><li class=menu-item><a href=/tags/context/>Context</a></li><li class=menu-item><a href=/tags/skills/>Skills</a></li><li class=menu-item><a href=/tags/hooks/>Hooks</a></li><li class=menu-item><a href=/tags/mcp/>MCP</a></li><li class=menu-item><a href=/tags/subagents/>Subagents</a></li></ul></li><li class="menu-item menu-item-type-custom menu-item-object-custom"><a href=/about/>About</a></li><li class="menu-item nav-rss"><a href=/index.xml title="Subscribe via RSS" target=_blank rel=noopener><i class="fa-solid fa-rss"></i> RSS</a></li></ul></nav></div></header><div id=content class="site-content container clearfix"><section id=primary class="content-archive content-area post-content-area"><main id=main class=site-main role=main><article class="post type-post"><div class=post-inner-content><div class=post-hero-img-link><img class=post-hero-img src=/images/articles/cc-19-automation-scheduling.webp alt="Automation & Scheduling" width=1200 height=480></div><header class=entry-header><div class=entry-meta><span class=meta-date><a href=https://ai.devops-monk.com/2026/09/automation-and-scheduling/ rel=bookmark><time class="entry-date published" datetime=2026-09-06T00:30:00>September 06, 2026
+</time></a></span><span class=meta-author><span class="author vcard">Abhay</span>
+</span><span class=meta-reading-time>7 min read</span></div><h2 class=entry-title><a href=https://ai.devops-monk.com/2026/09/automation-and-scheduling/ rel=bookmark>Automation & Scheduling</a></h2><div><span class="tagcloud post-tags"><i class="fa fa-tags"></i>
+<a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/claude-code/>claude-code</a>
+&nbsp;
+<a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/scheduling/>scheduling</a>
+&nbsp;
+<a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/automation/>automation</a>
+&nbsp;
+<a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/routines/>routines</a>
+&nbsp;
+<a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/loop/>loop</a></span></div></header><a class=series-badge href=/guide/><span class=series-badge-vol>Part 5 — Agents & Autonomy</span>
+<span class=series-badge-ch>Chapter 3 of 3</span></a><div class=social-share-bar><span class=share-label>Share:</span>
+<a href="https://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2fai.devops-monk.com%2f2026%2f09%2fautomation-and-scheduling%2f&title=Automation+%26+Scheduling" target=_blank rel=noopener class="share-btn share-linkedin" title="Share on LinkedIn"><i class="fa-brands fa-linkedin-in"></i> LinkedIn
+</a><a href="https://twitter.com/intent/tweet?url=https%3a%2f%2fai.devops-monk.com%2f2026%2f09%2fautomation-and-scheduling%2f&text=Automation+%26+Scheduling" target=_blank rel=noopener class="share-btn share-twitter" title="Share on Twitter / X"><i class="fa-brands fa-x-twitter"></i> X
+</a><a href="https://www.reddit.com/submit?url=https%3a%2f%2fai.devops-monk.com%2f2026%2f09%2fautomation-and-scheduling%2f&title=Automation+%26+Scheduling" target=_blank rel=noopener class="share-btn share-reddit" title="Share on Reddit"><i class="fa-brands fa-reddit-alien"></i> Reddit</a></div><nav class=toc-widget><h3 class=toc-title><i class="fa-solid fa-list"></i> Contents</h3><div class=toc-links><nav id=TableOfContents><ul><li><a href=#overview>Overview</a></li><li><a href=#four-schedulers>Four schedulers</a><ul><li><a href=#narrow-it-down>Narrow it down</a></li></ul></li><li><a href=#loop><code>/loop</code></a><ul><li><a href=#letting-claude-choose>Letting Claude choose</a></li><li><a href=#the-maintenance-prompt>The maintenance prompt</a></li><li><a href=#stopping-and-the-seven-day-fuse>Stopping, and the seven-day fuse</a></li></ul></li><li><a href=#one-time-reminders>One-time reminders</a></li><li><a href=#jitter-or-why-9am-is-not-9am>Jitter, or why 9am is not 9am</a></li><li><a href=#routines>Routines</a><ul><li><a href=#the-payload-wrapper>The payload wrapper</a></li></ul></li><li><a href=#summary>Summary</a></li></ul></nav></div></nav><div id=tts-player class=tts role=region aria-label="Article audio player"><div class=tts-main><span class=tts-badge aria-hidden=true><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18" stroke-linecap="round" stroke-linejoin="round"><path d="M3 18v-6a9 9 0 0118 0v6"/><path d="M21 19a2 2 0 01-2 2h-1a2 2 0 01-2-2v-3a2 2 0 012-2h3z"/><path d="M3 19a2 2 0 002 2h1a2 2 0 002-2v-3a2 2 0 00-2-2H3z"/></svg></span><div class=tts-text><div class=tts-title>Listen to this article</div><div class=tts-status id=tts-status>Read aloud in your browser</div></div><div class=tts-actions><div class=tts-speed role=group aria-label="Playback speed"><button type=button data-rate=0.75>0.75&#215;</button>
+<button type=button data-rate=1 class=on>1&#215;</button>
+<button type=button data-rate=1.25>1.25&#215;</button>
+<button type=button data-rate=1.5>1.5&#215;</button></div><button class=tts-stop id=tts-stop title="Stop and reset" aria-label=Stop hidden>
+<svg viewBox="0 0 24 24" fill="currentColor" width="14" height="14"><rect x="6" y="6" width="12" height="12" rx="2"/></svg>
+</button>
+<button class=tts-play id=tts-play aria-label="Play article">
+<svg id="tts-play-icon" viewBox="0 0 24 24" fill="currentColor" width="16" height="16"><path d="M7 4l13 8-13 8z"/></svg>
+<svg id="tts-pause-icon" viewBox="0 0 24 24" fill="currentColor" width="16" height="16" hidden=""><rect x="6" y="4" width="4" height="16" rx="1.2"/><rect x="14" y="4" width="4" height="16" rx="1.2"/></svg>
+<span id=tts-play-text>Play</span></button></div></div><div class=tts-track><div class=tts-fill id=tts-progress-bar></div></div></div><script>document.addEventListener("DOMContentLoaded",function(){if(t=window.speechSynthesis,s=document.getElementById("tts-player"),!t||!s)return;var t,s,g=document.getElementById("tts-play"),y=document.getElementById("tts-play-text"),r=document.getElementById("tts-stop"),j=document.getElementById("tts-play-icon"),_=document.getElementById("tts-pause-icon"),b=document.getElementById("tts-status"),h=document.getElementById("tts-progress-bar"),u=s.querySelectorAll(".tts-speed button"),m=document.querySelector(".entry-content")||document.querySelector("article"),e=[],n=0,o=!1,f=1;function O(){if(!m){s.hidden=!0;return}var t=m.querySelectorAll("p, h2, h3, li, blockquote");e=Array.prototype.filter.call(t,function(e){return e.textContent.trim().length>15&&!e.closest("#tts-player")&&!e.closest("pre")&&!e.closest('[class*="-demo"], [class*="-calc"], [class*="-sim"], [class*="-explorer"], [class*="-check"]')}),e.length||(s.hidden=!0)}function c(e){b.textContent=e}function v(t){if(!e.length)return;h.style.width=Math.round(t/e.length*100)+"%"}function l(){var e=document.querySelectorAll(".tts-reading");Array.prototype.forEach.call(e,function(e){e.classList.remove("tts-reading")})}function d(e,t){t?e.setAttribute("hidden",""):e.removeAttribute("hidden")}function a(e){o=e,s.classList.toggle("is-playing",e),d(j,e),d(_,!e),y.textContent=e?"Pause":"Play",g.setAttribute("aria-label",e?"Pause article":"Play article"),r.hidden=!e&&n===0}function i(s){if(t.cancel(),l(),s>=e.length){a(!1),n=0,v(e.length),c("Finished");return}n=s;var r,d=e[s];d.classList.add("tts-reading"),d.scrollIntoView({behavior:"smooth",block:"center"}),r=new SpeechSynthesisUtterance(d.textContent.trim().replace(/\s+/g," ")),r.rate=f,r.pitch=1,r.lang="en-US",v(s+1),c("Section "+(s+1)+" of "+e.length+" · "+Math.round((s+1)/e.length*100)+"%"),r.onend=function(){d.classList.remove("tts-reading"),o&&i(s+1)},r.onerror=function(){d.classList.remove("tts-reading"),o&&i(s+1)},t.speak(r)}function w(){a(!0),i(n)}function p(){a(!1),t.cancel(),l(),c("Paused · section "+(n+1)+" of "+e.length),r.hidden=!1}function x(){n=0,a(!1),t.cancel(),l(),h.style.width="0%",c("Read aloud in your browser"),r.hidden=!0}g.addEventListener("click",function(){o?p():w()}),r.addEventListener("click",x),Array.prototype.forEach.call(u,function(e){e.addEventListener("click",function(){Array.prototype.forEach.call(u,function(e){e.classList.remove("on")}),this.classList.add("on"),f=parseFloat(this.getAttribute("data-rate")),o&&i(n)})}),window.addEventListener("beforeunload",function(){t.cancel()}),document.addEventListener("visibilitychange",function(){document.hidden&&o&&p()}),O()})</script><div class=entry-content><h2 id=overview>Overview</h2><p>This chapter covers:</p><ul><li>Four schedulers, separated by three constraints — machine on, session open, minimum interval</li><li><code>/loop</code> in all three forms, including the one where Claude picks its own interval</li><li>The <strong>7-day expiry</strong> that bounds how long a forgotten loop can run</li><li>Routines, their three trigger types, and the wrapper that keeps a leaked token from becoming an instruction</li><li>Why jitter means your 9am job is not a 9am job</li></ul><h2 id=four-schedulers>Four schedulers</h2><p>They differ on three questions: does your machine need to be on, does a session need to be open, and how often can it run?</p><table><thead><tr><th></th><th><strong>Routines</strong> (cloud)</th><th><strong>Desktop tasks</strong></th><th><strong><code>/loop</code></strong></th><th><strong>GitHub Actions</strong></th></tr></thead><tbody><tr><td>Runs on</td><td>Anthropic&rsquo;s cloud</td><td>Your machine</td><td>Your machine</td><td>CI runners</td></tr><tr><td>Machine on?</td><td><strong>No</strong></td><td>Yes</td><td>Yes</td><td>No</td></tr><tr><td>Session open?</td><td>No</td><td>No</td><td><strong>Yes</strong></td><td>No</td></tr><tr><td>Local files</td><td>No — a fresh clone</td><td><strong>Yes</strong></td><td><strong>Yes</strong></td><td>The checkout</td></tr><tr><td>Permission prompts</td><td>None — fully autonomous</td><td>Configurable</td><td>Inherits the session</td><td>None</td></tr><tr><td>Minimum interval</td><td><strong>1 hour</strong></td><td>1 minute</td><td>1 minute</td><td>Cron</td></tr></tbody></table><p>The one-line version: <strong>cloud for work that must happen, desktop for work that needs your machine, <code>/loop</code> for watching something while you work.</strong></p><h3 id=narrow-it-down>Narrow it down</h3><div class=sc-box><span class=sc-lbl>Tick what your task needs</span><div class=sc-cons id=sc-cons></div><div class=sc-opts id=sc-opts></div></div><script>(function(){n=[{k:"off",l:"Runs with my machine off"},{k:"files",l:"Needs local files or tools"},{k:"closed",l:"Runs with no session open"},{k:"fast",l:"More often than hourly"},{k:"repo",l:"Triggered by a repo event"}],s=[{k:"loop",n:"/loop",d:"In-session polling while you work.",fails:{off:"needs your machine on",closed:"only fires while a session is open and idle",repo:"polls; it cannot be triggered by an event"},note:"Expires after 7 days. Background the session to keep it alive without a terminal."},{k:"desktop",n:"Desktop scheduled task",d:"Local, survives restarts, no session needed.",fails:{off:"needs your machine on",repo:"runs on a clock, not on repo events"},note:"The only option that has your local files and does not need a session open."},{k:"routine",n:"Routine (cloud)",d:"Anthropic-managed. Schedule, API call, or GitHub event.",fails:{files:"runs on a fresh clone, with no access to your machine",fast:"minimum interval is one hour"},note:"Fully autonomous — no permission prompts, and every connector included by default."},{k:"gha",n:"GitHub Actions",d:"A workflow in your own CI.",fails:{files:"has the checkout, not your machine",fast:"GitHub schedules are coarse and unreliable at short intervals"},note:"Chapter 16. Best when the work already belongs next to your workflow config."}],e={},n.forEach(function(t){e[t.k]=!1});var e,n,s,o=document.getElementById("sc-cons"),a=document.getElementById("sc-opts");function t(e){return String(e).replace(/[&<>]/g,function(e){return{"&":"&amp;","<":"&lt;",">":"&gt;"}[e]})}function i(){o.innerHTML=n.map(function(n){return'<label class="sc-con'+(e[n.k]?" on":"")+'"><input type="checkbox" data-k="'+n.k+'"'+(e[n.k]?" checked":"")+" />"+t(n.l)+"</label>"}).join("");var r=0;a.innerHTML=s.map(function(s){var i=n.filter(function(t){return e[t.k]&&s.fails[t.k]}),o=i.length===0;return o&&r++,'<div class="sc-opt'+(o?" ok":" out")+'"><span class="sc-on">'+t(s.n)+'</span><span class="sc-od">'+t(s.d)+"</span>"+(o?'<span class="sc-note">'+t(s.note)+"</span>":'<span class="sc-x">Ruled out: '+i.map(function(e){return t(s.fails[e.k])}).join("; ")+"</span>")+"</div>"}).join("")+(r===0?'<p class="sc-none">Nothing survives those constraints together. The usual culprit is wanting sub-hourly runs with your machine off — pick one.</p>':""),Array.prototype.forEach.call(o.querySelectorAll("input"),function(t){t.addEventListener("change",function(){e[t.getAttribute("data-k")]=t.checked,i()})})}i()})()</script><h2 id=loop><code>/loop</code></h2><p>The bundled skill that re-runs a prompt while your session stays open. Both arguments are optional, and what you leave out changes the behaviour:</p><table><thead><tr><th>You give</th><th>Example</th><th>You get</th></tr></thead><tbody><tr><td>Interval and prompt</td><td><code>/loop 5m check the deploy</code></td><td>A fixed cron schedule</td></tr><tr><td>Prompt only</td><td><code>/loop check the deploy</code></td><td><strong>Claude picks the interval</strong> each iteration</td></tr><tr><td>Neither</td><td><code>/loop</code></td><td>The built-in maintenance prompt</td></tr></tbody></table><p>You can loop a skill too — <code>/loop 20m /review-pr 1234</code>.</p><blockquote><p>A scheduled fire only runs skills <strong>Claude is allowed to invoke on its own</strong> (Chapter 11). A built-in command, a <code>disable-model-invocation: true</code> skill, or one hidden by <code>skillOverrides</code> reaches Claude as plain text instead of executing. It looks like the loop ignored you.</p></blockquote><h3 id=letting-claude-choose>Letting Claude choose</h3><p>Omit the interval and Claude picks one between one minute and an hour <em>after each iteration</em>, based on what it just saw — short waits while a build is moving, longer ones once a PR goes quiet. It prints the delay it chose and why.</p><p>That is usually better than a fixed interval, because the right cadence for &ldquo;is CI done&rdquo; changes as CI progresses. And if the Monitor tool is available, Claude may use it instead — streaming a background script&rsquo;s output rather than polling at all, which is both more responsive and cheaper.</p><h3 id=the-maintenance-prompt>The maintenance prompt</h3><p>Bare <code>/loop</code> runs a built-in prompt that works through, in order: <strong>finish unfinished work from the conversation</strong>, then <strong>tend the current branch&rsquo;s PR</strong> — review comments, failed CI, merge conflicts — then <strong>cleanup passes</strong> when nothing is pending.</p><p>The constraint that makes it safe to leave running:</p><blockquote><p><strong>It starts no new initiatives, and irreversible actions like pushing or deleting only proceed when they continue something the transcript already authorised.</strong></p></blockquote><p>That is a meaningfully different posture from &ldquo;autonomous mode&rdquo;. It will finish your thought; it will not have its own.</p><p>Replace it with your own default by writing <code>loop.md</code> — <code>.claude/loop.md</code> for the project (which wins) or <code>~/.claude/loop.md</code> for you everywhere. Plain Markdown, written as if you were typing the prompt. <strong>Edits take effect on the next iteration</strong>, so you can steer a running loop by saving the file.</p><h3 id=stopping-and-the-seven-day-fuse>Stopping, and the seven-day fuse</h3><p><code>Esc</code> while a self-paced loop is waiting clears the pending wakeup. In self-paced mode Claude can also stop on its own when the task is done. Fixed-interval loops run until you cancel them — or until the fuse burns down:</p><blockquote><p><strong>Recurring tasks expire 7 days after creation.</strong> They fire one final time, then delete themselves.</p></blockquote><p>That bounds how long a forgotten loop can run, which is the right default for something you started to watch a deploy three Tuesdays ago. If you need longer, recreate it — or you wanted a routine.</p><p>Three more limits worth knowing: tasks fire <strong>only while Claude Code is running and idle</strong>; there is <strong>no catch-up</strong> for fires missed while Claude was busy — one fire when it goes idle, not one per missed interval; and <strong>a fresh conversation clears them</strong>, while <code>--resume</code> restores the unexpired ones. Backgrounding the session carries <code>/loop</code> tasks over, which is the way to keep one alive without a terminal.</p><p>A session holds up to 50 scheduled tasks. <code>CLAUDE_CODE_DISABLE_CRON=1</code> turns the whole scheduler off.</p><h2 id=one-time-reminders>One-time reminders</h2><p>No command needed — describe it:</p><div class=highlight><pre tabindex=0 style=color:#d8dee9;background-color:#2e3440;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-text data-lang=text><span style=display:flex><span>remind me at 3pm to push the release branch
+</span></span><span style=display:flex><span>in 45 minutes, check whether the integration tests passed
+</span></span></code></pre></div><p>Claude pins it to a cron minute and confirms the time.</p><h2 id=jitter-or-why-9am-is-not-9am>Jitter, or why 9am is not 9am</h2><p>A detail that will otherwise confuse you once:</p><blockquote><p><strong>Recurring tasks fire up to 30 minutes after their scheduled time.</strong> One-shots at the top or bottom of the hour fire up to 90 seconds <em>early</em>.</p></blockquote><p>This is deliberate — it stops every session on earth hitting the API at <code>:00</code>. The offset comes from the task ID, so it is stable per task. If exact timing matters, <strong>schedule at a minute that is not <code>:00</code> or <code>:30</code></strong>: <code>3 9 * * *</code> rather than <code>0 9 * * *</code>, and the one-shot jitter does not apply.</p><h2 id=routines>Routines</h2><p>Work that must happen whether or not your laptop is open. A routine is a saved prompt, one or more repositories, and a set of connectors, running as a full Claude Code cloud session — <strong>autonomously, with no permission prompts at all.</strong></p><p>Three trigger types, combinable on one routine:</p><table><thead><tr><th>Trigger</th><th>Fires on</th></tr></thead><tbody><tr><td><strong>Schedule</strong></td><td>A recurring cadence, minimum <strong>one hour</strong>, or once at a future time</td></tr><tr><td><strong>API</strong></td><td>A POST to a per-routine endpoint with a bearer token</td></tr><tr><td><strong>GitHub</strong></td><td>Repository events — pull requests and releases, with filters</td></tr></tbody></table><p><code>/schedule</code> creates them from the CLI: <code>/schedule daily PR review at 9am</code>, or <code>/schedule in 2 weeks, open a cleanup PR that removes the feature flag</code>. Available on Pro, Max, Team and Enterprise, and it needs a <strong>claude.ai login</strong> — an API key or a cloud provider hides the command entirely.</p><p>Because a run is autonomous, scope it deliberately. Every connector on your account is included <strong>by default</strong>; remove the ones it does not need, because Claude can use every tool from an included connector, writes included, without asking. Claude pushes to <code>claude/</code>-prefixed branches; a push elsewhere is rejected if the branch is protected, has someone else&rsquo;s open PR, or carries someone else&rsquo;s commits.</p><h3 id=the-payload-wrapper>The payload wrapper</h3><p>The best-designed detail in this chapter, and it generalises:</p><blockquote><p>Text you POST with a trigger <strong>does not arrive as a message.</strong> It comes wrapped in a <code>&lt;routine-fire-payload></code> block labelled untrusted, with instructions not to follow anything inside it unless the routine&rsquo;s own prompt says to.</p></blockquote><p>So a routine has to <strong>opt in</strong> — &ldquo;investigate the alert described in the routine-fire-payload block&rdquo; — or the text is inert context. Anyone holding the bearer token can send that field, and the wrapper is what makes a leaked token deliver <em>data</em> rather than <em>instructions</em>.</p><p>Note the deliberate asymmetry with the saved prompt itself: <strong>that</strong> is treated as a real assigned task, because it was stored ahead of time by an authorised session on your account. Same run, two different trust levels, drawn exactly where the authorisation is.</p><h2 id=summary>Summary</h2><ul><li>Four schedulers, separated by <strong>machine on, session open, minimum interval</strong>.</li><li><code>/loop</code> has three forms; omitting the interval lets <strong>Claude choose one each iteration</strong>, which usually beats a fixed cadence.</li><li>Bare <code>/loop</code> runs a maintenance prompt that <strong>starts no new initiatives</strong> and only takes irreversible actions the transcript already authorised.</li><li><code>loop.md</code> replaces that default, and <strong>edits apply on the next iteration</strong>.</li><li><strong>Recurring tasks expire after 7 days</strong>, fire only while the session is idle, and do not catch up on missed fires.</li><li><strong>Jitter means a recurring task can fire up to 30 minutes late.</strong> Schedule off <code>:00</code> and <code>:30</code> if timing matters.</li><li>Routines run in the cloud with <strong>no permission prompts</strong> and every connector included by default — remove what you do not need.</li><li><strong>A routine&rsquo;s fire text arrives wrapped as untrusted data</strong>; the saved prompt does not. The line is drawn at who authorised it.</li><li>Full reference: <a href=https://code.claude.com/docs/en/scheduled-tasks>scheduled tasks</a>, <a href=https://code.claude.com/docs/en/routines>routines</a>, <a href=https://code.claude.com/docs/en/desktop-scheduled-tasks>desktop scheduled tasks</a>.</li></ul><p>Chapter 20 closes Part 5 with the surfaces themselves: every place Claude Code runs, and what changes between them.</p></div><div class=social-share-bar><span class=share-label>Share:</span>
+<a href="https://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2fai.devops-monk.com%2f2026%2f09%2fautomation-and-scheduling%2f&title=Automation+%26+Scheduling" target=_blank rel=noopener class="share-btn share-linkedin" title="Share on LinkedIn"><i class="fa-brands fa-linkedin-in"></i> LinkedIn
+</a><a href="https://twitter.com/intent/tweet?url=https%3a%2f%2fai.devops-monk.com%2f2026%2f09%2fautomation-and-scheduling%2f&text=Automation+%26+Scheduling" target=_blank rel=noopener class="share-btn share-twitter" title="Share on Twitter / X"><i class="fa-brands fa-x-twitter"></i> X
+</a><a href="https://www.reddit.com/submit?url=https%3a%2f%2fai.devops-monk.com%2f2026%2f09%2fautomation-and-scheduling%2f&title=Automation+%26+Scheduling" target=_blank rel=noopener class="share-btn share-reddit" title="Share on Reddit"><i class="fa-brands fa-reddit-alien"></i> Reddit</a></div></div></article><nav class=series-nav aria-label="Chapter navigation"><a class="series-nav-link series-nav-prev" href=/2026/09/agent-teams-and-parallel-work/ rel=prev><span class=series-nav-dir>&larr; Previous</span>
+<span class=series-nav-ch>Part 5 — Agents & Autonomy · Ch 2</span>
+<span class=series-nav-title>Agent Teams & Parallel Work</span>
+</a><span class="series-nav-link is-empty" aria-hidden=true></span></nav></main></section><section id=secondary class="sidebar widget-area clearfix" role=complementary><aside id=search class="widget clearfix"><div class=widget-header><h3 class=widget-title>Search</h3></div><form onsubmit=return!1><input id=search-query type=text placeholder="Search posts..." autocomplete=off>
+<button id=search-btn type=button><i class="fa-solid fa-magnifying-glass"></i></button></form><div id=search-results></div></aside><aside id=rss-subscribe class="widget clearfix"><div class=widget-header><h3 class=widget-title>Subscribe</h3></div><a href=/index.xml class=rss-subscribe-btn target=_blank rel=noopener><i class="fa-solid fa-rss"></i> Subscribe via RSS</a></aside><aside id=recent-posts class="widget clearfix"><div class=widget-header><h3 class=widget-title>Recent Posts</h3></div><ul><li class=widget__item><a class=widget__link href=/2026/09/automation-and-scheduling/>Automation & Scheduling</a></li><li class=widget__item><a class=widget__link href=/2026/09/agent-teams-and-parallel-work/>Agent Teams & Parallel Work</a></li><li class=widget__item><a class=widget__link href=/2026/09/subagents/>Sub-Agents</a></li><li class=widget__item><a class=widget__link href=/2026/09/github-gitlab-and-ci/>GitHub, GitLab & CI</a></li><li class=widget__item><a class=widget__link href=/2026/09/mcp-in-practice/>MCP in Practice</a></li></ul></aside><aside id=categories class="widget clearfix"><div class=widget-header><h3 class=widget-title>Categories</h3></div><ul><li><a href=/categories/fundamentals/ title=fundamentals>fundamentals</a></li></ul></aside><aside id=tag_cloud class="widget widget_tag_cloud clearfix"><div class=widget-header><h3 class=widget-title>Tags</h3></div><div class=tagcloud><div class=widget__content><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/agent-teams/ title=agent-teams>agent-teams
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/agent-view/ title=agent-view>agent-view
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/agents/ title=agents>agents
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/auto-memory/ title=auto-memory>auto-memory
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/auto-mode/ title=auto-mode>auto-mode
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/automation/ title=automation>automation
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/browser-automation/ title=browser-automation>browser-automation
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/checkpointing/ title=checkpointing>checkpointing
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/chrome/ title=chrome>chrome
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/ci/ title=ci>ci
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/classifier/ title=classifier>classifier
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/claude-code/ title=claude-code>claude-code
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/claude-md/ title=claude-md>claude-md
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/cli/ title=cli>cli
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/commands/ title=commands>commands
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/compaction/ title=compaction>compaction
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/configuration/ title=configuration>configuration
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/context-engineering/ title=context-engineering>context-engineering
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/context-window/ title=context-window>context-window
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/conventions/ title=conventions>conventions
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/costs/ title=costs>costs
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/customisation/ title=customisation>customisation
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/delegation/ title=delegation>delegation
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/distribution/ title=distribution>distribution
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/getting-started/ title=getting-started>getting-started
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/git/ title=git>git
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/github-actions/ title=github-actions>github-actions
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/headless/ title=headless>headless
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/hooks/ title=hooks>hooks
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/integrations/ title=integrations>integrations
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/lifecycle/ title=lifecycle>lifecycle
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/llm/ title=llm>llm
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/loop/ title=loop>loop
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/marketplaces/ title=marketplaces>marketplaces
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/mcp/ title=mcp>mcp
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/memory/ title=memory>memory
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/model-config/ title=model-config>model-config
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/monorepo/ title=monorepo>monorepo
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/oauth/ title=oauth>oauth
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/orchestration/ title=orchestration>orchestration
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/output-styles/ title=output-styles>output-styles
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/packaging/ title=packaging>packaging
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/parallel/ title=parallel>parallel
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/permissions/ title=permissions>permissions
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/plugins/ title=plugins>plugins
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/precedence/ title=precedence>precedence
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/progressive-disclosure/ title=progressive-disclosure>progressive-disclosure
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/prompt-caching/ title=prompt-caching>prompt-caching
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/rewind/ title=rewind>rewind
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/routines/ title=routines>routines
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/rules/ title=rules>rules
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/sandboxing/ title=sandboxing>sandboxing
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/scheduling/ title=scheduling>scheduling
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/security/ title=security>security
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/sessions/ title=sessions>sessions
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/settings/ title=settings>settings
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/skills/ title=skills>skills
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/subagents/ title=subagents>subagents
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/system-prompt/ title=system-prompt>system-prompt
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/terminal/ title=terminal>terminal
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/tool-search/ title=tool-search>tool-search
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/tools/ title=tools>tools
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/workflows/ title=workflows>workflows</a></div></div></aside></section></div><div id=footer class=footer-wrap><footer id=colophon class="site-footer container clearfix" role=contentinfo><div id=footer-text class=site-info><span class=credit-link><a href=/>AI Engineering by Abhay</a>
+Copyright © 2026
+</span><span class=footer-rss><a href=/index.xml title="RSS Feed" target=_blank rel=noopener><i class="fa-solid fa-rss"></i> RSS Feed</a></span></div></footer></div></div><script type=text/javascript src=/assets/js/custom.js></script></body></html>

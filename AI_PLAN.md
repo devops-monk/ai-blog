@@ -20,7 +20,7 @@ A 23-chapter tutorial that takes a reader from "I installed it" to genuine exper
 | 6 | CLAUDE.md | Context Engineering | ✅ [Published](https://ai.devops-monk.com/2026/09/claude-md/) |
 | 7 | Rules & Auto Memory | Context Engineering | ✅ [Published](https://ai.devops-monk.com/2026/09/rules-and-auto-memory/) |
 | 8 | The Context Window | Context Engineering | ✅ [Published](https://ai.devops-monk.com/2026/09/context-window/) |
-| 9 | Sessions, Checkpoints & Rewind | Context Engineering | ⬜ Not started |
+| 9 | Sessions, Checkpoints & Rewind | Context Engineering | ✅ [Published](https://ai.devops-monk.com/2026/09/sessions-checkpoints-rewind/) |
 | 10 | Output Styles | Teaching New Tricks | ⬜ Not started |
 | 11 | Skills | Teaching New Tricks | ⬜ Not started |
 | 12 | Hooks | Teaching New Tricks | ⬜ Not started |
@@ -191,7 +191,7 @@ The source deck predates the current documentation. These must be written correc
 | Voice dictation is hold-`Space` | Two modes, hold and tap, and `voice:pushToTalk` is rebindable |
 | Plan mode cannot run bash commands | It runs them. When auto mode is available and `useAutoModeDuringPlan` is on (the default), the classifier reviews shell commands during planning and approved ones run |
 
-Unverified deck claims to confirm while writing the relevant chapter: checkpoint expiry, the `--worktree` flag, and `/loop` task expiry. **Resolved:** voice dictation has hold and tap modes (Ch 2); `MEMORY.md` lives at `~/.claude/projects/<project>/memory/` and only its first 200 lines or 25KB load (Ch 7).
+Unverified deck claims to confirm while writing the relevant chapter: the `--worktree` flag and `/loop` task expiry. **Resolved:** voice dictation has hold and tap modes (Ch 2); `MEMORY.md` lives at `~/.claude/projects/<project>/memory/` and only its first 200 lines or 25KB load (Ch 7); checkpoints keep snapshots for the 100 most recent per session and are swept with transcripts after `cleanupPeriodDays`, 30 days by default (Ch 9).
 
 Areas the deck never mentions, all in scope: plugins and marketplaces, agent teams, agent view, cross-session messaging, dynamic workflows, routines, artifacts, channels, `/goal`, sandboxing, sandbox environments, GitLab CI/CD, code review, model configuration, fast mode, the advisor tool, cost and monitoring, security and enterprise deployment, large codebases, and the Agent SDK.
 

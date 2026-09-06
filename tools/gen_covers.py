@@ -356,6 +356,33 @@ def art_fill():
     return f'<svg width="640" height="420" viewBox="0 0 640 420">{"".join(out)}</svg>'
 
 
+def art_rewind():
+    """A timeline rewound: tool edits come back, bash and subagent edits don't."""
+    out = []
+    out.append(f'<path d="M70 200 L560 200" stroke="{FAINT}" stroke-width="2"/>')
+    marks = [
+        ("prompt", 110, PURPLE, True), ("edit", 176, BLUE, True),
+        ("bash", 258, AMBER, False), ("sub", 340, PINK, False), ("edit", 424, BLUE, True),
+    ]
+    for kind, x, col, tracked in marks:
+        out.append(f'<circle cx="{x}" cy="200" r="8" fill="{col}" opacity="{".85" if tracked else ".4"}"/>')
+        if not tracked:
+            # Untracked edits stay on disk, so they sit below the line.
+            out.append(f'<path d="M{x} 208 L{x} 248" stroke="{col}" stroke-opacity=".55" stroke-dasharray="3 3"/>')
+            out.append(f'<text x="{x}" y="266" fill="{col}" font-size="12" text-anchor="middle" opacity=".8">stays</text>')
+        else:
+            out.append(f'<path d="M{x} 192 L{x} 156" stroke="{col}" stroke-opacity=".55" stroke-dasharray="3 3"/>')
+            out.append(f'<text x="{x}" y="146" fill="{col}" font-size="12" text-anchor="middle" opacity=".8">reverts</text>')
+    # The rewind target, and the arc back to it.
+    out.append(f'<path d="M176 200 L176 200" stroke="{GREEN}"/>')
+    out.append(f'<path d="M424 96 Q300 62 180 96" fill="none" stroke="{GREEN}" stroke-opacity=".8" stroke-width="1.8"/>')
+    out.append(f'<path d="M6 -5 L-6 0 L6 5 Z" fill="{GREEN}" opacity=".9" transform="translate(178 96)"/>')
+    out.append(f'<text x="300" y="52" fill="{GREEN}" font-size="14" text-anchor="middle" opacity=".85">/rewind</text>')
+    out.append(f'<text x="70" y="330" fill="{DIM}" font-size="14">bash and subagent edits survive the rewind</text>')
+    out.append(f'<text x="70" y="352" fill="{DIM}" font-size="14">git is still the backstop</text>')
+    return f'<svg width="640" height="420" viewBox="0 0 640 420">{"".join(out)}</svg>'
+
+
 COVERS = [
     # (slug, badge, title with <br>, title font size, tagline, mono caption, motif)
     ("cc-01-what-claude-code-is", "PART 1 · CH 1", "What Claude Code<br>Actually Is", 54,
@@ -382,6 +409,9 @@ COVERS = [
     ("cc-08-context-window", "PART 2 · CH 8", "The Context<br>Window", 60,
      "The budget every other chapter spends, and what compaction keeps.",
      "each model has its own <i>cache</i>", art_fill),
+    ("cc-09-sessions-checkpoints", "PART 2 · CH 9", "Sessions, Checkpoints<br>&amp; Rewind", 46,
+     "Resume, branch, rewind — and the four changes rewind cannot undo.",
+     "checkpoints are not <i>version control</i>", art_rewind),
     ("hello-transformers", "PART 1 · CH 1", "How a Transformer<br>Actually Predicts", 54,
      "One token at a time, and everything else follows from that.",
      "the model outputs a <i>distribution</i>, not a word", art_tokens),

@@ -279,6 +279,32 @@ def art_stack():
     return f'<svg width="640" height="420" viewBox="0 0 640 420">{"".join(out)}</svg>'
 
 
+def art_layers():
+    """Instruction files stacking into one context, most specific last."""
+    out = []
+    files = [
+        ("/etc/claude-code/CLAUDE.md", PINK, 74),
+        ("~/.claude/CLAUDE.md", AMBER, 128),
+        ("repo/CLAUDE.md", BLUE, 182),
+        ("services/api/CLAUDE.md", BLUE, 236),
+        ("CLAUDE.local.md", PURPLE, 290),
+    ]
+    for i, (label, col, y) in enumerate(files):
+        # Each file is offset a little further right: deeper scope, later read.
+        x = 60 + i * 18
+        out.append(f'<rect x="{x}" y="{y-19}" width="300" height="38" rx="7" fill="{col}" '
+                   f'opacity=".13" stroke="{col}" stroke-opacity=".6"/>')
+        out.append(f'<text x="{x+16}" y="{y+5}" fill="#c9c2e4" font-size="13.5" '
+                   f'font-family="ui-monospace,monospace">{label}</text>')
+    out.append(f'<path d="M470 74 L470 330" stroke="{FAINT}" stroke-width="1.6" stroke-dasharray="4 5"/>')
+    for _, col, y in files:
+        out.append(f'<path d="M400 {y} L468 {y}" stroke="{col}" stroke-opacity=".5" stroke-width="1.4"/>')
+    out.append(f'<circle cx="470" cy="330" r="7" fill="{GREEN}"/>')
+    out.append(f'<text x="60" y="352" fill="{DIM}" font-size="14">concatenated, not overridden</text>')
+    out.append(f'<text x="60" y="374" fill="{DIM}" font-size="14">closest to you is read last</text>')
+    return f'<svg width="640" height="420" viewBox="0 0 640 420">{"".join(out)}</svg>'
+
+
 COVERS = [
     # (slug, badge, title with <br>, title font size, tagline, mono caption, motif)
     ("cc-01-what-claude-code-is", "PART 1 · CH 1", "What Claude Code<br>Actually Is", 54,
@@ -296,6 +322,9 @@ COVERS = [
     ("cc-05-settings", "PART 2 · CH 5", "Settings:<br>the Control Panel", 54,
      "Four files, one precedence stack, and the keys that break its rules.",
      "your team's file <i>outranks</i> your own", art_stack),
+    ("cc-06-claude-md", "PART 2 · CH 6", "CLAUDE.md", 68,
+     "The file that stops you re-explaining your project every session.",
+     "it is <i>context</i>, not configuration", art_layers),
     ("hello-transformers", "PART 1 · CH 1", "How a Transformer<br>Actually Predicts", 54,
      "One token at a time, and everything else follows from that.",
      "the model outputs a <i>distribution</i>, not a word", art_tokens),

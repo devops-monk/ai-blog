@@ -31,7 +31,7 @@ What the thing is, how you talk to it, and how to stop it doing something you'll
 The context window is the budget everything else spends. This part is about spending it well.
 
 5. [Settings: the Control Panel](/2026/09/claude-code-settings/) — the four settings files and what each reaches, the precedence stack, the keys that merge or run backwards through it, and how to find out which file is beating yours.
-6. CLAUDE.md
+6. [CLAUDE.md](/2026/09/claude-md/) — every location it can live and how several files concatenate rather than override, `@path` imports and their limits, why it is context rather than configuration, and the test for whether an instruction belongs in it at all.
 7. Rules & Auto Memory
 8. The Context Window
 9. Sessions, Checkpoints & Rewind

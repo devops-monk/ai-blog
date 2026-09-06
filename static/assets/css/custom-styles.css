@@ -2552,3 +2552,91 @@ body.dz-open { overflow: hidden; }
   .sp-val { width: 8.5em; }
   .sp-mark { display: none; }
 }
+
+/* ------------------------------------------------------------------
+   Instruction router (Chapter 6). Pick an instruction, see which of the
+   four mechanisms it belongs in and how to write it.
+   ------------------------------------------------------------------ */
+.wb-box {
+  display: flex;
+  gap: 1rem;
+  margin: 1.5rem 0;
+  padding: 1rem 1.1rem 1.1rem;
+  background: var(--bg-alt, #f8fafc);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+}
+
+.wb-list { flex: 0 0 15rem; display: flex; flex-direction: column; gap: 0.28rem; }
+
+.wb-item {
+  padding: 0.42rem 0.6rem;
+  font-size: 0.79rem;
+  line-height: 1.35;
+  text-align: left;
+  color: var(--text-muted);
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  cursor: pointer;
+}
+.wb-item:hover { border-color: var(--primary); color: var(--text); }
+.wb-item.on { color: var(--text); border-color: var(--primary); border-left-width: 3px; font-weight: 600; }
+
+.wb-panel { flex: 1 1 auto; min-width: 0; }
+
+.wb-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.5rem; }
+
+.wb-tag {
+  padding: 0.15rem 0.55rem;
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  font-weight: 700;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+.wb-c { color: #5b21b6; background: #ede9fe; }
+.wb-r { color: #155e75; background: #cffafe; }
+.wb-s { color: #14532d; background: #dcfce7; }
+.wb-h { color: #854d0e; background: #fef3c7; }
+
+.wb-dnote { font-size: 0.74rem; color: var(--text-muted); }
+.wb-why { margin: 0.6rem 0 0; font-size: 0.85rem; line-height: 1.55; }
+.wb-ok { margin: 0.6rem 0 0; font-size: 0.82rem; color: var(--text-muted); font-style: italic; }
+
+.wb-fix { margin-top: 0.7rem; }
+.wb-fixlbl {
+  display: block;
+  margin-bottom: 0.25rem;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+.wb-fix pre {
+  margin: 0;
+  padding: 0.55rem 0.7rem;
+  font-size: 0.76rem;
+  line-height: 1.5;
+  white-space: pre-wrap;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow-x: auto;
+}
+
+[data-theme="dark"] .wb-box { background: #1e293b !important; border-color: #334155 !important; }
+[data-theme="dark"] .wb-item,
+[data-theme="dark"] .wb-fix pre { color: #94a3b8 !important; background: #0f172a !important; border-color: #334155 !important; }
+[data-theme="dark"] .wb-item.on, [data-theme="dark"] .wb-item:hover { color: #e2e8f0 !important; border-color: var(--primary) !important; }
+[data-theme="dark"] .wb-fix pre { color: #cbd5e1 !important; }
+[data-theme="dark"] .wb-c { color: #ddd6fe !important; background: #4c1d95 !important; }
+[data-theme="dark"] .wb-r { color: #a5f3fc !important; background: #164e63 !important; }
+[data-theme="dark"] .wb-s { color: #bbf7d0 !important; background: #14532d !important; }
+[data-theme="dark"] .wb-h { color: #fde68a !important; background: #713f12 !important; }
+
+@media only screen and (max-width: 40em) {
+  .wb-box { flex-direction: column; gap: 0.85rem; padding: 0.8rem 0.85rem 0.9rem; }
+  .wb-list { flex: 1 1 auto; }
+}

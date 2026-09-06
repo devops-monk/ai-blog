@@ -71,7 +71,7 @@ What it costs, how it's secured, and what to do at 2am when it won't behave.
 
 ## Closing
 
-23. Becoming an Expert
+23. [Becoming an Expert](/2026/09/becoming-an-expert/) — one repository configured end to end in the order that makes each layer cheap, the guidance-or-guarantee question underneath every decision here, the habits that matter more than the files, and where the road goes after the CLI.
 
 ---
 

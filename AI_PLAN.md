@@ -14,6 +14,10 @@ Write **from the deck's coverage, in our own words**. The deck is a paid third-p
 
 ## Status
 
+**All 23 chapters published.** The deck audit is closed and every chapter is verified against the
+documentation as of writing. What remains is maintenance: re-check the known-corrections table against
+the changelog, and revisit any chapter whose behaviour a release changes.
+
 | # | Chapter | Part | Status |
 |---|---|---|---|
 | 1 | What Claude Code Actually Is | Foundations | ✅ [Published](https://ai.devops-monk.com/2026/09/what-claude-code-actually-is/) |
@@ -38,7 +42,7 @@ Write **from the deck's coverage, in our own words**. The deck is a paid third-p
 | 20 | Claude Code Everywhere | Agents & Autonomy | ✅ [Published](https://ai.devops-monk.com/2026/09/claude-code-everywhere/) |
 | 21 | Cost, Monitoring & Security | Running It for Real | ✅ [Published](https://ai.devops-monk.com/2026/09/cost-monitoring-and-security/) |
 | 22 | When It Goes Wrong | Running It for Real | ✅ [Published](https://ai.devops-monk.com/2026/09/when-it-goes-wrong/) |
-| 23 | Becoming an Expert | Closing | ⬜ Not started |
+| 23 | Becoming an Expert | Closing | ✅ [Published](https://ai.devops-monk.com/2026/09/becoming-an-expert/) |
 
 ---
 
@@ -173,7 +177,7 @@ VS Code, JetBrains, desktop, web, mobile, Remote Control, `--cloud` / `--telepor
 
 **23. Becoming an Expert**
 A capstone: configure one repository end to end — CLAUDE.md, rules, skills, hooks, permissions, MCP, subagents, CI — then a self-audit checklist, the Agent SDK as the next frontier, and where to keep reading.
-*Interactive:* setup checklist
+*Interactive:* setup audit — 18 checks across five layers, each linked to its chapter, with a tier verdict and localStorage persistence. Docs-only chapter; synthesises 1–22 and adds the Agent SDK.
 
 ---
 

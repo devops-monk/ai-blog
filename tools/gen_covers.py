@@ -710,6 +710,31 @@ def art_triage():
     return f'<svg width="640" height="420" viewBox="0 0 640 420">{"".join(out)}</svg>'
 
 
+def art_ascent():
+    """Seven layers, bottom up. Each one is cheaper once the last exists."""
+    out = []
+    layers = [("permissions", GREEN, "#d9efdf"), ("CLAUDE.md", GREEN, "#d9efdf"),
+              ("rules", BLUE, "#dbe4fb"), ("skills", BLUE, "#dbe4fb"),
+              ("hooks", PURPLE, "#eae4fb"), ("MCP", PINK, "#f3d9e6"),
+              ("subagents, CI", PINK, "#f3d9e6")]
+    for i, (label, colour, ink) in enumerate(layers):
+        y = 330 - i * 40
+        w = 300 - i * 22
+        x = 60 + i * 22
+        out.append(f'<rect x="{x}" y="{y-26}" width="{w}" height="30" rx="6" fill="{colour}" opacity=".2" '
+                   f'stroke="{colour}" stroke-opacity=".62"/>')
+        out.append(f'<text x="{x + 14}" y="{y-6}" fill="{ink}" font-size="13" '
+                   f'font-family="ui-monospace,monospace">{label}</text>')
+    out.append(f'<path d="M424 328 L424 62" stroke="{DIM}" stroke-opacity=".45" stroke-width="1.2"/>')
+    out.append(f'<path d="M424 62 L419 74 M424 62 L429 74" stroke="{DIM}" stroke-opacity=".45" stroke-width="1.2"/>')
+    out.append(f'<text x="440" y="200" fill="{DIM}" font-size="13" '
+               f'font-family="ui-monospace,monospace">build</text>')
+    out.append(f'<text x="440" y="218" fill="{DIM}" font-size="13" '
+               f'font-family="ui-monospace,monospace">order</text>')
+    out.append(f'<text x="60" y="376" fill="{DIM}" font-size="14">each layer is cheaper once the last one exists</text>')
+    return f'<svg width="640" height="420" viewBox="0 0 640 420">{"".join(out)}</svg>'
+
+
 COVERS = [
     # (slug, badge, title with <br>, title font size, tagline, mono caption, motif)
     ("cc-01-what-claude-code-is", "PART 1 · CH 1", "What Claude Code<br>Actually Is", 54,
@@ -781,6 +806,9 @@ COVERS = [
     ("cc-22-when-it-goes-wrong", "PART 6 · CH 22", "When It<br>Goes Wrong", 60,
      "Four groups of failure, and the commands that show what actually loaded.",
      "look at what loaded, don't <i>reason about it</i>", art_triage),
+    ("cc-23-becoming-an-expert", "CLOSING · CH 23", "Becoming<br>an Expert", 60,
+     "One repository configured end to end, and the question underneath every decision in it.",
+     "guidance, or a <i>guarantee</i>?", art_ascent),
 ]
 
 def build(only=None):

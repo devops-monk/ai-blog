@@ -4146,3 +4146,133 @@ textarea.os-in { resize: vertical; line-height: 1.55; }
   .tb-p-l { grid-template-columns: 1fr; gap: 0.1rem; }
   .tb-p-l > span:first-child { padding-top: 0; }
 }
+
+/* ------------------------------------------------------------------
+   Setup audit (Chapter 23). Eighteen boxes and what they add up to.
+   ------------------------------------------------------------------ */
+.ck-audit {
+  margin: 1.5rem 0;
+  padding: 1rem 1.1rem 1.1rem;
+  background: var(--bg-alt, #f8fafc);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+}
+
+.ck-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-bottom: 0.7rem;
+}
+.ck-title { font-size: 0.95rem; font-weight: 700; color: var(--text); }
+.ck-reset {
+  padding: 0.2rem 0.55rem;
+  font-size: 0.72rem;
+  font-family: inherit;
+  color: var(--text-muted);
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  cursor: pointer;
+}
+.ck-reset:hover { border-color: var(--primary); color: var(--text); }
+
+.ck-meter {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 0.6rem;
+  margin-bottom: 0.6rem;
+}
+.ck-meter-t {
+  height: 0.55rem;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  overflow: hidden;
+}
+.ck-meter-f {
+  display: block;
+  height: 100%;
+  width: 0;
+  background: var(--primary);
+  transition: width 0.2s ease;
+}
+.ck-meter-n {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--primary);
+  font-variant-numeric: tabular-nums;
+}
+
+.ck-verdict {
+  margin: 0 0 1rem;
+  padding-left: 0.7rem;
+  border-left: 3px solid var(--primary);
+  font-size: 0.82rem;
+  line-height: 1.55;
+  color: var(--text-muted);
+}
+.ck-verdict strong { color: var(--text); }
+
+.ck-groups { display: grid; gap: 0.85rem; }
+.ck-grp-n {
+  margin: 0 0 0.35rem;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+.ck-item {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: start;
+  gap: 0.55rem;
+  padding: 0.4rem 0.6rem;
+  margin-bottom: 0.25rem;
+  font-size: 0.81rem;
+  line-height: 1.5;
+  color: var(--text);
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  cursor: pointer;
+}
+.ck-item:last-child { margin-bottom: 0; }
+.ck-item:hover { border-color: var(--primary); }
+.ck-item.on { border-color: var(--primary); }
+.ck-item.on .ck-t { color: var(--text-muted); }
+.ck-item input { accent-color: var(--primary); margin-top: 0.22rem; }
+.ck-item code { font-size: 0.9em; }
+.ck-ch {
+  font-size: 0.7rem;
+  font-weight: 600;
+  white-space: nowrap;
+  padding-top: 0.1rem;
+}
+
+[data-theme="dark"] .ck-audit { background: #1e293b !important; border-color: #334155 !important; }
+[data-theme="dark"] .ck-reset,
+[data-theme="dark"] .ck-meter-t,
+[data-theme="dark"] .ck-item { background: #0f172a !important; border-color: #334155 !important; }
+[data-theme="dark"] .ck-item:hover,
+[data-theme="dark"] .ck-item.on { border-color: var(--primary) !important; }
+[data-theme="dark"] .ck-title,
+[data-theme="dark"] .ck-item,
+[data-theme="dark"] .ck-verdict strong { color: #e2e8f0 !important; }
+[data-theme="dark"] .ck-reset,
+[data-theme="dark"] .ck-grp-n,
+[data-theme="dark"] .ck-verdict,
+[data-theme="dark"] .ck-item.on .ck-t { color: #94a3b8 !important; }
+
+@media (max-width: 40em) {
+  .ck-audit { padding: 0.8rem 0.85rem 0.9rem; }
+  .ck-item {
+    grid-template-columns: auto 1fr;
+    font-size: 0.77rem;
+    padding: 0.4rem 0.5rem;
+  }
+  .ck-ch { grid-column: 2; padding-top: 0.1rem; }
+}

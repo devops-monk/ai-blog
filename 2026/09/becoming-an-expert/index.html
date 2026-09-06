@@ -1,0 +1,237 @@
+<!doctype html><html lang=en-US prefix="og: http://ogp.me/ns#"><head><meta charset=UTF-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=title property="title" content="AI Engineering - Becoming an Expert"><meta name=description property="description" content="A 23-chapter handbook for Claude Code — permissions, context, skills, hooks, MCP and agents, worked out end to end for engineers who have to ship with it. - Twenty-two chapters, assembled: one repository configured end to end in the order that makes each layer cheap, the question underneath every decision in this handbook, and where the road goes after the CLI."><title>AI Engineering - Becoming an Expert</title><meta property="og:url" content="https://ai.devops-monk.com/2026/09/becoming-an-expert/"><meta property="og:site_name" content="AI Engineering"><meta property="og:title" content="Becoming an Expert"><meta property="og:description" content="Twenty-two chapters, assembled: one repository configured end to end in the order that makes each layer cheap, the question underneath every decision in this handbook, and where the road goes after the CLI."><meta property="og:locale" content="en_us"><meta property="og:type" content="article"><meta property="article:section" content="posts"><meta property="article:published_time" content="2026-09-06T01:50:00+00:00"><meta property="article:modified_time" content="2026-09-06T01:50:00+00:00"><meta property="article:tag" content="Claude-Code"><meta property="article:tag" content="Best-Practices"><meta property="article:tag" content="Configuration"><meta property="article:tag" content="Agent-Sdk"><meta property="article:tag" content="Capstone"><meta property="og:image" content="https://ai.devops-monk.com/images/social/cc-23-becoming-an-expert.jpg"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="Becoming an Expert"><meta name=twitter:card content="summary_large_image"><meta name=twitter:title content="Becoming an Expert"><meta name=twitter:description content="Twenty-two chapters, assembled: one repository configured end to end in the order that makes each layer cheap, the question underneath every decision in this handbook, and where the road goes after the CLI."><meta name=twitter:image content="https://ai.devops-monk.com/images/social/cc-23-becoming-an-expert.jpg"><meta name=twitter:image:alt content="Becoming an Expert"><link rel=canonical href=https://ai.devops-monk.com/2026/09/becoming-an-expert/><link rel=stylesheet href=/assets/css/custom-fonts.css type=text/css media=all><link rel=stylesheet href=/assets/css/style.css type=text/css media=all><link rel=stylesheet href=/assets/css/genericons.css type=text/css media=all><link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css media=all><link rel=stylesheet href=/assets/css/socicon.css type=text/css media=all><link rel=stylesheet href=/assets/css/social-logos/social-logos.css type=text/css media=all><link rel=stylesheet href=/assets/css/jetpack.css type=text/css media=all><link rel=stylesheet href=/assets/css/custom-styles.css type=text/css media=all><script type=text/javascript src=/assets/js/jquery-1.12.4.min.js></script><script type=text/javascript src=/assets/js/html5shiv.min.js></script><script type=text/javascript src=/assets/js/navigation.js></script><link rel="shortcut icon" href=/favicon.png type=image/x-icon><script type=application/ld+json>{"@context":"https://schema.org","@graph":[{"@type":"TechArticle","author":{"@type":"Person","name":"Abhay"},"dateModified":"2026-09-06","datePublished":"2026-09-06","description":"Twenty-two chapters, assembled: one repository configured end to end in the order that makes each layer cheap, the question underneath every decision in this handbook, and where the road goes after the CLI.","headline":"Becoming an Expert","image":"https://ai.devops-monk.com/images/social/cc-23-becoming-an-expert.jpg","inLanguage":"en-US","keywords":["claude-code","best-practices","configuration","agent-sdk","capstone"],"mainEntityOfPage":{"@id":"https://ai.devops-monk.com/2026/09/becoming-an-expert/","@type":"WebPage"},"name":"Becoming an Expert","publisher":{"@type":"Organization","name":"AI Engineering by Abhay","sameAs":["https://github.com/abhi15sep","https://www.linkedin.com/in/abhay-singh-831997b5"],"url":"https://ai.devops-monk.com/"},"url":"https://ai.devops-monk.com/2026/09/becoming-an-expert/","wordCount":1247},{"@type":"Organization","name":"AI Engineering by Abhay","sameAs":["https://github.com/abhi15sep","https://www.linkedin.com/in/abhay-singh-831997b5"],"url":"https://ai.devops-monk.com/"}]}</script><script src=https://cdn.jsdelivr.net/npm/fuse.js@7/dist/fuse.min.js defer></script><script src=/assets/js/search.js defer></script><script src=/assets/js/enhancements.js defer></script><script type=module>
+      import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+
+      
+      const isDark = () =>
+        document.documentElement.getAttribute('data-theme') === 'dark';
+
+      
+      
+      const vars = {
+        light: {
+          background: '#ffffff', mainBkg: '#ede9fe',
+          primaryColor: '#ede9fe', primaryTextColor: '#1e293b',
+          primaryBorderColor: '#7c3aed', secondaryColor: '#f0fdf4',
+          secondaryTextColor: '#166534', secondaryBorderColor: '#10b981',
+          tertiaryColor: '#f8fafc', tertiaryTextColor: '#1e293b',
+          tertiaryBorderColor: '#cbd5e1',
+          lineColor: '#475569', textColor: '#1e293b', titleColor: '#0f172a',
+          clusterBkg: '#f8fafc', clusterBorder: '#cbd5e1',
+          edgeLabelBackground: '#ffffff', nodeBorder: '#7c3aed',
+          actorBkg: '#ede9fe', actorBorder: '#7c3aed', actorTextColor: '#1e293b',
+          signalColor: '#475569', signalTextColor: '#1e293b',
+          labelBoxBkgColor: '#ede9fe', labelBoxBorderColor: '#7c3aed',
+          labelTextColor: '#1e293b', loopTextColor: '#1e293b',
+          noteBkgColor: '#fffbeb', noteBorderColor: '#f59e0b', noteTextColor: '#92400e',
+        },
+        dark: {
+          background: '#1b1533', mainBkg: '#3b2a6b',
+          primaryColor: '#3b2a6b', primaryTextColor: '#e2e8f0',
+          primaryBorderColor: '#7c3aed', secondaryColor: '#10291f',
+          secondaryTextColor: '#6ee7b7', secondaryBorderColor: '#10b981',
+          tertiaryColor: '#171233', tertiaryTextColor: '#e2e8f0',
+          tertiaryBorderColor: '#4c3a75',
+          lineColor: '#94a3b8', textColor: '#e2e8f0', titleColor: '#f1f5f9',
+          clusterBkg: '#171233', clusterBorder: '#3a2c63',
+          edgeLabelBackground: '#1b1533', nodeBorder: '#7c3aed',
+          actorBkg: '#3b2a6b', actorBorder: '#7c3aed', actorTextColor: '#e2e8f0',
+          signalColor: '#94a3b8', signalTextColor: '#e2e8f0',
+          labelBoxBkgColor: '#3b2a6b', labelBoxBorderColor: '#7c3aed',
+          labelTextColor: '#e2e8f0', loopTextColor: '#e2e8f0',
+          noteBkgColor: '#2a1d10', noteBorderColor: '#f59e0b', noteTextColor: '#fcd34d',
+        },
+      };
+
+      
+      
+      
+      function sourceOf(el) {
+        const t = document.createElement('textarea');
+        t.innerHTML = el.dataset.src;
+        return t.value;
+      }
+
+      let seq = 0;
+
+      async function draw() {
+        const blocks = [...document.querySelectorAll('pre.mermaid')];
+        blocks.forEach((el) => {
+          if (el.dataset.src === undefined) el.dataset.src = el.innerHTML;
+        });
+
+        mermaid.initialize({
+          startOnLoad: false,
+          theme: 'base',
+          themeVariables: {
+            fontFamily: "Inter, -apple-system, BlinkMacSystemFont, sans-serif",
+            fontSize: '15px',
+            ...(isDark() ? vars.dark : vars.light),
+          },
+          securityLevel: 'loose',
+          
+          
+          
+          
+          
+          
+          
+          
+          flowchart: {
+            htmlLabels: true,
+            useMaxWidth: false,
+            curve: 'basis',
+            padding: 14,
+            nodeSpacing: 46,
+            rankSpacing: 58,
+            diagramPadding: 10,
+          },
+          sequence: {
+            useMaxWidth: false,
+            
+            mirrorActors: false,
+            actorMargin: 48,
+            boxMargin: 10,
+            diagramMarginY: 12,
+            actorFontSize: 14,
+            messageFontSize: 13,
+            noteFontSize: 13,
+          },
+        });
+
+        
+        
+        
+        
+        
+        for (const el of blocks) {
+          const id = 'mermaid-svg-' + (seq++);
+          try {
+            const { svg, bindFunctions } = await mermaid.render(id, sourceOf(el));
+            el.innerHTML = svg;
+            if (bindFunctions) bindFunctions(el);
+          } catch (err) {
+            console.error('mermaid: failed to render diagram', err);
+          }
+        }
+      }
+
+      document.addEventListener('DOMContentLoaded', draw);
+      new MutationObserver((m) => {
+        if (m.some((r) => r.attributeName === 'data-theme')) draw();
+      }).observe(document.documentElement, { attributes: true });
+    </script></head><body class="home blog post-layout-one-column"><button onclick=topFunction() id=scrollTopBtn title="Go to top">
+<i class="fa-solid fa-arrow-up"></i></button><div id=header-top class=header-bar-wrap></div><div id=page class=site><a class="skip-link screen-reader-text" href=#content>Skip to content</a><header id=masthead class="site-header clearfix" role=banner><div class="header-main container clearfix"><div id=logo class="site-branding clearfix"><h1 class=site-title><a href=/ title="AI Engineering" rel=home>AI Engineering</a></h1><p class=site-description>Master Claude Code</p></div><button id=dark-mode-toggle title="Toggle dark mode" aria-label="Toggle dark mode">
+<i class="fa-solid fa-moon" id=dm-icon></i></button></div><div id=main-navigation-wrap class=primary-navigation-wrap><nav id=main-navigation class="primary-navigation navigation container clearfix" role=navigation><ul id=menu-home class=main-navigation-menu><li class="menu-item menu-item-type-custom menu-item-object-custom"><a href=/>Home</a></li><li class="menu-item menu-item-type-custom menu-item-object-custom"><a href=/guide/>Guide</a></li><li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children"><a href=#>Topics</a><ul class=sub-menu><li class=menu-item><a href=/tags/permissions/>Permissions</a></li><li class=menu-item><a href=/tags/context/>Context</a></li><li class=menu-item><a href=/tags/skills/>Skills</a></li><li class=menu-item><a href=/tags/hooks/>Hooks</a></li><li class=menu-item><a href=/tags/mcp/>MCP</a></li><li class=menu-item><a href=/tags/subagents/>Subagents</a></li></ul></li><li class="menu-item menu-item-type-custom menu-item-object-custom"><a href=/about/>About</a></li><li class="menu-item nav-rss"><a href=/index.xml title="Subscribe via RSS" target=_blank rel=noopener><i class="fa-solid fa-rss"></i> RSS</a></li></ul></nav></div></header><div id=content class="site-content container clearfix"><section id=primary class="content-archive content-area post-content-area"><main id=main class=site-main role=main><article class="post type-post"><div class=post-inner-content><div class=post-hero-img-link><img class=post-hero-img src=/images/articles/cc-23-becoming-an-expert.webp alt="Becoming an Expert" width=1200 height=480></div><header class=entry-header><div class=entry-meta><span class=meta-date><a href=https://ai.devops-monk.com/2026/09/becoming-an-expert/ rel=bookmark><time class="entry-date published" datetime=2026-09-06T01:50:00>September 06, 2026
+</time></a></span><span class=meta-author><span class="author vcard">Abhay</span>
+</span><span class=meta-reading-time>6 min read</span></div><h2 class=entry-title><a href=https://ai.devops-monk.com/2026/09/becoming-an-expert/ rel=bookmark>Becoming an Expert</a></h2><div><span class="tagcloud post-tags"><i class="fa fa-tags"></i>
+<a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/claude-code/>claude-code</a>
+&nbsp;
+<a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/best-practices/>best-practices</a>
+&nbsp;
+<a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/configuration/>configuration</a>
+&nbsp;
+<a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/agent-sdk/>agent-sdk</a>
+&nbsp;
+<a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/capstone/>capstone</a></span></div></header><a class=series-badge href=/guide/><span class=series-badge-vol>Closing</span></a><div class=social-share-bar><span class=share-label>Share:</span>
+<a href="https://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2fai.devops-monk.com%2f2026%2f09%2fbecoming-an-expert%2f&title=Becoming+an+Expert" target=_blank rel=noopener class="share-btn share-linkedin" title="Share on LinkedIn"><i class="fa-brands fa-linkedin-in"></i> LinkedIn
+</a><a href="https://twitter.com/intent/tweet?url=https%3a%2f%2fai.devops-monk.com%2f2026%2f09%2fbecoming-an-expert%2f&text=Becoming+an+Expert" target=_blank rel=noopener class="share-btn share-twitter" title="Share on Twitter / X"><i class="fa-brands fa-x-twitter"></i> X
+</a><a href="https://www.reddit.com/submit?url=https%3a%2f%2fai.devops-monk.com%2f2026%2f09%2fbecoming-an-expert%2f&title=Becoming+an+Expert" target=_blank rel=noopener class="share-btn share-reddit" title="Share on Reddit"><i class="fa-brands fa-reddit-alien"></i> Reddit</a></div><nav class=toc-widget><h3 class=toc-title><i class="fa-solid fa-list"></i> Contents</h3><div class=toc-links><nav id=TableOfContents><ul><li><a href=#overview>Overview</a></li><li><a href=#the-build-order>The build order</a></li><li><a href=#the-question-underneath-everything>The question underneath everything</a></li><li><a href=#what-experts-actually-do-differently>What experts actually do differently</a></li><li><a href=#audit-what-you-have>Audit what you have</a></li><li><a href=#where-this-goes-next>Where this goes next</a></li><li><a href=#where-to-keep-reading>Where to keep reading</a></li><li><a href=#summary>Summary</a></li></ul></nav></div></nav><div id=tts-player class=tts role=region aria-label="Article audio player"><div class=tts-main><span class=tts-badge aria-hidden=true><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18" stroke-linecap="round" stroke-linejoin="round"><path d="M3 18v-6a9 9 0 0118 0v6"/><path d="M21 19a2 2 0 01-2 2h-1a2 2 0 01-2-2v-3a2 2 0 012-2h3z"/><path d="M3 19a2 2 0 002 2h1a2 2 0 002-2v-3a2 2 0 00-2-2H3z"/></svg></span><div class=tts-text><div class=tts-title>Listen to this article</div><div class=tts-status id=tts-status>Read aloud in your browser</div></div><div class=tts-actions><div class=tts-speed role=group aria-label="Playback speed"><button type=button data-rate=0.75>0.75&#215;</button>
+<button type=button data-rate=1 class=on>1&#215;</button>
+<button type=button data-rate=1.25>1.25&#215;</button>
+<button type=button data-rate=1.5>1.5&#215;</button></div><button class=tts-stop id=tts-stop title="Stop and reset" aria-label=Stop hidden>
+<svg viewBox="0 0 24 24" fill="currentColor" width="14" height="14"><rect x="6" y="6" width="12" height="12" rx="2"/></svg>
+</button>
+<button class=tts-play id=tts-play aria-label="Play article">
+<svg id="tts-play-icon" viewBox="0 0 24 24" fill="currentColor" width="16" height="16"><path d="M7 4l13 8-13 8z"/></svg>
+<svg id="tts-pause-icon" viewBox="0 0 24 24" fill="currentColor" width="16" height="16" hidden=""><rect x="6" y="4" width="4" height="16" rx="1.2"/><rect x="14" y="4" width="4" height="16" rx="1.2"/></svg>
+<span id=tts-play-text>Play</span></button></div></div><div class=tts-track><div class=tts-fill id=tts-progress-bar></div></div></div><script>document.addEventListener("DOMContentLoaded",function(){if(t=window.speechSynthesis,s=document.getElementById("tts-player"),!t||!s)return;var t,s,g=document.getElementById("tts-play"),y=document.getElementById("tts-play-text"),r=document.getElementById("tts-stop"),j=document.getElementById("tts-play-icon"),_=document.getElementById("tts-pause-icon"),b=document.getElementById("tts-status"),h=document.getElementById("tts-progress-bar"),u=s.querySelectorAll(".tts-speed button"),m=document.querySelector(".entry-content")||document.querySelector("article"),e=[],n=0,o=!1,f=1;function O(){if(!m){s.hidden=!0;return}var t=m.querySelectorAll("p, h2, h3, li, blockquote");e=Array.prototype.filter.call(t,function(e){return e.textContent.trim().length>15&&!e.closest("#tts-player")&&!e.closest("pre")&&!e.closest('[class*="-demo"], [class*="-calc"], [class*="-sim"], [class*="-explorer"], [class*="-check"]')}),e.length||(s.hidden=!0)}function c(e){b.textContent=e}function v(t){if(!e.length)return;h.style.width=Math.round(t/e.length*100)+"%"}function l(){var e=document.querySelectorAll(".tts-reading");Array.prototype.forEach.call(e,function(e){e.classList.remove("tts-reading")})}function d(e,t){t?e.setAttribute("hidden",""):e.removeAttribute("hidden")}function a(e){o=e,s.classList.toggle("is-playing",e),d(j,e),d(_,!e),y.textContent=e?"Pause":"Play",g.setAttribute("aria-label",e?"Pause article":"Play article"),r.hidden=!e&&n===0}function i(s){if(t.cancel(),l(),s>=e.length){a(!1),n=0,v(e.length),c("Finished");return}n=s;var r,d=e[s];d.classList.add("tts-reading"),d.scrollIntoView({behavior:"smooth",block:"center"}),r=new SpeechSynthesisUtterance(d.textContent.trim().replace(/\s+/g," ")),r.rate=f,r.pitch=1,r.lang="en-US",v(s+1),c("Section "+(s+1)+" of "+e.length+" · "+Math.round((s+1)/e.length*100)+"%"),r.onend=function(){d.classList.remove("tts-reading"),o&&i(s+1)},r.onerror=function(){d.classList.remove("tts-reading"),o&&i(s+1)},t.speak(r)}function w(){a(!0),i(n)}function p(){a(!1),t.cancel(),l(),c("Paused · section "+(n+1)+" of "+e.length),r.hidden=!1}function x(){n=0,a(!1),t.cancel(),l(),h.style.width="0%",c("Read aloud in your browser"),r.hidden=!0}g.addEventListener("click",function(){o?p():w()}),r.addEventListener("click",x),Array.prototype.forEach.call(u,function(e){e.addEventListener("click",function(){Array.prototype.forEach.call(u,function(e){e.classList.remove("on")}),this.classList.add("on"),f=parseFloat(this.getAttribute("data-rate")),o&&i(n)})}),window.addEventListener("beforeunload",function(){t.cancel()}),document.addEventListener("visibilitychange",function(){document.hidden&&o&&p()}),O()})</script><div class=entry-content><h2 id=overview>Overview</h2><p>This chapter covers:</p><ul><li>One repository configured end to end, in the order that makes each layer cheap</li><li>The single question underneath nearly every decision in this handbook</li><li>The habits that separate people who use Claude Code from people who are good at it</li><li>A checklist to audit what you have actually set up</li><li>Where the road continues once the CLI stops being enough</li></ul><h2 id=the-build-order>The build order</h2><p>Configuring a repository is not a list of files to create. It is a sequence, and the sequence matters — <strong>each layer is cheaper once the one before it exists.</strong> Writing skills before you have a <code>CLAUDE.md</code> means writing the project&rsquo;s conventions into every skill.</p><pre class=mermaid>flowchart TB
+    A[Safety: permissions] --> B[Context: CLAUDE.md]
+    B --> C[Scope: rules]
+    C --> D[Capability: skills]
+    D --> E[Guarantees: hooks]
+    E --> F[Reach: MCP]
+    F --> G[Scale: subagents, CI]
+</pre><table><thead><tr><th>Step</th><th>What to do</th></tr></thead><tbody><tr><td><strong>1. Safety</strong></td><td>Pick a permission mode deliberately, and add deny rules for secrets and infrastructure before anything runs unattended — <a href=/2026/09/permission-modes/>Ch 3</a>, <a href=/2026/09/permissions-and-sandboxing/>Ch 4</a></td></tr><tr><td><strong>2. Context</strong></td><td><code>/init</code>, then delete everything Claude could work out by reading the code. Under 200 lines — <a href=/2026/09/claude-md/>Ch 6</a></td></tr><tr><td><strong>3. Scope</strong></td><td>Anything that applies to one directory becomes a rule with <code>paths:</code>, not a paragraph everyone pays for — <a href=/2026/09/rules-and-auto-memory/>Ch 7</a></td></tr><tr><td><strong>4. Capability</strong></td><td>The third time you paste the same instructions, they are a skill — <a href=/2026/09/claude-code-skills/>Ch 11</a></td></tr><tr><td><strong>5. Guarantees</strong></td><td>What must <em>never</em> happen stops being an instruction and becomes an exit code — <a href=/2026/09/claude-code-hooks/>Ch 12</a></td></tr><tr><td><strong>6. Reach</strong></td><td>An MCP server only where a CLI tool cannot do the job; every server costs window before it earns any — <a href=/2026/09/mcp-fundamentals/>Ch 14</a>, <a href=/2026/09/mcp-in-practice/>Ch 15</a></td></tr><tr><td><strong>7. Scale</strong></td><td>Subagents for verbose work, CI for the unattended kind — <a href=/2026/09/github-gitlab-and-ci/>Ch 16</a>, <a href=/2026/09/subagents/>Ch 17</a></td></tr></tbody></table><p>Two orderings people get wrong. <strong>Permissions come first</strong>, not last — they are the layer you regret configuring after the fact. And <strong>hooks come after skills</strong>, because the point of writing something down first is finding out whether guidance was enough.</p><h2 id=the-question-underneath-everything>The question underneath everything</h2><p>If you keep one thing from twenty-three chapters, keep this. Almost every configuration decision in Claude Code is the same question wearing different clothes:</p><blockquote><p><strong>Do you need guidance, or a guarantee?</strong></p></blockquote><p>Guidance is context: <code>CLAUDE.md</code>, rules, skills, output styles. Claude reads it, weighs it against everything else in the window, and usually follows it. Usually.</p><p>A guarantee is enforcement: permission rules, hooks, the sandbox. Claude&rsquo;s opinion is not consulted. A <code>PreToolUse</code> hook returning exit code 2 stops the tool call whether or not Claude agrees.</p><p>The failure mode is always the same direction — writing a guarantee into a file that only offers guidance:</p><table><thead><tr><th>You wrote</th><th>Where it belongs</th></tr></thead><tbody><tr><td>&ldquo;Never commit directly to main&rdquo; in <code>CLAUDE.md</code></td><td>A <code>PreToolUse</code> hook</td></tr><tr><td>&ldquo;Don&rsquo;t touch the migrations directory&rdquo;</td><td>A deny rule</td></tr><tr><td>&ldquo;Always run the linter before committing&rdquo;</td><td>A hook, if it truly is <em>always</em></td></tr><tr><td>&ldquo;We use tabs, not spaces&rdquo;</td><td><code>CLAUDE.md</code> — this one is genuinely guidance</td></tr></tbody></table><p>Ask it of every line you write into a config file, and most of this handbook&rsquo;s advice falls out on its own.</p><h2 id=what-experts-actually-do-differently>What experts actually do differently</h2><p>Less configuration than you would expect. Mostly it is a handful of reflexes.</p><p><strong>Plan before anything non-trivial.</strong> <code>Shift+Tab</code> into plan mode. Reading and planning cost a fraction of what rework costs, and a wrong approach found in the plan is free.</p><p><strong><code>/clear</code> between unrelated tasks.</strong> The single largest lever on both quality and cost. Stale context does not just cost money, it actively misleads.</p><p><strong>Correct instead of re-prompting.</strong> When Claude goes the wrong way, say so in the same session — the context from the failed attempt is what makes the correction land. Starting over throws that away.</p><p><strong>Steer without stopping.</strong> <code>Esc</code> cancels the running tool call. Typing while it works does not interrupt anything; the text is read before the next action is chosen. Most people only know the first.</p><p><strong>Delegate anything verbose.</strong> Test output, log spelunking, doc trawling — a subagent&rsquo;s window absorbs it and yours never sees it.</p><p><strong>Look, don&rsquo;t reason.</strong> When something is not taking effect, <code>/context</code> and <code>/permissions</code> show you what actually loaded. Every minute spent theorising about why a file is not working is a minute you could have spent reading the answer.</p><p>And one that is really a mindset: <strong>specify the target and the symptom, not the procedure.</strong> &ldquo;The checkout flow fails for expired cards, relevant code is in <code>src/payments/</code>&rdquo; beats a prescribed sequence of steps, because a prescription bakes in your assumption about where the bug is — and if that assumption is wrong, it sends Claude away from the actual problem.</p><h2 id=audit-what-you-have>Audit what you have</h2><p>Work down this. Anything you cannot tick is a chapter worth revisiting.</p><div class=ck-audit><div class=ck-head><span class=ck-title>Setup audit</span> <button type=button id=ck-reset class=ck-reset>Clear</button></div><div class=ck-meter><span class=ck-meter-t><span class=ck-meter-f id=ck-fill></span></span> <span class=ck-meter-n id=ck-n>0 / 18</span></div><p class=ck-verdict id=ck-verdict></p><div class=ck-groups id=ck-groups></div></div><script>(function(){var t,c,r=[{n:"Safety",items:[{id:"s1",t:"You know which permission mode your sessions start in, and why",ch:3,u:"/2026/09/permission-modes/"},{id:"s2",t:"Deny rules cover secrets, credentials and anything you cannot undo",ch:4,u:"/2026/09/permissions-and-sandboxing/"},{id:"s3",t:"You have read your own resolved rules with <code>/permissions</code>, not just written them",ch:4,u:"/2026/09/permissions-and-sandboxing/"}]},{n:"Context",items:[{id:"c1",t:"<code>CLAUDE.md</code> exists, and is under 200 lines",ch:6,u:"/2026/09/claude-md/"},{id:"c2",t:"Nothing in it is a secret, or something a linter already enforces",ch:6,u:"/2026/09/claude-md/"},{id:"c3",t:"Directory-specific guidance is a rule with <code>paths:</code>, not a paragraph everyone pays for",ch:7,u:"/2026/09/rules-and-auto-memory/"},{id:"c4",t:"You have run <code>/context</code> at least once and know what is in your window before you type",ch:8,u:"/2026/09/context-window/"},{id:"c5",t:"You <code>/clear</code> between unrelated tasks rather than letting one session run all day",ch:8,u:"/2026/09/context-window/"}]},{n:"Capability",items:[{id:"k1",t:"Any procedure you have pasted three times is a skill",ch:11,u:"/2026/09/claude-code-skills/"},{id:"k2",t:"Every skill description says <em>when</em> to use it, not just what it does",ch:11,u:"/2026/09/claude-code-skills/"},{id:"k3",t:"The things that must never happen are hooks, not sentences",ch:12,u:"/2026/09/claude-code-hooks/"},{id:"k4",t:"You have driven a hook once with <code>--debug</code> and watched it fire",ch:12,u:"/2026/09/claude-code-hooks/"}]},{n:"Reach",items:[{id:"r1",t:"Every MCP server you have connected earns the window it costs",ch:14,u:"/2026/09/mcp-fundamentals/"},{id:"r2",t:"Where a CLI tool would do, you use the CLI tool instead of a server",ch:15,u:"/2026/09/mcp-in-practice/"},{id:"r3",t:"Something runs unattended — CI, a schedule, or a review workflow",ch:16,u:"/2026/09/github-gitlab-and-ci/"}]},{n:"Scale and habit",items:[{id:"h1",t:"Verbose work — tests, logs, doc trawls — goes to a subagent",ch:17,u:"/2026/09/subagents/"},{id:"h2",t:"You plan before anything non-trivial rather than starting straight in",ch:3,u:"/2026/09/permission-modes/"},{id:"h3",t:"You correct mid-session instead of restarting when Claude goes wrong",ch:9,u:"/2026/09/sessions-checkpoints-rewind/"}]}],a=[{at:0,n:"Out of the box",d:"Everything here is running on defaults. That works — and it leaves most of the tool on the table."},{at:1,n:"Started",d:"Work down from Safety. The permission layer is the one you regret configuring after the fact."},{at:7,n:"Configured",d:"The basics are in place. What is left is mostly the things that cost you on a bad day rather than a good one."},{at:13,n:"Solid",d:"More than most repositories have. The remaining gaps are habits rather than files."},{at:18,n:"Nothing left on the table",d:"Safety, context, capability, reach and habit, all accounted for. Come back in three months — configuration accumulates."}],i="cc-audit-23",n=document.getElementById("ck-groups"),d=document.getElementById("ck-fill"),u=document.getElementById("ck-n"),h=document.getElementById("ck-verdict"),s=r.reduce(function(e,t){return e.concat(t.items)},[]),e={};try{t=window.localStorage.getItem(i),t&&(e=JSON.parse(t)||{})}catch{e={}}n.innerHTML=r.map(function(e){return'<div class="ck-grp"><h4 class="ck-grp-n">'+e.n+"</h4>"+e.items.map(function(e){return'<label class="ck-item"><input type="checkbox" data-id="'+e.id+'"><span class="ck-t">'+e.t+'</span><a class="ck-ch" href="'+e.u+'">Ch '+e.ch+"</a></label>"}).join("")+"</div>"}).join(""),c=n.querySelectorAll("input");function l(){try{window.localStorage.setItem(i,JSON.stringify(e))}catch{}}function o(){var t,n=s.filter(function(t){return e[t.id]}).length,o=Math.round(n/s.length*100);d.style.width=o+"%",u.textContent=n+" / "+s.length,t=a[0],a.forEach(function(e){n>=e.at&&(t=e)}),h.innerHTML="<strong>"+t.n+".</strong> "+t.d,Array.prototype.forEach.call(c,function(t){var n=!!e[t.getAttribute("data-id")];t.checked=n,t.parentNode.classList.toggle("on",n)})}n.addEventListener("change",function(t){if(t.target.tagName!=="INPUT")return;e[t.target.getAttribute("data-id")]=t.target.checked,l(),o()}),document.getElementById("ck-reset").addEventListener("click",function(){e={},l(),o()}),o()})()</script><h2 id=where-this-goes-next>Where this goes next</h2><p>At some point the CLI stops being the right shape. Not because it runs out of features, but because what you want is not a session — it&rsquo;s an application: something triggered by a webhook, running for a customer, with its own interface.</p><p>That is the <strong><a href=https://code.claude.com/docs/en/agent-sdk/overview>Agent SDK</a></strong>: the same agent loop, the same tools and the same context management, as a library in Python or TypeScript. Everything in this handbook carries over — hooks, subagents, MCP, permissions, sessions — and <strong>skills, commands and memory still load from <code>.claude/</code> and <code>~/.claude/</code></strong> exactly as they do here.</p><p>Four things sit next to each other, and the choice is genuinely about what you are doing rather than how advanced you are:</p><table><thead><tr><th>If you are</th><th>Use</th></tr></thead><tbody><tr><td>Working interactively, or scripting one-off tasks</td><td><strong>The CLI</strong></td></tr><tr><td>Building an agent, without writing the tool loop yourself</td><td><strong>The Agent SDK</strong></td></tr><tr><td>Calling the API and writing your own loop</td><td>The Client SDK</td></tr><tr><td>Running long jobs without operating a sandbox</td><td>Managed Agents</td></tr></tbody></table><p>Two practical notes. The SDK is <strong>Python and TypeScript only</strong> — from any other language, run the CLI as a subprocess with <code>-p</code> and <code>--output-format json</code>, which is Chapter 2&rsquo;s print mode doing exactly what it was built for. And products built on the SDK <strong>authenticate with API keys</strong>, not claude.ai logins.</p><h2 id=where-to-keep-reading>Where to keep reading</h2><ul><li><strong><a href=https://code.claude.com/docs>The official documentation</a></strong> — the authority. This handbook teaches the concepts; the docs hold the complete reference for every one of them.</li><li><strong><a href=https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md>The changelog</a></strong> — this tool moves fast enough that a habit formed six months ago may already have a better answer.</li><li><strong>Claude itself.</strong> It has its documentation built in. &ldquo;How do I scope a rule to one directory?&rdquo; is often faster asked than searched.</li></ul><p>And the one nobody suggests: <strong>read your own <code>~/.claude/settings.json</code> every few months.</strong> Configuration accumulates. Half of what is in there was for a problem you no longer have.</p><h2 id=summary>Summary</h2><ul><li>Build in order: <strong>permissions, context, scope, capability, guarantees, reach, scale.</strong> Each layer is cheaper once the one before it exists.</li><li>The recurring question is <strong>guidance or guarantee</strong> — <code>CLAUDE.md</code> for how the project works, permissions and hooks for what must never happen.</li><li>The habits matter more than the configuration: <strong>plan first, <code>/clear</code> between tasks, correct rather than restart, delegate verbose work, and look at what loaded instead of reasoning about it.</strong></li><li>Specify the target and the symptom. Leave the procedure to Claude.</li><li>When you need an application rather than a session, the <strong>Agent SDK</strong> is the same loop as a library — and your <code>.claude/</code> directory comes with it.</li></ul><p>That&rsquo;s the handbook. Twenty-three chapters, from a model that cannot read files to a repository that configures itself for you.</p><p>The tool will keep changing. The question underneath it — <em>guidance, or guarantee?</em> — will not.</p></div><div class=social-share-bar><span class=share-label>Share:</span>
+<a href="https://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2fai.devops-monk.com%2f2026%2f09%2fbecoming-an-expert%2f&title=Becoming+an+Expert" target=_blank rel=noopener class="share-btn share-linkedin" title="Share on LinkedIn"><i class="fa-brands fa-linkedin-in"></i> LinkedIn
+</a><a href="https://twitter.com/intent/tweet?url=https%3a%2f%2fai.devops-monk.com%2f2026%2f09%2fbecoming-an-expert%2f&text=Becoming+an+Expert" target=_blank rel=noopener class="share-btn share-twitter" title="Share on Twitter / X"><i class="fa-brands fa-x-twitter"></i> X
+</a><a href="https://www.reddit.com/submit?url=https%3a%2f%2fai.devops-monk.com%2f2026%2f09%2fbecoming-an-expert%2f&title=Becoming+an+Expert" target=_blank rel=noopener class="share-btn share-reddit" title="Share on Reddit"><i class="fa-brands fa-reddit-alien"></i> Reddit</a></div></div></article><nav class=series-nav aria-label="Chapter navigation"><a class="series-nav-link series-nav-prev" href=/2026/09/when-it-goes-wrong/ rel=prev><span class=series-nav-dir>&larr; Previous</span>
+<span class=series-nav-ch>Part 6 — Running It for Real · Ch 2</span>
+<span class=series-nav-title>When It Goes Wrong</span>
+</a><span class="series-nav-link is-empty" aria-hidden=true></span></nav></main></section><section id=secondary class="sidebar widget-area clearfix" role=complementary><aside id=search class="widget clearfix"><div class=widget-header><h3 class=widget-title>Search</h3></div><form onsubmit=return!1><input id=search-query type=text placeholder="Search posts..." autocomplete=off>
+<button id=search-btn type=button><i class="fa-solid fa-magnifying-glass"></i></button></form><div id=search-results></div></aside><aside id=rss-subscribe class="widget clearfix"><div class=widget-header><h3 class=widget-title>Subscribe</h3></div><a href=/index.xml class=rss-subscribe-btn target=_blank rel=noopener><i class="fa-solid fa-rss"></i> Subscribe via RSS</a></aside><aside id=recent-posts class="widget clearfix"><div class=widget-header><h3 class=widget-title>Recent Posts</h3></div><ul><li class=widget__item><a class=widget__link href=/2026/09/becoming-an-expert/>Becoming an Expert</a></li><li class=widget__item><a class=widget__link href=/2026/09/when-it-goes-wrong/>When It Goes Wrong</a></li><li class=widget__item><a class=widget__link href=/2026/09/cost-monitoring-and-security/>Cost, Monitoring & Security</a></li><li class=widget__item><a class=widget__link href=/2026/09/claude-code-everywhere/>Claude Code Everywhere</a></li><li class=widget__item><a class=widget__link href=/2026/09/automation-and-scheduling/>Automation & Scheduling</a></li></ul></aside><aside id=categories class="widget clearfix"><div class=widget-header><h3 class=widget-title>Categories</h3></div><ul><li><a href=/categories/fundamentals/ title=fundamentals>fundamentals</a></li></ul></aside><aside id=tag_cloud class="widget widget_tag_cloud clearfix"><div class=widget-header><h3 class=widget-title>Tags</h3></div><div class=tagcloud><div class=widget__content><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/agent-sdk/ title=agent-sdk>agent-sdk
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/agent-teams/ title=agent-teams>agent-teams
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/agent-view/ title=agent-view>agent-view
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/agents/ title=agents>agents
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/auto-memory/ title=auto-memory>auto-memory
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/auto-mode/ title=auto-mode>auto-mode
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/automation/ title=automation>automation
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/best-practices/ title=best-practices>best-practices
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/browser-automation/ title=browser-automation>browser-automation
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/capstone/ title=capstone>capstone
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/checkpointing/ title=checkpointing>checkpointing
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/chrome/ title=chrome>chrome
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/ci/ title=ci>ci
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/classifier/ title=classifier>classifier
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/claude-code/ title=claude-code>claude-code
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/claude-md/ title=claude-md>claude-md
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/cli/ title=cli>cli
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/commands/ title=commands>commands
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/compaction/ title=compaction>compaction
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/configuration/ title=configuration>configuration
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/context-engineering/ title=context-engineering>context-engineering
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/context-window/ title=context-window>context-window
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/conventions/ title=conventions>conventions
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/costs/ title=costs>costs
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/customisation/ title=customisation>customisation
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/debugging/ title=debugging>debugging
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/delegation/ title=delegation>delegation
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/distribution/ title=distribution>distribution
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/errors/ title=errors>errors
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/getting-started/ title=getting-started>getting-started
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/git/ title=git>git
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/github-actions/ title=github-actions>github-actions
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/headless/ title=headless>headless
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/hooks/ title=hooks>hooks
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/integrations/ title=integrations>integrations
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/lifecycle/ title=lifecycle>lifecycle
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/llm/ title=llm>llm
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/loop/ title=loop>loop
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/marketplaces/ title=marketplaces>marketplaces
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/mcp/ title=mcp>mcp
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/memory/ title=memory>memory
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/mobile/ title=mobile>mobile
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/model-config/ title=model-config>model-config
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/monitoring/ title=monitoring>monitoring
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/monorepo/ title=monorepo>monorepo
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/oauth/ title=oauth>oauth
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/orchestration/ title=orchestration>orchestration
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/output-styles/ title=output-styles>output-styles
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/packaging/ title=packaging>packaging
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/parallel/ title=parallel>parallel
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/permissions/ title=permissions>permissions
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/platforms/ title=platforms>platforms
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/plugins/ title=plugins>plugins
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/precedence/ title=precedence>precedence
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/progressive-disclosure/ title=progressive-disclosure>progressive-disclosure
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/prompt-caching/ title=prompt-caching>prompt-caching
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/prompt-injection/ title=prompt-injection>prompt-injection
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/remote-control/ title=remote-control>remote-control
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/rewind/ title=rewind>rewind
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/routines/ title=routines>routines
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/rules/ title=rules>rules
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/sandboxing/ title=sandboxing>sandboxing
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/scheduling/ title=scheduling>scheduling
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/security/ title=security>security
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/sessions/ title=sessions>sessions
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/settings/ title=settings>settings
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/skills/ title=skills>skills
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/subagents/ title=subagents>subagents
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/surfaces/ title=surfaces>surfaces
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/system-prompt/ title=system-prompt>system-prompt
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/terminal/ title=terminal>terminal
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/tool-search/ title=tool-search>tool-search
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/tools/ title=tools>tools
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/troubleshooting/ title=troubleshooting>troubleshooting
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/workflows/ title=workflows>workflows</a></div></div></aside></section></div><div id=footer class=footer-wrap><footer id=colophon class="site-footer container clearfix" role=contentinfo><div id=footer-text class=site-info><span class=credit-link><a href=/>AI Engineering by Abhay</a>
+Copyright © 2026
+</span><span class=footer-rss><a href=/index.xml title="RSS Feed" target=_blank rel=noopener><i class="fa-solid fa-rss"></i> RSS Feed</a></span></div></footer></div></div><script type=text/javascript src=/assets/js/custom.js></script></body></html>

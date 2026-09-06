@@ -25,7 +25,7 @@ A 23-chapter tutorial that takes a reader from "I installed it" to genuine exper
 | 11 | Skills | Teaching New Tricks | ✅ [Published](https://ai.devops-monk.com/2026/09/claude-code-skills/) |
 | 12 | Hooks | Teaching New Tricks | ✅ [Published](https://ai.devops-monk.com/2026/09/claude-code-hooks/) |
 | 13 | Plugins & Marketplaces | Teaching New Tricks | ✅ [Published](https://ai.devops-monk.com/2026/09/plugins-and-marketplaces/) |
-| 14 | MCP Fundamentals | Connecting to the World | ⬜ Not started |
+| 14 | MCP Fundamentals | Connecting to the World | ✅ [Published](https://ai.devops-monk.com/2026/09/mcp-fundamentals/) |
 | 15 | MCP in Practice | Connecting to the World | ⬜ Not started |
 | 16 | GitHub, GitLab & CI | Connecting to the World | ⬜ Not started |
 | 17 | Sub-Agents | Agents & Autonomy | ⬜ Not started |

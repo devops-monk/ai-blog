@@ -480,6 +480,31 @@ def art_bundle():
     return f'<svg width="640" height="420" viewBox="0 0 640 420">{"".join(out)}</svg>'
 
 
+def art_defer():
+    """Many servers, only their names in context until a tool is called."""
+    out = []
+    # The servers, sitting unconnected.
+    for i, label in enumerate(["github", "postgres", "sentry", "notion", "figma"]):
+        y = 84 + i * 54
+        out.append(f'<rect x="392" y="{y-17}" width="176" height="35" rx="7" fill="{FAINT}" opacity=".18" '
+                   f'stroke="{FAINT}" stroke-opacity=".6" stroke-dasharray="4 4"/>')
+        out.append(f'<text x="408" y="{y+5}" fill="#6b7280" font-size="13" '
+                   f'font-family="ui-monospace,monospace">{label}</text>')
+        out.append(f'<path d="M388 {y} L300 {y}" stroke="{FAINT}" stroke-opacity=".35" stroke-width="1.2" '
+                   f'stroke-dasharray="3 4"/>')
+    # What is actually in context: the names.
+    out.append(f'<rect x="60" y="120" width="180" height="150" rx="10" fill="{PURPLE}" opacity=".16" '
+               f'stroke="{BLUE}" stroke-opacity=".7"/>')
+    out.append(f'<text x="150" y="180" fill="#e9e3fb" font-size="15" text-anchor="middle" '
+               f'font-family="ui-monospace,monospace">tool names</text>')
+    out.append(f'<text x="150" y="206" fill="{GREEN}" font-size="15" text-anchor="middle" '
+               f'font-family="ui-monospace,monospace">~1K</text>')
+    out.append(f'<text x="150" y="236" fill="{DIM}" font-size="13" text-anchor="middle">schemas deferred</text>')
+    out.append(f'<text x="60" y="100" fill="{DIM}" font-size="13">in context</text>')
+    out.append(f'<text x="60" y="336" fill="{DIM}" font-size="14">servers stay unconnected until a tool is called</text>')
+    return f'<svg width="640" height="420" viewBox="0 0 640 420">{"".join(out)}</svg>'
+
+
 COVERS = [
     # (slug, badge, title with <br>, title font size, tagline, mono caption, motif)
     ("cc-01-what-claude-code-is", "PART 1 · CH 1", "What Claude Code<br>Actually Is", 54,
@@ -521,6 +546,9 @@ COVERS = [
     ("cc-13-plugins", "PART 3 · CH 13", "Plugins &amp;<br>Marketplaces", 54,
      "One installable unit for skills, hooks, agents and MCP servers.",
      "only plugin.json goes in <i>.claude-plugin/</i>", art_bundle),
+    ("cc-14-mcp-fundamentals", "PART 4 · CH 14", "MCP<br>Fundamentals", 62,
+     "Typed tools for systems Claude Code has no tool for.",
+     "ten servers cost <i>names</i>, not schemas", art_defer),
     ("hello-transformers", "PART 1 · CH 1", "How a Transformer<br>Actually Predicts", 54,
      "One token at a time, and everything else follows from that.",
      "the model outputs a <i>distribution</i>, not a word", art_tokens),

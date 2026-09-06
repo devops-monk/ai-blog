@@ -3286,3 +3286,73 @@ textarea.os-in { resize: vertical; line-height: 1.55; }
   .pl-cols { flex-direction: column; gap: 0.9rem; }
   .pl-tree { flex: 1 1 auto; }
 }
+
+/* ------------------------------------------------------------------
+   MCP context-cost calculator (Chapter 14). Deferred vs loaded schemas.
+   ------------------------------------------------------------------ */
+.mc-box {
+  margin: 1.5rem 0;
+  padding: 1rem 1.1rem 1.1rem;
+  background: var(--bg-alt, #f8fafc);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+}
+
+.mc-ctls { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem 1rem; }
+.mc-c { display: block; }
+.mc-c > span {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.74rem;
+  color: var(--text-muted);
+}
+.mc-c b { font-family: var(--mono); font-size: 0.73rem; color: var(--text); }
+.mc-c input { width: 100%; margin: 0.15rem 0 0; accent-color: var(--primary); }
+
+.mc-rows { margin-top: 1rem; }
+.mc-row { display: flex; align-items: center; gap: 0.7rem; margin-bottom: 0.5rem; }
+.mc-rl { flex: 0 0 11rem; font-size: 0.78rem; color: var(--text-muted); }
+.mc-rl em { font-style: normal; opacity: 0.7; }
+.mc-track {
+  position: relative;
+  flex: 1 1 auto;
+  height: 22px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  overflow: hidden;
+}
+.mc-fill { display: block; height: 100%; }
+.mc-on { background: #16a34a; opacity: 0.75; }
+.mc-off { background: #dc2626; opacity: 0.7; }
+.mc-thresh { position: absolute; top: 0; bottom: 0; width: 0; border-left: 2px dashed var(--text-muted); }
+.mc-v { flex: 0 0 4.5rem; font-family: var(--mono); font-size: 0.76rem; text-align: right; }
+
+.mc-read {
+  margin-top: 0.85rem;
+  padding: 0.55rem 0.7rem;
+  font-size: 0.84rem;
+  line-height: 1.55;
+  background: #ede9fe;
+  border-left: 3px solid var(--primary);
+  border-radius: 6px;
+  color: #4c1d95;
+}
+.mc-read.mc-hot { background: #fee2e2; border-color: #dc2626; color: #991b1b; }
+.mc-read code { background: none; padding: 0; color: inherit; font-size: 0.79rem; }
+
+.mc-note { margin: 0.6rem 0 0; font-size: 0.75rem; line-height: 1.5; color: var(--text-muted); font-style: italic; }
+
+[data-theme="dark"] .mc-box { background: #1e293b !important; border-color: #334155 !important; }
+[data-theme="dark"] .mc-track { background: #0f172a !important; border-color: #334155 !important; }
+[data-theme="dark"] .mc-c b, [data-theme="dark"] .mc-v { color: #e2e8f0 !important; }
+[data-theme="dark"] .mc-read { color: #ddd6fe !important; background: #2e1065 !important; }
+[data-theme="dark"] .mc-read.mc-hot { color: #fecaca !important; background: #7f1d1d !important; border-color: #dc2626 !important; }
+
+@media only screen and (max-width: 40em) {
+  .mc-box { padding: 0.8rem 0.85rem 0.9rem; }
+  .mc-ctls { grid-template-columns: 1fr; }
+  .mc-row { flex-wrap: wrap; gap: 0.35rem 0.5rem; }
+  .mc-rl { flex: 1 1 100%; }
+  .mc-v { flex: 0 0 3.6rem; }
+}

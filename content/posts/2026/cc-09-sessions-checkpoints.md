@@ -33,7 +33,8 @@ Every message, tool call and result appends to a JSONL file:
 
 Two consequences worth holding:
 
-- **Sessions are scoped to a directory.** The picker shows this worktree by default; `Ctrl+W` widens to every worktree of the repository, `Ctrl+A` to every project on the machine.
+- **Sessions are scoped to a directory — not a branch.** The picker shows this worktree by default; `Ctrl+W` widens to every worktree of the repository, `Ctrl+A` to every project on the machine.
+- **Switching branches does not start a new session.** Claude always reads files from your active branch, so a `git checkout` swaps the code underneath a conversation that carries on unchanged. That is usually what you want and occasionally exactly what you don't: Claude still remembers a discussion about code that is no longer checked out.
 - **The entry format is internal and changes between releases.** Parse it and your script breaks on an upgrade. Use `/export`, or `claude -p --resume <id> --output-format json`, which is a supported interface.
 
 Transcripts are swept after **30 days** by default (`cleanupPeriodDays`). `CLAUDE_CONFIG_DIR` moves the whole store; `CLAUDE_CODE_SKIP_PROMPT_HISTORY` suppresses writing it at all.
@@ -57,6 +58,10 @@ Name your sessions — `claude -n auth-refactor`, or `/rename` later — and the
 It restores the conversation, the model, the agent, and any active goal. What it does **not** restore is the part that catches people:
 
 > **Flags are not stored in the session.** `--mcp-config`, `--settings`, `--plugin-dir`, `--fallback-model` and `--add-dir` must all be passed again. Settings *files* are re-read at launch, so anything living in `settings.json` needs no repeating — which is a good argument for putting configuration there rather than on the command line.
+
+The other thing that does not survive is **session-scoped permission grants**. Every "yes, allow for this session" you granted is gone; you re-approve on first use. Forking does not carry them either. The reason is the same in both cases — those grants were scoped to a *running session*, and resuming starts a new one.
+
+The exception is worth knowing because it is the one people expect to be reset and isn't: **"Yes, and don't ask again" on a Bash command is not session-scoped.** Chapter 4's approval-lifetime table applies — that answer was written to `.claude/settings.local.json` and comes back with the file, not the session.
 
 Permission mode is restored **only from the terminal** with `--continue` or an unambiguous `--resume`. Pick the same session from the picker, or switch to it with `/resume`, and it starts in the mode a new session would use instead. And a session that ended in `bypassPermissions` or `plan` never resumes in it — you re-enable those deliberately.
 
@@ -82,6 +87,34 @@ The distinction that explains everything else: **`/branch` copies the transcript
 Fork into a *separate* process with `--fork-session` and the session grants do not come with you — you re-approve there.
 
 One thing to avoid: resuming the same session in two terminals without forking interleaves both sets of messages into one transcript.
+
+## Worktrees: one repository, several sessions
+
+Branching a *conversation* is `/branch`. Branching the *files* is a worktree, and it is what you want when two pieces of work would otherwise collide in one directory — a feature in one session, a production bug in another.
+
+A [git worktree](https://git-scm.com/docs/git-worktree) is a second working directory on its own branch, sharing the repository's history and remote. Claude Code creates one for you:
+
+```bash
+claude --worktree feature-auth      # or -w
+```
+
+By default that creates `.claude/worktrees/feature-auth/` at the repository root, on a new branch `worktree-feature-auth`, and starts the session inside it. Omit the name and one is generated. Run it again elsewhere with a different name and you have two isolated sessions.
+
+You can also just ask mid-session — "work in a worktree" — and Claude creates one and moves into it.
+
+> Add `.claude/worktrees/` to your `.gitignore`, or every worktree shows up as untracked files in your main checkout.
+
+### What isolation actually enforces
+
+This is stronger than "different directory". While a session is in a worktree, Claude Code **blocks** any tool call that would reach back into the main checkout: an edit targeting a path there, a shell command whose working directory resolves there, and a git command redirected there via `git -C`, `--git-dir`, `GIT_DIR` or a `cd`. If it cannot verify from the command text that git stays inside the worktree, it refuses and tells Claude how to rewrite it. That last check cannot be turned off.
+
+### Three details that bite
+
+- **A worktree is a fresh checkout, so your gitignored files are not there.** No `.env`, no local config. A `.worktreeinclude` file at the project root — gitignore syntax — copies the ones you name into every new worktree.
+- **New worktrees branch from the repository's default branch**, not your current work. Set `worktree.baseRef` to `"head"` if you want your unpushed commits to come along.
+- **Cleanup depends on what is in it.** Exit a clean unnamed worktree and Claude removes it and its branch. If it holds changes, untracked files or commits, you are asked whether to keep it. A `-p` run has no exit prompt, so it cleans up nothing.
+
+Two things are shared with the main checkout rather than duplicated: the `.git` directory, so `git commit` works from inside a worktree even with the sandbox on, and **saved permission approvals**, which land in the main checkout's `.claude/settings.local.json` and therefore apply across every worktree of the repository.
 
 ## Checkpoints
 
@@ -136,6 +169,14 @@ All three reduce what you are carrying, and Chapter 8 gave the cost argument. Re
 
 Summarizing from the rewind menu is a **targeted `/compact`** that keeps you in the same session — and it does not touch files on disk. The original messages also remain in the transcript, so the detail is still there for Claude to look up.
 
+## Document and clear
+
+One habit is worth naming on its own, because it solves the case none of the commands above handle: a task too large for one context window.
+
+Ask Claude to write its plan and progress into a `.md` file. Run `/clear`. Start again by telling it to read that file and continue.
+
+You get a fresh context window with the knowledge preserved — and unlike compaction, **you chose what survived**, it is on disk where you can read and correct it, and it outlives the session entirely. Chapter 8's rule stated the general form: anything that must outlive a compact belongs in a file. This is that rule applied to the work itself.
+
 ## Resuming a large old session
 
 On Pro or Max, resuming a session over ~100,000 tokens that has been idle more than about an hour opens a dialog before your first message. Its prompt cache has expired, so the next request processes the full history once whichever option you pick:
@@ -153,7 +194,12 @@ The trade is per-request cost against detail. Resuming as-is keeps everything an
 - A session is `~/.claude/projects/<project>/<session-id>.jsonl`, swept after **30 days** by default. The format is internal — use `/export` or `-p --output-format json`.
 - **A resumed session does not restore your flags.** `--mcp-config`, `--settings`, `--add-dir` and friends must be passed again; settings files are re-read.
 - Permission mode is restored only from the terminal, and never for `plan` or `bypassPermissions`.
+- **Session-scoped permission grants do not survive a resume or a fork** — you re-approve. A Bash "don't ask again", though, lives in a settings file and does come back.
+- Sessions are tied to a **directory, not a branch**: `git checkout` swaps the files underneath an unchanged conversation.
 - `/branch` copies the transcript and keeps the same process, so session permission grants carry over. `--fork-session` into a new process does not.
+- **`claude --worktree <name>`** gives a session its own checkout and branch, and Claude Code *enforces* the isolation by blocking edits, commands and git redirects aimed at the main checkout.
+- A worktree has none of your gitignored files — use `.worktreeinclude`.
+- For a task bigger than one context window: **write the plan to a file, `/clear`, and read it back.**
 - **Every prompt makes a checkpoint**, snapshots kept for the 100 most recent and 30 days.
 - **Rewind cannot undo bash commands, most subagent edits, external changes, or symlinked paths.** Git is still the backstop.
 - `/rewind` returns to a cached prefix; `/compact` builds a new one; `/branch` preserves the original.

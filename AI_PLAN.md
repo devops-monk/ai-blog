@@ -239,16 +239,16 @@ point the deck makes that the chapter does not.
 | 34–40 | 5 | ✅ none |
 | 41–45 | 4 | ✅ fixed — the approval-lifetime table, and the shapes that need `--add-dir` |
 | 46–48 | 10 | ✅ none |
-| 49–50 | 8 | ⬜ a **Compact Instructions section in `CLAUDE.md`** as an alternative to `/compact <instructions>` |
-| 51–57 | 9 | ⬜ **session-scoped permission grants reset on resume and on fork** — both need re-approval. ⬜ sessions are tied to a directory, **not a branch**: switching branches keeps the conversation and swaps the files. ⬜ the five session habits, especially **document-and-clear** (write plan to a `.md`, `/clear`, new session reads it) |
+| 49–50 | 8 | ✅ fixed — Compact Instructions in `CLAUDE.md` |
+| 51–57 | 9 | ✅ fixed — grants reset on resume and fork, directory-not-branch scoping, document-and-clear |
 | 58–62 | 9 | ✅ none |
 | 63–64 | 2 | ✅ none |
 | 65–69 | 16 | ⬜ **how Claude builds a PR** — gather context, prepare the branch, analyse the commits, `gh pr create`. ⬜ the `commit-commands` plugin (`/commit`, `/commit-push-pr`, `/clean_gone`) |
-| 70–72 | 9 | ⬜ **git worktrees** — `claude --worktree <name>` / `-w`, stored at `<repo>/.claude/worktrees/<name>` on branch `worktree-<name>`, or just ask Claude to start one mid-session |
+| 70–72 | 9 | ✅ fixed — full worktrees section, enriched with the enforcement rules, `.worktreeinclude` and `worktree.baseRef` |
 | 73–76 | 16 | ✅ none |
-| 77–78 | 8 | ⬜ **the status line** — JSON in on stdin, text out on stdout; `/statusline <description>` writes the script for you |
-| 79–81 | 7 | ⬜ **priority saturation** as the framing for why rules exist. ⬜ a **rules vs CLAUDE.md** placement table |
-| 82–89 | 7 | ⬜ **the third memory layer** — session memory / conversation continuity, alongside CLAUDE.md and auto memory |
+| 77–78 | 8 | ✅ fixed — the status line, and `/statusline` writing the script |
+| 79–81 | 7 | ✅ fixed — priority saturation, the 400-vs-100-line arithmetic, and a placement table |
+| 82–89 | 7 | ✅ fixed — session memory named as the third layer |
 | 90–97 | 11 | ⬜ `assets/` and `references/` in the canonical skill layout. ⬜ a **CLAUDE.md vs rules vs skills** comparison |
 | 98–100 | 11 | ✅ none |
 | 101–109 | 12 | ⬜ **hooks are isolated from the context window** — they run externally and cost zero context unless they return `additionalContext`. ⬜ **language choice and startup cost** — bash ~10–20ms, Node ~50–100ms, Python ~200–400ms, and why that matters for `PreToolUse`. ⬜ the desktop-notification hook as a worked example |

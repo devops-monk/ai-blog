@@ -38,6 +38,10 @@ Neither is enforcement. Both are context Claude reads and tries to honour — th
 
 Chapter 6 ended on a limitation: `@path` imports organise a large `CLAUDE.md` without reducing what loads. `.claude/rules/` is the mechanism that reduces it.
 
+The failure it addresses has a name worth borrowing: **priority saturation**. A 400-line `CLAUDE.md` holding React conventions, API guidelines, migration warnings, security policy and testing rules is carrying every one of them into every request. When Claude edits a React component it is also holding your database-migration safety rules; when it writes SQL it is holding your React patterns. **When everything is high priority, nothing is** — attention gets spread across instructions that do not apply to the task in front of it.
+
+The arithmetic is the argument. A 400-line `CLAUDE.md` is 400 lines competing for attention on every prompt. A 50-line `CLAUDE.md` plus five 50-line rule files is **100 lines active at any moment** — the base file plus the one rule that matches what Claude is actually touching.
+
 ```text
 your-project/
 └── .claude/
@@ -68,6 +72,21 @@ paths:
 That file is not in context when Claude is editing CSS. It enters when Claude **reads a file matching the pattern** — not on every tool call, and not because the conversation is about the API.
 
 `~/.claude/rules/` works the same way for personal rules across every project. They load **before** project rules, which gives project rules the later, stronger position.
+
+### Which of the two does an instruction belong in?
+
+The split is universal versus file-shaped:
+
+| `CLAUDE.md` | A rule file |
+|---|---|
+| Project overview and tech stack | Patterns specific to one file type |
+| Build and test commands | Framework guidelines — React, Spring, Django |
+| Architecture overview | Security rules for one sensitive directory |
+| Conventions that hold everywhere | Test-writing conventions |
+| Gotchas that affect everything | Migration safety rules |
+| Git workflow and branching | API design guidelines |
+
+The test: **would this instruction be wrong, or merely irrelevant, while Claude edits an unrelated file?** Merely irrelevant means it should be scoped.
 
 ### Watch what loads
 
@@ -159,6 +178,20 @@ Asking Claude to "remember that we use pnpm" writes to auto memory. Asking it to
 
 Since v2.1.214 each memory file with frontmatter gets a `modified` timestamp on write, so both you and Claude can see how stale a fact is. **A recalled memory reflects what was true when it was written** — if it names a flag or a file, that is a claim to verify, not a fact to act on.
 
+## The third layer
+
+`CLAUDE.md` and auto memory are the two you configure. There is a third that you do not, and naming it completes the picture:
+
+| Layer | Written by | Loaded | Shared |
+|---|---|---|---|
+| **`CLAUDE.md` and rules** | You | Every session start | Your team, via git |
+| **Auto memory** | Claude | First 200 lines every session; topic files on demand | Nobody — machine-local |
+| **Session memory** | Claude Code | The conversation itself, and its summaries | Nobody — per session |
+
+**Session memory** is Chapter 9's territory: the transcript on disk, the summaries compaction produces, and what `--continue` and `--resume` restore. It is what lets you pick up mid-thought rather than mid-project.
+
+The three answer different questions. `CLAUDE.md` says *how this project works*. Auto memory says *what I learned about you*. Session memory says *where we were*. A setup missing any one of them re-explains something every day.
+
 ## Where each mechanism reaches
 
 The last question is which of this survives the events that clear context.
@@ -176,7 +209,9 @@ So the diagnostic from Chapter 6 sharpens: if something Claude knew is gone afte
 
 ## Summary
 
+- Rules exist to defeat **priority saturation** — when everything is high priority, nothing is. A 50-line `CLAUDE.md` plus five scoped rule files keeps ~100 lines active instead of 400.
 - Splitting `CLAUDE.md` into rules saves nothing unless the rules are **scoped**. An unscoped rule loads at launch like any other instruction.
+- Placement test: would the instruction be **wrong**, or merely **irrelevant**, in an unrelated file? Merely irrelevant means scope it.
 - A `paths:` rule fires when Claude **reads a matching file**, not when the conversation is about that area.
 - User rules load before project rules, so project rules land later and stronger.
 - Three silent glob failures: an over-budget brace expansion is used unexpanded, an unescaped `[` matches nothing, and neither reports an error. `InstructionsLoaded` is the way to see what really loaded.
@@ -184,6 +219,7 @@ So the diagnostic from Chapter 6 sharpens: if something Claude knew is gone afte
 - **Only the first 200 lines or 25 KB of `MEMORY.md` load.** It is an index; detail belongs in topic files, which load on demand.
 - Auto memory is per-repository and machine-local, shared across worktrees, and exempt from the transcript retention sweep.
 - **Auto memory does not reach a subagent**, but `CLAUDE.md` does.
+- There are **three** memory layers, not two: your instructions, Claude's notes, and the session itself.
 - Full reference: [memory and rules](https://code.claude.com/docs/en/memory), [monorepos](https://code.claude.com/docs/en/large-codebases).
 
 Chapter 8 is the budget all of this spends: the context window — what fills it, what `/compact` keeps, and the habits that stop you hitting the ceiling mid-task.

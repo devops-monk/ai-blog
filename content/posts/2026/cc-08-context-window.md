@@ -86,6 +86,20 @@ Three practical consequences fall out of that table:
 
 You can also move the trigger point — `/autocompact 500k` — or compact part of the conversation from `/rewind` with **Summarize from here**.
 
+### Making the focus permanent
+
+`/compact focus on the auth bug` steers one compaction. For a project where the same thing always matters, put a **Compact Instructions** section in your `CLAUDE.md` instead:
+
+```markdown
+## Compact Instructions
+
+When compacting, always retain the current migration plan, any failing
+test names, and decisions about the API contract. Drop exploratory
+file reads and tool output that has been superseded.
+```
+
+That survives every compaction in every session, including the automatic pass that fires while you are mid-task and not thinking about what to keep. Which is the general lesson of this section: **anything that must outlive a compact belongs in a file, not in the conversation.**
+
 ## The other budget: the prompt cache
 
 Every turn re-sends the whole conversation. The API avoids reprocessing it by matching the **prefix** of the request against what it recently processed — and the match is exact, so a change anywhere invalidates everything after it.
@@ -144,6 +158,26 @@ The five that do the work, in rough order of payoff:
 
 `/context` shows the live breakdown by category, with suggestions. It is the first thing to run when a session feels sluggish or expensive.
 
+### Or stop asking, and put it on screen
+
+`/context` answers "how full am I" once. A **status line** answers it continuously — a strip at the bottom of the session showing whatever you choose.
+
+The contract is small: **Claude Code sends your script a JSON object on stdin** — model, cost, context percentage, git directory, session ID — **your script prints one line to stdout**, and that line is displayed. Any language; it is just a program that reads stdin and writes stdout.
+
+You do not have to write it. Describe what you want and Claude Code generates the script, drops it in `~/.claude/`, and wires up the setting:
+
+```text
+/statusline show model name and context percentage with a progress bar
+```
+
+The manual form is a settings key:
+
+```json
+{ "statusLine": { "type": "command", "command": "~/.claude/statusline.sh", "padding": 2 } }
+```
+
+It is also where the `prompt_cache` fields from the previous section surface, so a cache hit ratio can sit on screen next to the context gauge.
+
 If you need a bigger window rather than a smaller conversation, Fable 5.1, Fable 5, Sonnet 5, and Opus 4.6+ / Sonnet 4.6+ support **1M tokens** — a `[1m]` model variant, except Sonnet 5, which runs at 1M with nothing to select.
 
 ## Summary
@@ -156,6 +190,8 @@ If you need a bigger window rather than a smaller conversation, Fable 5.1, Fable
 - **Each model and effort level has its own cache.** `opusplan` makes every plan-mode toggle a model switch.
 - Editing `CLAUDE.md` mid-session is cache-safe **because the edit does not apply** until `/clear`, `/compact` or restart.
 - `/rewind` returns to a cached prefix; `/compact` builds a new one. Prefer rewinding when abandoning a path.
-- Full reference: [context window](https://code.claude.com/docs/en/context-window), [prompt caching](https://code.claude.com/docs/en/prompt-caching), [costs](https://code.claude.com/docs/en/costs).
+- A **Compact Instructions** section in `CLAUDE.md` makes your focus survive every compaction, including the automatic one.
+- A **status line** turns `/context` from a question into a gauge: JSON in on stdin, one line out on stdout, and `/statusline <description>` writes the script for you.
+- Full reference: [context window](https://code.claude.com/docs/en/context-window), [prompt caching](https://code.claude.com/docs/en/prompt-caching), [statusline](https://code.claude.com/docs/en/statusline), [costs](https://code.claude.com/docs/en/costs).
 
 Chapter 9 closes Part 2 with the machinery underneath all of this: sessions on disk, checkpoints, and what `/rewind` can and cannot restore.

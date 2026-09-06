@@ -110,8 +110,8 @@ preserveTaxonomyNames = true
   ]
   author = "Abhay"
   publisher = "AI Engineering by Abhay"
-  subtitle = "Master Claude Code"
-  description = "A 23-chapter handbook for Claude Code — permissions, context, skills, hooks, MCP and agents, worked out end to end for engineers who have to ship with it."
+  subtitle = "How AI actually works"
+  description = "AI engineering worked out end to end — from what a transformer does on every token to shipping real work with Claude Code and the agents built on it."
   email = "abhaypratap3537@gmail.com"
   github = "abhi15sep"
   linkedin = "abhay-singh-831997b5"

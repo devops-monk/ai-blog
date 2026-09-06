@@ -1,0 +1,285 @@
+<!doctype html><html lang=en-US prefix="og: http://ogp.me/ns#"><head><meta charset=UTF-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=title property="title" content="AI Engineering - GitHub, GitLab & CI"><meta name=description property="description" content="A 23-chapter handbook for Claude Code — permissions, context, skills, hooks, MCP and agents, worked out end to end for engineers who have to ship with it. - Three levels of integration, from Claude running git for you to Claude as a CI step. The @claude bot, the two modes a workflow can run in, and what a headless run does with permissions when nobody is there to answer."><title>AI Engineering - GitHub, GitLab & CI</title><meta property="og:url" content="https://ai.devops-monk.com/2026/09/github-gitlab-and-ci/"><meta property="og:site_name" content="AI Engineering"><meta property="og:title" content="GitHub, GitLab & CI"><meta property="og:description" content="Three levels of integration, from Claude running git for you to Claude as a CI step. The @claude bot, the two modes a workflow can run in, and what a headless run does with permissions when nobody is there to answer."><meta property="og:locale" content="en_us"><meta property="og:type" content="article"><meta property="article:section" content="posts"><meta property="article:published_time" content="2026-09-06T10:00:00+00:00"><meta property="article:modified_time" content="2026-09-06T10:00:00+00:00"><meta property="article:tag" content="Claude-Code"><meta property="article:tag" content="Github-Actions"><meta property="article:tag" content="Ci"><meta property="article:tag" content="Headless"><meta property="article:tag" content="Automation"><meta property="og:image" content="https://ai.devops-monk.com/images/social/cc-16-github-gitlab-ci.jpg"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="GitHub, GitLab & CI"><meta name=twitter:card content="summary_large_image"><meta name=twitter:title content="GitHub, GitLab & CI"><meta name=twitter:description content="Three levels of integration, from Claude running git for you to Claude as a CI step. The @claude bot, the two modes a workflow can run in, and what a headless run does with permissions when nobody is there to answer."><meta name=twitter:image content="https://ai.devops-monk.com/images/social/cc-16-github-gitlab-ci.jpg"><meta name=twitter:image:alt content="GitHub, GitLab & CI"><link rel=canonical href=https://ai.devops-monk.com/2026/09/github-gitlab-and-ci/><link rel=stylesheet href=/assets/css/custom-fonts.css type=text/css media=all><link rel=stylesheet href=/assets/css/style.css type=text/css media=all><link rel=stylesheet href=/assets/css/genericons.css type=text/css media=all><link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css media=all><link rel=stylesheet href=/assets/css/socicon.css type=text/css media=all><link rel=stylesheet href=/assets/css/social-logos/social-logos.css type=text/css media=all><link rel=stylesheet href=/assets/css/jetpack.css type=text/css media=all><link rel=stylesheet href=/assets/css/custom-styles.css type=text/css media=all><script type=text/javascript src=/assets/js/jquery-1.12.4.min.js></script><script type=text/javascript src=/assets/js/html5shiv.min.js></script><script type=text/javascript src=/assets/js/navigation.js></script><link rel="shortcut icon" href=/favicon.png type=image/x-icon><script type=application/ld+json>{"@context":"https://schema.org","@graph":[{"@type":"TechArticle","author":{"@type":"Person","name":"Abhay"},"dateModified":"2026-09-06","datePublished":"2026-09-06","description":"Three levels of integration, from Claude running git for you to Claude as a CI step. The @claude bot, the two modes a workflow can run in, and what a headless run does with permissions when nobody is there to answer.","headline":"GitHub, GitLab \u0026 CI","image":"https://ai.devops-monk.com/images/social/cc-16-github-gitlab-ci.jpg","inLanguage":"en-US","keywords":["claude-code","github-actions","ci","headless","automation"],"mainEntityOfPage":{"@id":"https://ai.devops-monk.com/2026/09/github-gitlab-and-ci/","@type":"WebPage"},"name":"GitHub, GitLab \u0026 CI","publisher":{"@type":"Organization","name":"AI Engineering by Abhay","sameAs":["https://github.com/abhi15sep","https://www.linkedin.com/in/abhay-singh-831997b5"],"url":"https://ai.devops-monk.com/"},"url":"https://ai.devops-monk.com/2026/09/github-gitlab-and-ci/","wordCount":1393},{"@type":"Organization","name":"AI Engineering by Abhay","sameAs":["https://github.com/abhi15sep","https://www.linkedin.com/in/abhay-singh-831997b5"],"url":"https://ai.devops-monk.com/"}]}</script><script src=https://cdn.jsdelivr.net/npm/fuse.js@7/dist/fuse.min.js defer></script><script src=/assets/js/search.js defer></script><script src=/assets/js/enhancements.js defer></script><script type=module>
+      import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+
+      
+      const isDark = () =>
+        document.documentElement.getAttribute('data-theme') === 'dark';
+
+      
+      
+      const vars = {
+        light: {
+          background: '#ffffff', mainBkg: '#ede9fe',
+          primaryColor: '#ede9fe', primaryTextColor: '#1e293b',
+          primaryBorderColor: '#7c3aed', secondaryColor: '#f0fdf4',
+          secondaryTextColor: '#166534', secondaryBorderColor: '#10b981',
+          tertiaryColor: '#f8fafc', tertiaryTextColor: '#1e293b',
+          tertiaryBorderColor: '#cbd5e1',
+          lineColor: '#475569', textColor: '#1e293b', titleColor: '#0f172a',
+          clusterBkg: '#f8fafc', clusterBorder: '#cbd5e1',
+          edgeLabelBackground: '#ffffff', nodeBorder: '#7c3aed',
+          actorBkg: '#ede9fe', actorBorder: '#7c3aed', actorTextColor: '#1e293b',
+          signalColor: '#475569', signalTextColor: '#1e293b',
+          labelBoxBkgColor: '#ede9fe', labelBoxBorderColor: '#7c3aed',
+          labelTextColor: '#1e293b', loopTextColor: '#1e293b',
+          noteBkgColor: '#fffbeb', noteBorderColor: '#f59e0b', noteTextColor: '#92400e',
+        },
+        dark: {
+          background: '#1b1533', mainBkg: '#3b2a6b',
+          primaryColor: '#3b2a6b', primaryTextColor: '#e2e8f0',
+          primaryBorderColor: '#7c3aed', secondaryColor: '#10291f',
+          secondaryTextColor: '#6ee7b7', secondaryBorderColor: '#10b981',
+          tertiaryColor: '#171233', tertiaryTextColor: '#e2e8f0',
+          tertiaryBorderColor: '#4c3a75',
+          lineColor: '#94a3b8', textColor: '#e2e8f0', titleColor: '#f1f5f9',
+          clusterBkg: '#171233', clusterBorder: '#3a2c63',
+          edgeLabelBackground: '#1b1533', nodeBorder: '#7c3aed',
+          actorBkg: '#3b2a6b', actorBorder: '#7c3aed', actorTextColor: '#e2e8f0',
+          signalColor: '#94a3b8', signalTextColor: '#e2e8f0',
+          labelBoxBkgColor: '#3b2a6b', labelBoxBorderColor: '#7c3aed',
+          labelTextColor: '#e2e8f0', loopTextColor: '#e2e8f0',
+          noteBkgColor: '#2a1d10', noteBorderColor: '#f59e0b', noteTextColor: '#fcd34d',
+        },
+      };
+
+      
+      
+      
+      function sourceOf(el) {
+        const t = document.createElement('textarea');
+        t.innerHTML = el.dataset.src;
+        return t.value;
+      }
+
+      let seq = 0;
+
+      async function draw() {
+        const blocks = [...document.querySelectorAll('pre.mermaid')];
+        blocks.forEach((el) => {
+          if (el.dataset.src === undefined) el.dataset.src = el.innerHTML;
+        });
+
+        mermaid.initialize({
+          startOnLoad: false,
+          theme: 'base',
+          themeVariables: {
+            fontFamily: "Inter, -apple-system, BlinkMacSystemFont, sans-serif",
+            fontSize: '15px',
+            ...(isDark() ? vars.dark : vars.light),
+          },
+          securityLevel: 'loose',
+          
+          
+          
+          
+          
+          
+          
+          
+          flowchart: {
+            htmlLabels: true,
+            useMaxWidth: false,
+            curve: 'basis',
+            padding: 14,
+            nodeSpacing: 46,
+            rankSpacing: 58,
+            diagramPadding: 10,
+          },
+          sequence: {
+            useMaxWidth: false,
+            
+            mirrorActors: false,
+            actorMargin: 48,
+            boxMargin: 10,
+            diagramMarginY: 12,
+            actorFontSize: 14,
+            messageFontSize: 13,
+            noteFontSize: 13,
+          },
+        });
+
+        
+        
+        
+        
+        
+        for (const el of blocks) {
+          const id = 'mermaid-svg-' + (seq++);
+          try {
+            const { svg, bindFunctions } = await mermaid.render(id, sourceOf(el));
+            el.innerHTML = svg;
+            if (bindFunctions) bindFunctions(el);
+          } catch (err) {
+            console.error('mermaid: failed to render diagram', err);
+          }
+        }
+      }
+
+      document.addEventListener('DOMContentLoaded', draw);
+      new MutationObserver((m) => {
+        if (m.some((r) => r.attributeName === 'data-theme')) draw();
+      }).observe(document.documentElement, { attributes: true });
+    </script></head><body class="home blog post-layout-one-column"><button onclick=topFunction() id=scrollTopBtn title="Go to top">
+<i class="fa-solid fa-arrow-up"></i></button><div id=header-top class=header-bar-wrap></div><div id=page class=site><a class="skip-link screen-reader-text" href=#content>Skip to content</a><header id=masthead class="site-header clearfix" role=banner><div class="header-main container clearfix"><div id=logo class="site-branding clearfix"><h1 class=site-title><a href=/ title="AI Engineering" rel=home>AI Engineering</a></h1><p class=site-description>Master Claude Code</p></div><button id=dark-mode-toggle title="Toggle dark mode" aria-label="Toggle dark mode">
+<i class="fa-solid fa-moon" id=dm-icon></i></button></div><div id=main-navigation-wrap class=primary-navigation-wrap><nav id=main-navigation class="primary-navigation navigation container clearfix" role=navigation><ul id=menu-home class=main-navigation-menu><li class="menu-item menu-item-type-custom menu-item-object-custom"><a href=/>Home</a></li><li class="menu-item menu-item-type-custom menu-item-object-custom"><a href=/guide/>Guide</a></li><li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children"><a href=#>Topics</a><ul class=sub-menu><li class=menu-item><a href=/tags/permissions/>Permissions</a></li><li class=menu-item><a href=/tags/context/>Context</a></li><li class=menu-item><a href=/tags/skills/>Skills</a></li><li class=menu-item><a href=/tags/hooks/>Hooks</a></li><li class=menu-item><a href=/tags/mcp/>MCP</a></li><li class=menu-item><a href=/tags/subagents/>Subagents</a></li></ul></li><li class="menu-item menu-item-type-custom menu-item-object-custom"><a href=/about/>About</a></li><li class="menu-item nav-rss"><a href=/index.xml title="Subscribe via RSS" target=_blank rel=noopener><i class="fa-solid fa-rss"></i> RSS</a></li></ul></nav></div></header><div id=content class="site-content container clearfix"><section id=primary class="content-archive content-area post-content-area"><main id=main class=site-main role=main><article class="post type-post"><div class=post-inner-content><div class=post-hero-img-link><img class=post-hero-img src=/images/articles/cc-16-github-gitlab-ci.webp alt="GitHub, GitLab & CI" width=1200 height=480></div><header class=entry-header><div class=entry-meta><span class=meta-date><a href=https://ai.devops-monk.com/2026/09/github-gitlab-and-ci/ rel=bookmark><time class="entry-date published" datetime=2026-09-06T10:00:00>September 06, 2026
+</time></a></span><span class=meta-author><span class="author vcard">Abhay</span>
+</span><span class=meta-reading-time>7 min read</span></div><h2 class=entry-title><a href=https://ai.devops-monk.com/2026/09/github-gitlab-and-ci/ rel=bookmark>GitHub, GitLab & CI</a></h2><div><span class="tagcloud post-tags"><i class="fa fa-tags"></i>
+<a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/claude-code/>claude-code</a>
+&nbsp;
+<a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/github-actions/>github-actions</a>
+&nbsp;
+<a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/ci/>ci</a>
+&nbsp;
+<a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/headless/>headless</a>
+&nbsp;
+<a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/automation/>automation</a></span></div></header><a class=series-badge href=/guide/><span class=series-badge-vol>Part 4 — Connecting Claude to the World</span>
+<span class=series-badge-ch>Chapter 3 of 3</span></a><div class=social-share-bar><span class=share-label>Share:</span>
+<a href="https://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2fai.devops-monk.com%2f2026%2f09%2fgithub-gitlab-and-ci%2f&title=GitHub%2C+GitLab+%26+CI" target=_blank rel=noopener class="share-btn share-linkedin" title="Share on LinkedIn"><i class="fa-brands fa-linkedin-in"></i> LinkedIn
+</a><a href="https://twitter.com/intent/tweet?url=https%3a%2f%2fai.devops-monk.com%2f2026%2f09%2fgithub-gitlab-and-ci%2f&text=GitHub%2C+GitLab+%26+CI" target=_blank rel=noopener class="share-btn share-twitter" title="Share on Twitter / X"><i class="fa-brands fa-x-twitter"></i> X
+</a><a href="https://www.reddit.com/submit?url=https%3a%2f%2fai.devops-monk.com%2f2026%2f09%2fgithub-gitlab-and-ci%2f&title=GitHub%2C+GitLab+%26+CI" target=_blank rel=noopener class="share-btn share-reddit" title="Share on Reddit"><i class="fa-brands fa-reddit-alien"></i> Reddit</a></div><nav class=toc-widget><h3 class=toc-title><i class="fa-solid fa-list"></i> Contents</h3><div class=toc-links><nav id=TableOfContents><ul><li><a href=#overview>Overview</a></li><li><a href=#three-levels>Three levels</a></li><li><a href=#level-1-it-already-knows-git>Level 1: it already knows git</a></li><li><a href=#level-2-github-actions>Level 2: GitHub Actions</a><ul><li><a href=#one-input-decides-the-mode>One input decides the mode</a></li><li><a href=#who-can-trigger-a-run>Who can trigger a run</a></li><li><a href=#what-you-are-installing>What you are installing</a></li></ul></li><li><a href=#level-3-headless-anywhere>Level 3: headless anywhere</a><ul><li><a href=#--bare-is-the-ci-flag><code>--bare</code> is the CI flag</a></li><li><a href=#permissions-with-nobody-to-ask>Permissions with nobody to ask</a></li><li><a href=#structured-output-for-a-gate>Structured output for a gate</a></li></ul></li><li><a href=#build-the-config>Build the config</a></li><li><a href=#costs>Costs</a></li><li><a href=#summary>Summary</a></li></ul></nav></div></nav><div id=tts-player class=tts role=region aria-label="Article audio player"><div class=tts-main><span class=tts-badge aria-hidden=true><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18" stroke-linecap="round" stroke-linejoin="round"><path d="M3 18v-6a9 9 0 0118 0v6"/><path d="M21 19a2 2 0 01-2 2h-1a2 2 0 01-2-2v-3a2 2 0 012-2h3z"/><path d="M3 19a2 2 0 002 2h1a2 2 0 002-2v-3a2 2 0 00-2-2H3z"/></svg></span><div class=tts-text><div class=tts-title>Listen to this article</div><div class=tts-status id=tts-status>Read aloud in your browser</div></div><div class=tts-actions><div class=tts-speed role=group aria-label="Playback speed"><button type=button data-rate=0.75>0.75&#215;</button>
+<button type=button data-rate=1 class=on>1&#215;</button>
+<button type=button data-rate=1.25>1.25&#215;</button>
+<button type=button data-rate=1.5>1.5&#215;</button></div><button class=tts-stop id=tts-stop title="Stop and reset" aria-label=Stop hidden>
+<svg viewBox="0 0 24 24" fill="currentColor" width="14" height="14"><rect x="6" y="6" width="12" height="12" rx="2"/></svg>
+</button>
+<button class=tts-play id=tts-play aria-label="Play article">
+<svg id="tts-play-icon" viewBox="0 0 24 24" fill="currentColor" width="16" height="16"><path d="M7 4l13 8-13 8z"/></svg>
+<svg id="tts-pause-icon" viewBox="0 0 24 24" fill="currentColor" width="16" height="16" hidden=""><rect x="6" y="4" width="4" height="16" rx="1.2"/><rect x="14" y="4" width="4" height="16" rx="1.2"/></svg>
+<span id=tts-play-text>Play</span></button></div></div><div class=tts-track><div class=tts-fill id=tts-progress-bar></div></div></div><script>document.addEventListener("DOMContentLoaded",function(){if(t=window.speechSynthesis,s=document.getElementById("tts-player"),!t||!s)return;var t,s,g=document.getElementById("tts-play"),y=document.getElementById("tts-play-text"),r=document.getElementById("tts-stop"),j=document.getElementById("tts-play-icon"),_=document.getElementById("tts-pause-icon"),b=document.getElementById("tts-status"),h=document.getElementById("tts-progress-bar"),u=s.querySelectorAll(".tts-speed button"),m=document.querySelector(".entry-content")||document.querySelector("article"),e=[],n=0,o=!1,f=1;function O(){if(!m){s.hidden=!0;return}var t=m.querySelectorAll("p, h2, h3, li, blockquote");e=Array.prototype.filter.call(t,function(e){return e.textContent.trim().length>15&&!e.closest("#tts-player")&&!e.closest("pre")&&!e.closest('[class*="-demo"], [class*="-calc"], [class*="-sim"], [class*="-explorer"], [class*="-check"]')}),e.length||(s.hidden=!0)}function c(e){b.textContent=e}function v(t){if(!e.length)return;h.style.width=Math.round(t/e.length*100)+"%"}function l(){var e=document.querySelectorAll(".tts-reading");Array.prototype.forEach.call(e,function(e){e.classList.remove("tts-reading")})}function d(e,t){t?e.setAttribute("hidden",""):e.removeAttribute("hidden")}function a(e){o=e,s.classList.toggle("is-playing",e),d(j,e),d(_,!e),y.textContent=e?"Pause":"Play",g.setAttribute("aria-label",e?"Pause article":"Play article"),r.hidden=!e&&n===0}function i(s){if(t.cancel(),l(),s>=e.length){a(!1),n=0,v(e.length),c("Finished");return}n=s;var r,d=e[s];d.classList.add("tts-reading"),d.scrollIntoView({behavior:"smooth",block:"center"}),r=new SpeechSynthesisUtterance(d.textContent.trim().replace(/\s+/g," ")),r.rate=f,r.pitch=1,r.lang="en-US",v(s+1),c("Section "+(s+1)+" of "+e.length+" · "+Math.round((s+1)/e.length*100)+"%"),r.onend=function(){d.classList.remove("tts-reading"),o&&i(s+1)},r.onerror=function(){d.classList.remove("tts-reading"),o&&i(s+1)},t.speak(r)}function w(){a(!0),i(n)}function p(){a(!1),t.cancel(),l(),c("Paused · section "+(n+1)+" of "+e.length),r.hidden=!1}function x(){n=0,a(!1),t.cancel(),l(),h.style.width="0%",c("Read aloud in your browser"),r.hidden=!0}g.addEventListener("click",function(){o?p():w()}),r.addEventListener("click",x),Array.prototype.forEach.call(u,function(e){e.addEventListener("click",function(){Array.prototype.forEach.call(u,function(e){e.classList.remove("on")}),this.classList.add("on"),f=parseFloat(this.getAttribute("data-rate")),o&&i(n)})}),window.addEventListener("beforeunload",function(){t.cancel()}),document.addEventListener("visibilitychange",function(){document.hidden&&o&&p()}),O()})</script><div class=entry-content><h2 id=overview>Overview</h2><p>This chapter covers:</p><ul><li>Three levels of integration, and why most people only need the first</li><li>The single input that decides whether a workflow waits for <code>@claude</code> or just runs</li><li>Two checks on <em>who</em> triggered a run, and why the bot check exists</li><li><code>--bare</code>, and the thing a <code>-p</code> run does in an untrusted repository without it</li><li>What happens to a permission prompt when there is nobody to answer it</li></ul><h2 id=three-levels>Three levels</h2><table><thead><tr><th>Level</th><th>What it is</th><th>You need</th></tr></thead><tbody><tr><td><strong>1. Local git</strong></td><td>Claude runs <code>git</code> and <code>gh</code> in your session</td><td>Nothing — it already can</td></tr><tr><td><strong>2. GitHub Action</strong></td><td><code>@claude</code> in a comment, or a workflow that runs on any event</td><td>The Claude GitHub App and a secret</td></tr><tr><td><strong>3. Headless anywhere</strong></td><td><code>claude -p</code> as a step in any pipeline</td><td>An API key or token</td></tr></tbody></table><p>Most of the value is at level 1, and it is worth saying so before the YAML starts. &ldquo;create a pr&rdquo; works today, with no setup, because <code>gh</code> is a command Claude can run.</p><h2 id=level-1-it-already-knows-git>Level 1: it already knows git</h2><p>From Chapter 15&rsquo;s recipes, the shape that works is summarise-then-generate:</p><div class=highlight><pre tabindex=0 style=color:#d8dee9;background-color:#2e3440;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-text data-lang=text><span style=display:flex><span>summarize the changes I&#39;ve made to the authentication module
+</span></span><span style=display:flex><span>create a pr
+</span></span><span style=display:flex><span>enhance the PR description with more context about the security improvements
+</span></span></code></pre></div><p>The first step is not politeness — it is your chance to catch a wrong mental model <strong>before</strong> it becomes the PR description.</p><p>One thing worth knowing for later: <strong>Claude Code links the session to the PR</strong> when Claude creates it with <code>gh pr create</code> or <code>glab mr create</code>. <code>claude --from-pr 1234</code> reopens the picker filtered to sessions for that PR, and pasting a PR URL into <code>/resume</code> search finds it too.</p><h2 id=level-2-github-actions>Level 2: GitHub Actions</h2><p><code>/install-github-app</code> does the whole setup — installs the app, stores the secret, pushes a branch with the workflow files, and opens the PR for you. It needs admin access on the repository and the <code>gh</code> CLI authenticated.</p><p>The secret is one of two, and the choice matters for teams:</p><table><thead><tr><th>Secret</th><th>From</th><th>Note</th></tr></thead><tbody><tr><td><code>ANTHROPIC_API_KEY</code></td><td>The Claude Console</td><td><strong>Use this for an organisation</strong></td></tr><tr><td><code>CLAUDE_CODE_OAUTH_TOKEN</code></td><td><code>claude setup-token</code> locally</td><td>Tied to <em>one person&rsquo;s</em> subscription</td></tr></tbody></table><p>An OAuth token shared across repositories bills one person&rsquo;s plan and dies with their account. For anything shared, the API key is the right answer — or workload identity federation, which exchanges the workflow&rsquo;s OIDC token and stores no long-lived secret at all.</p><h3 id=one-input-decides-the-mode>One input decides the mode</h3><p>This is the thing to understand about the action, and it is not signposted:</p><blockquote><p><strong>Provide a <code>prompt</code> input and the workflow runs automatically. Omit it and the workflow waits for <code>@claude</code>.</strong> There is no mode switch — the presence of <code>prompt</code> is the switch.</p></blockquote><p>Interactive mode posts progress and results as a comment on the triggering issue or PR. Automation mode writes to the workflow run log by default, and posts only if the prompt tells it to <em>and</em> it has a tool that can post.</p><p>That second clause has a sharp edge, and the docs call it out explicitly for the review workflow: the action starts the MCP server that posts inline comments <strong>only when <code>--allowedTools</code> in <code>claude_args</code> names it</strong> — even though the skill&rsquo;s own <code>allowed-tools</code> frontmatter already does. Two mechanisms, both required.</p><h3 id=who-can-trigger-a-run>Who can trigger a run</h3><p>Two checks run before Claude starts, and either one failing fails the run:</p><ul><li><strong>Write access.</strong> On issue and PR events, the triggering user must have write access. <code>allowed_non_write_users</code> opens that up, but only if you also pass your own <code>github_token</code>.</li><li><strong>Human actor.</strong> Bot actors are rejected unless listed in <code>allowed_bots</code> — <strong>which is what stops Claude triggering Claude in a loop.</strong> It applies to scheduled runs too, because GitHub attributes a <code>cron</code> run to whoever last edited the schedule. If that was a bot, the run fails until you list it.</li></ul><h3 id=what-you-are-installing>What you are installing</h3><p>The Claude GitHub App is shared by every Claude GitHub feature, so its permission set is wider than this action uses — twelve permissions including Actions, Checks, Discussions and Workflows, all read-and-write. <strong>GitHub does not let you accept a subset.</strong></p><p>If your organisation needs the minimum, the documented path is a <strong>custom GitHub App with just Contents, Issues and Pull requests</strong>. The trade is that a custom app covers only this action; Code Review and web auto-fix still require the official one.</p><p>One troubleshooting item that looks like a bug: <strong>CI does not run on Claude&rsquo;s commits</strong> if you pass <code>github_token: ${{ secrets.GITHUB_TOKEN }}</code>, because GitHub never triggers workflows on commits made with the default token. Remove the line so the action authenticates as the App.</p><h2 id=level-3-headless-anywhere>Level 3: headless anywhere</h2><p><code>claude -p</code> is a Unix filter, and that is the whole integration story for GitLab, Jenkins, or a git hook:</p><div class=highlight><pre tabindex=0 style=color:#d8dee9;background-color:#2e3440;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span>git diff main <span style=color:#eceff4>|</span> claude -p <span style=color:#a3be8c>&#34;you are a typo linter. report filename:line and the issue.&#34;</span>
+</span></span></code></pre></div><p>Exit code 0 on success, non-zero on failure, so a script can branch on it. Stdin is capped at 10 MB — write to a file and reference the path for anything larger.</p><h3 id=--bare-is-the-ci-flag><code>--bare</code> is the CI flag</h3><p>Without it, a <code>-p</code> run loads everything an interactive session would: hooks, skills, plugins, MCP servers, auto memory, <code>CLAUDE.md</code>. In CI that means <strong>a teammate&rsquo;s <code>~/.claude</code> config changes your build</strong>.</p><p>Worse, and worth quoting plainly:</p><blockquote><p>Without <code>--bare</code>, a <code>-p</code> session <strong>runs the hooks in a project&rsquo;s <code>.claude/settings.json</code> and connects the servers in its <code>.mcp.json</code>, even in a folder you have never trusted.</strong> A <code>-p</code> session shows no workspace trust dialog and no per-server approval prompt.</p></blockquote><p>That is Chapter 4 and Chapter 14&rsquo;s asymmetry in one sentence, and it is the reason <code>--bare</code> is the recommended mode for scripted calls — and is slated to become the <code>-p</code> default. Note that bare mode never reads OAuth credentials or the keychain, so set <code>ANTHROPIC_API_KEY</code>.</p><h3 id=permissions-with-nobody-to-ask>Permissions with nobody to ask</h3><p>A <code>-p</code> run starts in <strong>Manual mode on every plan</strong>, so it prompts for everything and there is nobody to answer. Three ways to fix that, in increasing order of trust:</p><table><thead><tr><th>Approach</th><th>Effect</th></tr></thead><tbody><tr><td><code>--allowedTools "Bash(npm test),Read"</code></td><td>Name exactly what may run</td></tr><tr><td><code>--permission-mode dontAsk</code></td><td>Deny anything not pre-approved — the locked-down CI mode</td></tr><tr><td><code>--permission-mode auto</code></td><td>The classifier reviews actions instead of you</td></tr></tbody></table><p>And since v2.1.259, <code>--permission-prompts none</code> says explicitly that nobody can answer: anything that would prompt is <strong>denied</strong>, Claude is told not to retry it, and interactive tools like <code>AskUserQuestion</code> are removed rather than left to hang. With <code>--output-format stream-json</code>, the denials come back in <code>permission_denials</code>.</p><h3 id=structured-output-for-a-gate>Structured output for a gate</h3><p><code>--output-format json</code> gives you <code>result</code>, <code>session_id</code> and <code>total_cost_usd</code>. <code>--json-schema</code> constrains the shape, landing in <code>structured_output</code>:</p><div class=highlight><pre tabindex=0 style=color:#d8dee9;background-color:#2e3440;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-bash data-lang=bash><span style=display:flex><span>claude -p <span style=color:#a3be8c>&#34;Extract the main function names from auth.py&#34;</span> <span style=color:#ebcb8b>\
+</span></span></span><span style=display:flex><span>  --output-format json <span style=color:#ebcb8b>\
+</span></span></span><span style=display:flex><span>  --json-schema <span style=color:#a3be8c>&#39;{&#34;type&#34;:&#34;object&#34;,&#34;properties&#34;:{&#34;functions&#34;:{&#34;type&#34;:&#34;array&#34;,&#34;items&#34;:{&#34;type&#34;:&#34;string&#34;}}},&#34;required&#34;:[&#34;functions&#34;]}&#39;</span> <span style=color:#ebcb8b>\
+</span></span></span><span style=display:flex><span>  <span style=color:#eceff4>|</span> jq <span style=color:#a3be8c>&#39;.structured_output&#39;</span>
+</span></span></code></pre></div><p>For a CI gate, the <code>system/init</code> event carries <code>plugin_errors</code> and <code>mcp_server_errors</code>, both omitted entirely when empty — so failing on a non-empty array catches a plugin or server that silently did not load.</p><h2 id=build-the-config>Build the config</h2><div class=ci-box><div class=ci-tabs id=ci-tabs></div><span class=ci-lvl id=ci-lvl></span><pre class=ci-out id=ci-out></pre><div class=ci-note id=ci-note></div></div><script>(function(){var n=[{k:"mention",n:"Respond to @claude",lvl:"Level 2 · GitHub Action · interactive mode",f:".github/workflows/claude.yml",c:`on:
+  issue_comment:
+    types: [created]
+  pull_request_review_comment:
+    types: [created]
+jobs:
+  claude:
+    if: contains(github.event.comment.body, '@claude')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+      issues: write
+      id-token: write
+      actions: read
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 1
+      - uses: anthropics/claude-code-action@v1
+        with:
+          anthropic_api_key: \${{ secrets.ANTHROPIC_API_KEY }}`,note:"No <code>prompt</code> input, so the action waits for the trigger phrase. <code>id-token: write</code> is required for its default App authentication, and <code>actions: read</code> is what lets Claude read CI results on the PR."},{k:"review",n:"Review every PR",lvl:"Level 2 · GitHub Action · automation mode",f:".github/workflows/claude-code-review.yml",c:`on:
+  pull_request:
+    types: [opened, synchronize, ready_for_review, reopened]
+jobs:
+  review:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: read
+      issues: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@v6
+      - uses: anthropics/claude-code-action@v1
+        with:
+          anthropic_api_key: \${{ secrets.ANTHROPIC_API_KEY }}
+          plugin_marketplaces: "https://github.com/anthropics/claude-code.git"
+          plugins: "code-review@claude-code-plugins"
+          prompt: "/code-review:code-review --comment \${{ github.repository }}/pull/\${{ github.event.pull_request.number }}"
+          claude_args: '--allowedTools "mcp__github_inline_comment__create_inline_comment"'`,note:"Two lines decide where the review goes. <code>--comment</code> posts it on the PR rather than the run log. And <code>claude_args</code> is <strong>not redundant</strong> with the skill's own frontmatter — the action starts the inline-comment MCP server only when <code>--allowedTools</code> names it."},{k:"cron",n:"Scheduled report",lvl:"Level 2 · GitHub Action · automation mode",f:".github/workflows/daily-report.yml",c:`on:
+  schedule:
+    - cron: "0 9 * * *"
+jobs:
+  report:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      issues: read
+      id-token: write
+    steps:
+      - uses: anthropics/claude-code-action@v1
+        with:
+          anthropic_api_key: \${{ secrets.ANTHROPIC_API_KEY }}
+          prompt: "Generate a summary of yesterday's commits and open issues"
+          claude_args: |
+            --model claude-opus-4-8
+            --allowedTools "mcp__github__list_commits,mcp__github__list_issues"`,note:"No checkout step — Claude reads through the GitHub API instead. A plain-text prompt grants <strong>no</strong> tools by default, so <code>--allowedTools</code> is doing the real work here. GitHub runs schedules only from the default branch, and disables them after 60 days of inactivity in public repos."},{k:"lint",n:"Lint the diff in any CI",lvl:"Level 3 · headless",f:"package.json",c:`{
+  "scripts": {
+    "lint:claude": "git diff main | claude --bare -p \\"you are a typo linter. for each typo in this diff, report filename:line on one line and the issue on the next. return nothing else.\\""
+  }
+}`,note:"Piping the diff means Claude needs no Bash permission to read it. <code>--bare</code> keeps a teammate's <code>~/.claude</code> config out of your build — and stops the repository's own hooks and MCP servers running in a folder nobody trusted."},{k:"gate",n:"Structured output for a gate",lvl:"Level 3 · headless",f:"ci-gate.sh",c:`claude --bare -p "List every exported function missing a doc comment" \\
+  --output-format json \\
+  --json-schema '{"type":"object","properties":{"missing":{"type":"array","items":{"type":"string"}}},"required":["missing"]}' \\
+  | jq -e '.structured_output.missing | length == 0'`,note:"<code>--json-schema</code> puts the constrained result in <code>structured_output</code>; <code>jq -e</code> then sets the exit code. An invalid schema now fails loudly — before v2.1.205 it was silently ignored and you got unstructured text."},{k:"unattended",n:"Unattended, nobody to ask",lvl:"Level 3 · headless",f:"nightly.sh",c:`claude --bare -p "Update the dependency pins and run the tests" \\
+  --permission-mode auto \\
+  --permission-prompts none`,note:"A <code>-p</code> run starts in <strong>Manual mode on every plan</strong>, so without one of these it prompts for everything and hangs. <code>--permission-prompts none</code> denies rather than waits, tells Claude not to retry, and removes tools that need a person. Requires v2.1.259+."}],e="mention",s=document.getElementById("ci-tabs"),i=document.getElementById("ci-out"),a=document.getElementById("ci-note"),r=document.getElementById("ci-lvl");function t(e){return String(e).replace(/[&<>]/g,function(e){return{"&":"&amp;","<":"&lt;",">":"&gt;"}[e]})}function o(){s.innerHTML=n.map(function(n){return'<button type="button" class="ci-tab'+(n.k===e?" on":"")+'" data-k="'+n.k+'">'+t(n.n)+"</button>"}).join("");var c=n.filter(function(t){return t.k===e})[0];r.innerHTML=t(c.lvl)+" &middot; <code>"+t(c.f)+"</code>",i.textContent=c.c,a.innerHTML='<span class="ci-nh">The line that matters</span>'+c.note,Array.prototype.forEach.call(s.querySelectorAll(".ci-tab"),function(t){t.addEventListener("click",function(){e=t.getAttribute("data-k"),o()})})}o()})()</script><h2 id=costs>Costs</h2><p>Two meters run at once, and only one is obvious:</p><ul><li><strong>GitHub Actions minutes</strong>, on GitHub-hosted runners.</li><li><strong>Tokens</strong> — API billing, or your subscription if you authenticated with an OAuth token.</li></ul><p>The levers: <code>--max-turns</code> in <code>claude_args</code>, workflow-level timeouts, GitHub concurrency controls, and a concise <code>CLAUDE.md</code> — <strong>Claude reads it on every run</strong>, which is Chapter 6&rsquo;s size argument with a per-run multiplier attached.</p><h2 id=summary>Summary</h2><ul><li><strong>Three levels</strong>, and level 1 needs no setup — <code>gh</code> is just a command Claude can run.</li><li><code>/install-github-app</code> does the whole GitHub setup. For an organisation, use an <strong>API key</strong>, not an OAuth token tied to one person.</li><li><strong>The presence of a <code>prompt</code> input is the mode switch</strong>: with it, the workflow runs; without it, it waits for <code>@claude</code>.</li><li>Two trigger checks: <strong>write access</strong>, and a <strong>bot check that stops Claude triggering itself</strong>. Scheduled runs are attributed to whoever last edited the cron.</li><li>The GitHub App&rsquo;s permission set is all-or-nothing; a <strong>custom app with three permissions</strong> is the documented minimum.</li><li>Passing <code>github_token: ${{ secrets.GITHUB_TOKEN }}</code> stops CI running on Claude&rsquo;s commits.</li><li><strong><code>--bare</code> is the CI flag.</strong> Without it, a <code>-p</code> run executes a repository&rsquo;s hooks and MCP servers in a folder you never trusted, with no dialog.</li><li>A <code>-p</code> run starts in <strong>Manual on every plan</strong>; <code>--permission-prompts none</code> denies rather than hangs.</li><li>Full reference: <a href=https://code.claude.com/docs/en/github-actions>GitHub Actions</a>, <a href=https://code.claude.com/docs/en/gitlab-ci-cd>GitLab CI/CD</a>, <a href=https://code.claude.com/docs/en/headless>non-interactive mode</a>.</li></ul><p>That closes Part 4. Part 5 turns to autonomy: subagents, agent teams working in parallel, scheduling, and every surface Claude Code runs on.</p></div><div class=social-share-bar><span class=share-label>Share:</span>
+<a href="https://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2fai.devops-monk.com%2f2026%2f09%2fgithub-gitlab-and-ci%2f&title=GitHub%2C+GitLab+%26+CI" target=_blank rel=noopener class="share-btn share-linkedin" title="Share on LinkedIn"><i class="fa-brands fa-linkedin-in"></i> LinkedIn
+</a><a href="https://twitter.com/intent/tweet?url=https%3a%2f%2fai.devops-monk.com%2f2026%2f09%2fgithub-gitlab-and-ci%2f&text=GitHub%2C+GitLab+%26+CI" target=_blank rel=noopener class="share-btn share-twitter" title="Share on Twitter / X"><i class="fa-brands fa-x-twitter"></i> X
+</a><a href="https://www.reddit.com/submit?url=https%3a%2f%2fai.devops-monk.com%2f2026%2f09%2fgithub-gitlab-and-ci%2f&title=GitHub%2C+GitLab+%26+CI" target=_blank rel=noopener class="share-btn share-reddit" title="Share on Reddit"><i class="fa-brands fa-reddit-alien"></i> Reddit</a></div></div></article><nav class=series-nav aria-label="Chapter navigation"><a class="series-nav-link series-nav-prev" href=/2026/09/mcp-in-practice/ rel=prev><span class=series-nav-dir>&larr; Previous</span>
+<span class=series-nav-ch>Part 4 — Connecting Claude to the World · Ch 2</span>
+<span class=series-nav-title>MCP in Practice</span>
+</a><span class="series-nav-link is-empty" aria-hidden=true></span></nav></main></section><section id=secondary class="sidebar widget-area clearfix" role=complementary><aside id=search class="widget clearfix"><div class=widget-header><h3 class=widget-title>Search</h3></div><form onsubmit=return!1><input id=search-query type=text placeholder="Search posts..." autocomplete=off>
+<button id=search-btn type=button><i class="fa-solid fa-magnifying-glass"></i></button></form><div id=search-results></div></aside><aside id=rss-subscribe class="widget clearfix"><div class=widget-header><h3 class=widget-title>Subscribe</h3></div><a href=/index.xml class=rss-subscribe-btn target=_blank rel=noopener><i class="fa-solid fa-rss"></i> Subscribe via RSS</a></aside><aside id=recent-posts class="widget clearfix"><div class=widget-header><h3 class=widget-title>Recent Posts</h3></div><ul><li class=widget__item><a class=widget__link href=/2026/09/github-gitlab-and-ci/>GitHub, GitLab & CI</a></li><li class=widget__item><a class=widget__link href=/2026/09/mcp-in-practice/>MCP in Practice</a></li><li class=widget__item><a class=widget__link href=/2026/09/mcp-fundamentals/>MCP Fundamentals</a></li><li class=widget__item><a class=widget__link href=/2026/09/plugins-and-marketplaces/>Plugins & Marketplaces</a></li><li class=widget__item><a class=widget__link href=/2026/09/claude-code-hooks/>Hooks</a></li></ul></aside><aside id=categories class="widget clearfix"><div class=widget-header><h3 class=widget-title>Categories</h3></div><ul><li><a href=/categories/fundamentals/ title=fundamentals>fundamentals</a></li></ul></aside><aside id=tag_cloud class="widget widget_tag_cloud clearfix"><div class=widget-header><h3 class=widget-title>Tags</h3></div><div class=tagcloud><div class=widget__content><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/agents/ title=agents>agents
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/auto-memory/ title=auto-memory>auto-memory
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/auto-mode/ title=auto-mode>auto-mode
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/automation/ title=automation>automation
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/browser-automation/ title=browser-automation>browser-automation
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/checkpointing/ title=checkpointing>checkpointing
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/chrome/ title=chrome>chrome
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/ci/ title=ci>ci
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/classifier/ title=classifier>classifier
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/claude-code/ title=claude-code>claude-code
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/claude-md/ title=claude-md>claude-md
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/cli/ title=cli>cli
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/commands/ title=commands>commands
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/compaction/ title=compaction>compaction
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/configuration/ title=configuration>configuration
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/context-engineering/ title=context-engineering>context-engineering
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/context-window/ title=context-window>context-window
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/conventions/ title=conventions>conventions
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/costs/ title=costs>costs
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/customisation/ title=customisation>customisation
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/distribution/ title=distribution>distribution
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/getting-started/ title=getting-started>getting-started
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/git/ title=git>git
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/github-actions/ title=github-actions>github-actions
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/headless/ title=headless>headless
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/hooks/ title=hooks>hooks
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/integrations/ title=integrations>integrations
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/lifecycle/ title=lifecycle>lifecycle
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/llm/ title=llm>llm
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/marketplaces/ title=marketplaces>marketplaces
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/mcp/ title=mcp>mcp
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/memory/ title=memory>memory
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/model-config/ title=model-config>model-config
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/monorepo/ title=monorepo>monorepo
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/oauth/ title=oauth>oauth
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/output-styles/ title=output-styles>output-styles
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/packaging/ title=packaging>packaging
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/permissions/ title=permissions>permissions
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/plugins/ title=plugins>plugins
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/precedence/ title=precedence>precedence
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/progressive-disclosure/ title=progressive-disclosure>progressive-disclosure
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/prompt-caching/ title=prompt-caching>prompt-caching
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/rewind/ title=rewind>rewind
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/rules/ title=rules>rules
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/sandboxing/ title=sandboxing>sandboxing
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/security/ title=security>security
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/sessions/ title=sessions>sessions
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/settings/ title=settings>settings
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/skills/ title=skills>skills
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/subagents/ title=subagents>subagents
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/system-prompt/ title=system-prompt>system-prompt
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/terminal/ title=terminal>terminal
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/tool-search/ title=tool-search>tool-search
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/tools/ title=tools>tools
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/workflows/ title=workflows>workflows</a></div></div></aside></section></div><div id=footer class=footer-wrap><footer id=colophon class="site-footer container clearfix" role=contentinfo><div id=footer-text class=site-info><span class=credit-link><a href=/>AI Engineering by Abhay</a>
+Copyright © 2026
+</span><span class=footer-rss><a href=/index.xml title="RSS Feed" target=_blank rel=noopener><i class="fa-solid fa-rss"></i> RSS Feed</a></span></div></footer></div></div><script type=text/javascript src=/assets/js/custom.js></script></body></html>

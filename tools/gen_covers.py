@@ -333,6 +333,29 @@ def art_scoped():
     return f'<svg width="640" height="420" viewBox="0 0 640 420">{"".join(out)}</svg>'
 
 
+def art_fill():
+    """A context window filling, with the auto-compact trigger marked."""
+    out = []
+    segs = [("startup", PURPLE, 96), ("files", BLUE, 150), ("turns", GREEN, 120), ("skills", AMBER, 54)]
+    x = 60
+    for label, col, w in segs:
+        out.append(f'<rect x="{x}" y="150" width="{w}" height="46" fill="{col}" opacity=".30" '
+                   f'stroke="{col}" stroke-opacity=".7"/>')
+        out.append(f'<text x="{x + w / 2}" y="{218}" fill="{DIM}" font-size="12" '
+                   f'text-anchor="middle">{label}</text>')
+        x += w
+    # The rest of the window, and the point where the automatic pass fires.
+    out.append(f'<rect x="{x}" y="150" width="{560 - x}" height="46" fill="none" '
+               f'stroke="{FAINT}" stroke-opacity=".7" stroke-dasharray="4 4"/>')
+    out.append(f'<rect x="60" y="150" width="500" height="46" fill="none" stroke="{FAINT}" stroke-opacity=".8"/>')
+    out.append(f'<path d="M460 132 L460 214" stroke="{RED}" stroke-width="2" stroke-dasharray="5 4"/>')
+    out.append(f'<text x="460" y="124" fill="{RED}" font-size="13" text-anchor="middle">auto-compact</text>')
+    out.append(f'<text x="60" y="120" fill="{DIM}" font-size="13">200K</text>')
+    out.append(f'<text x="60" y="272" fill="{DIM}" font-size="14">compaction re-reads five files</text>')
+    out.append(f'<text x="60" y="294" fill="{DIM}" font-size="14">and summarises the rest</text>')
+    return f'<svg width="640" height="420" viewBox="0 0 640 420">{"".join(out)}</svg>'
+
+
 COVERS = [
     # (slug, badge, title with <br>, title font size, tagline, mono caption, motif)
     ("cc-01-what-claude-code-is", "PART 1 · CH 1", "What Claude Code<br>Actually Is", 54,
@@ -356,6 +379,9 @@ COVERS = [
     ("cc-07-rules-auto-memory", "PART 2 · CH 7", "Rules &amp;<br>Auto Memory", 54,
      "Instructions that cost nothing until they are relevant, and the notes Claude keeps.",
      "only the first 200 lines <i>load</i>", art_scoped),
+    ("cc-08-context-window", "PART 2 · CH 8", "The Context<br>Window", 60,
+     "The budget every other chapter spends, and what compaction keeps.",
+     "each model has its own <i>cache</i>", art_fill),
     ("hello-transformers", "PART 1 · CH 1", "How a Transformer<br>Actually Predicts", 54,
      "One token at a time, and everything else follows from that.",
      "the model outputs a <i>distribution</i>, not a word", art_tokens),

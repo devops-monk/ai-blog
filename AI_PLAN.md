@@ -19,7 +19,7 @@ A 23-chapter tutorial that takes a reader from "I installed it" to genuine exper
 | 5 | Settings: the Control Panel | Context Engineering | ✅ [Published](https://ai.devops-monk.com/2026/09/claude-code-settings/) |
 | 6 | CLAUDE.md | Context Engineering | ✅ [Published](https://ai.devops-monk.com/2026/09/claude-md/) |
 | 7 | Rules & Auto Memory | Context Engineering | ✅ [Published](https://ai.devops-monk.com/2026/09/rules-and-auto-memory/) |
-| 8 | The Context Window | Context Engineering | ⬜ Not started |
+| 8 | The Context Window | Context Engineering | ✅ [Published](https://ai.devops-monk.com/2026/09/context-window/) |
 | 9 | Sessions, Checkpoints & Rewind | Context Engineering | ⬜ Not started |
 | 10 | Output Styles | Teaching New Tricks | ⬜ Not started |
 | 11 | Skills | Teaching New Tricks | ⬜ Not started |

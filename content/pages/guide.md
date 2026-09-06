@@ -33,7 +33,7 @@ The context window is the budget everything else spends. This part is about spen
 5. [Settings: the Control Panel](/2026/09/claude-code-settings/) — the four settings files and what each reaches, the precedence stack, the keys that merge or run backwards through it, and how to find out which file is beating yours.
 6. [CLAUDE.md](/2026/09/claude-md/) — every location it can live and how several files concatenate rather than override, `@path` imports and their limits, why it is context rather than configuration, and the test for whether an instruction belongs in it at all.
 7. [Rules & Auto Memory](/2026/09/rules-and-auto-memory/) — why splitting CLAUDE.md only helps if the rules are scoped, `paths:` frontmatter and the glob edges that silently match nothing, and the notes Claude keeps for itself between sessions.
-8. The Context Window
+8. [The Context Window](/2026/09/context-window/) — what is already in the window before you type, what compaction re-injects and what it drops, and why the prompt cache makes a mid-task model switch cost more than the switch itself.
 9. Sessions, Checkpoints & Rewind
 
 ## Part 3 — Teaching Claude New Tricks

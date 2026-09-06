@@ -505,6 +505,33 @@ def art_defer():
     return f'<svg width="640" height="420" viewBox="0 0 640 420">{"".join(out)}</svg>'
 
 
+def art_browser():
+    """A browser window Claude drives, wired back to the editor."""
+    out = []
+    # The browser, sharing your logged-in session.
+    out.append(f'<rect x="240" y="86" width="330" height="212" rx="10" fill="{PURPLE}" opacity=".13" '
+               f'stroke="{BLUE}" stroke-opacity=".7"/>')
+    out.append(f'<path d="M240 118 L570 118" stroke="{BLUE}" stroke-opacity=".5"/>')
+    for i, cx in enumerate([258, 274, 290]):
+        out.append(f'<circle cx="{cx}" cy="102" r="4" fill="{FAINT}" opacity=".8"/>')
+    out.append(f'<rect x="306" y="94" width="150" height="16" rx="8" fill="{FAINT}" opacity=".35"/>')
+    out.append(f'<text x="264" y="164" fill="#c9c2e4" font-size="14" '
+               f'font-family="ui-monospace,monospace">localhost:3000</text>')
+    out.append(f'<rect x="264" y="182" width="200" height="26" rx="5" fill="{RED}" opacity=".18" '
+               f'stroke="{RED}" stroke-opacity=".55"/>')
+    out.append(f'<text x="276" y="200" fill="{RED}" font-size="12" opacity=".9">console: TypeError</text>')
+    out.append(f'<text x="264" y="240" fill="{GREEN}" font-size="13" opacity=".8">signed in already</text>')
+    # Back to the code.
+    out.append(f'<path d="M236 192 L150 192" stroke="{GREEN}" stroke-opacity=".7" stroke-width="1.8"/>')
+    out.append(f'<path d="M6 -5 L-6 0 L6 5 Z" fill="{GREEN}" opacity=".9" transform="translate(146 192)"/>')
+    out.append(f'<rect x="52" y="168" width="90" height="48" rx="7" fill="{GREEN}" opacity=".2" '
+               f'stroke="{GREEN}" stroke-opacity=".6"/>')
+    out.append(f'<text x="97" y="197" fill="#dff3e4" font-size="13" text-anchor="middle" '
+               f'font-family="ui-monospace,monospace">fix</text>')
+    out.append(f'<text x="52" y="340" fill="{DIM}" font-size="14">it shares the browser session you already have</text>')
+    return f'<svg width="640" height="420" viewBox="0 0 640 420">{"".join(out)}</svg>'
+
+
 COVERS = [
     # (slug, badge, title with <br>, title font size, tagline, mono caption, motif)
     ("cc-01-what-claude-code-is", "PART 1 · CH 1", "What Claude Code<br>Actually Is", 54,
@@ -549,6 +576,9 @@ COVERS = [
     ("cc-14-mcp-fundamentals", "PART 4 · CH 14", "MCP<br>Fundamentals", 62,
      "Typed tools for systems Claude Code has no tool for.",
      "ten servers cost <i>names</i>, not schemas", art_defer),
+    ("cc-15-mcp-in-practice", "PART 4 · CH 15", "MCP in<br>Practice", 62,
+     "When a server earns its place, and when Bash already did the job.",
+     "Chrome inherits your <i>login state</i>", art_browser),
     ("hello-transformers", "PART 1 · CH 1", "How a Transformer<br>Actually Predicts", 54,
      "One token at a time, and everything else follows from that.",
      "the model outputs a <i>distribution</i>, not a word", art_tokens),

@@ -26,7 +26,7 @@ A 23-chapter tutorial that takes a reader from "I installed it" to genuine exper
 | 12 | Hooks | Teaching New Tricks | ✅ [Published](https://ai.devops-monk.com/2026/09/claude-code-hooks/) |
 | 13 | Plugins & Marketplaces | Teaching New Tricks | ✅ [Published](https://ai.devops-monk.com/2026/09/plugins-and-marketplaces/) |
 | 14 | MCP Fundamentals | Connecting to the World | ✅ [Published](https://ai.devops-monk.com/2026/09/mcp-fundamentals/) |
-| 15 | MCP in Practice | Connecting to the World | ⬜ Not started |
+| 15 | MCP in Practice | Connecting to the World | ✅ [Published](https://ai.devops-monk.com/2026/09/mcp-in-practice/) |
 | 16 | GitHub, GitLab & CI | Connecting to the World | ⬜ Not started |
 | 17 | Sub-Agents | Agents & Autonomy | ⬜ Not started |
 | 18 | Agent Teams & Parallel Work | Agents & Autonomy | ⬜ Not started |
@@ -192,7 +192,7 @@ The source deck predates the current documentation. These must be written correc
 | `/output-style` switches the style | The standalone command was deprecated in v2.1.73 and removed in v2.1.91. Use `/config` → **Output style**, or the `outputStyle` key, which `/config` writes to `.claude/settings.local.json` |
 | Plan mode cannot run bash commands | It runs them. When auto mode is available and `useAutoModeDuringPlan` is on (the default), the classifier reviews shell commands during planning and approved ones run |
 
-Unverified deck claims to confirm while writing the relevant chapter: the `--worktree` flag and `/loop` task expiry. **Resolved:** voice dictation has hold and tap modes (Ch 2); `MEMORY.md` lives at `~/.claude/projects/<project>/memory/` and only its first 200 lines or 25KB load (Ch 7); checkpoints keep snapshots for the 100 most recent per session and are swept with transcripts after `cleanupPeriodDays`, 30 days by default (Ch 9).
+Unverified deck claims to confirm while writing the relevant chapter: `/loop` task expiry. **Resolved:** voice dictation has hold and tap modes (Ch 2); `MEMORY.md` lives at `~/.claude/projects/<project>/memory/` and only its first 200 lines or 25KB load (Ch 7); checkpoints keep snapshots for the 100 most recent per session and are swept with transcripts after `cleanupPeriodDays`, 30 days by default (Ch 9); `claude --worktree <name>` exists and needs at least one commit in the repository (Ch 15).
 
 Areas the deck never mentions, all in scope: plugins and marketplaces, agent teams, agent view, cross-session messaging, dynamic workflows, routines, artifacts, channels, `/goal`, sandboxing, sandbox environments, GitLab CI/CD, code review, model configuration, fast mode, the advisor tool, cost and monitoring, security and enterprise deployment, large codebases, and the Agent SDK.
 

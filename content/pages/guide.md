@@ -50,7 +50,7 @@ Turning your preferences into capabilities, and your hopes into guarantees.
 Claude knows your code. This part is about everything else it needs to know.
 
 14. [MCP Fundamentals](/2026/09/mcp-fundamentals/) — four transports and three scopes, the deferral that stops ten servers filling your window, and the trust boundary around a committed `.mcp.json`.
-15. MCP in Practice
+15. [MCP in Practice](/2026/09/mcp-in-practice/) — the three questions that decide whether a task needs a server, the native Chrome integration and its safety model, and the documented prompt shapes.
 16. GitHub, GitLab & CI
 
 ## Part 5 — Agents & Autonomy

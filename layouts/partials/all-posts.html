@@ -27,7 +27,10 @@
                 {{ partial "post-cover.html" (dict "page" . "variant" "card") }}
                 {{ partial "post-meta.html" . }}
                 <div class="entry-content entry-excerpt clearfix">
-                    <p>{{ .Summary }}</p>
+                    {{/* Prefer the hand-written description. Hugo's auto .Summary
+     truncates at a word count, so a post whose opening runs into a
+     ```mermaid fence spills the raw diagram source onto this card. */}}
+                    <p>{{ with .Description }}{{ . }}{{ else }}{{ .Summary | plainify }}{{ end }}</p>
                     <a href="{{ .Permalink }}" class="more-link">Continue reading &raquo;</a>
                 </div>
             </article>

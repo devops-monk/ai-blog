@@ -5,7 +5,7 @@
   {
     "title": {{ $page.Title | jsonify }},
     "url": {{ $page.RelPermalink | jsonify }},
-    "summary": {{ $page.Summary | plainify | jsonify }},
+    "summary": {{ with $page.Description }}{{ . | jsonify }}{{ else }}{{ $page.Summary | plainify | jsonify }}{{ end }},
     "tags": {{ $page.Params.tags | jsonify }}
   }
   {{- end -}}

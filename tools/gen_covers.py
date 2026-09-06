@@ -217,6 +217,40 @@ def art_attention():
     return f'<svg width="640" height="420" viewBox="0 0 640 420">{"".join(s)}</svg>'
 
 
+def art_boundary():
+    """A sandboxed command reaching out: one write lands, two hit the wall."""
+    out = []
+    # The OS boundary the command runs inside.
+    out.append(f'<rect x="40" y="120" width="250" height="200" rx="12" fill="{PURPLE}" '
+               f'opacity=".10" stroke="{BLUE}" stroke-opacity=".55" stroke-dasharray="7 5"/>')
+    out.append(f'<text x="56" y="146" fill="{BLUE}" font-size="13" opacity=".85">sandbox</text>')
+    out.append(f'<rect x="86" y="196" width="150" height="48" rx="8" fill="{PURPLE}" '
+               f'opacity=".30" stroke="{BLUE}" stroke-opacity=".8"/>')
+    out.append(f'<text x="161" y="226" fill="#e9e3fb" font-size="17" text-anchor="middle" '
+               f'font-family="ui-monospace,monospace">bash</text>')
+    # Three reaches: the allowed one crosses, the other two stop at the wall.
+    reaches = [
+        ("./src", GREEN, 160, True),
+        ("~/.ssh", RED, 220, False),
+        ("api.evil.sh", AMBER, 280, False),
+    ]
+    for label, col, y, ok in reaches:
+        end = 470 if ok else 290
+        out.append(f'<path d="M236 {y if y != 220 else 220} L{end} {y}" stroke="{col}" '
+                   f'stroke-opacity=".75" stroke-width="1.8"/>')
+        if ok:
+            out.append(f'<path d="M-6 -5 L6 0 L-6 5 Z" fill="{col}" opacity=".85" '
+                       f'transform="translate({end + 4} {y})"/>')
+            out.append(f'<text x="{end + 20}" y="{y + 5}" fill="{DIM}" font-size="15">{label}</text>')
+        else:
+            # Blocked: a short bar on the wall, and the target greyed out beyond it.
+            out.append(f'<path d="M290 {y - 11} L290 {y + 11}" stroke="{col}" stroke-width="3.5"/>')
+            out.append(f'<text x="{end + 26}" y="{y + 5}" fill="{FAINT}" font-size="15">{label}</text>')
+    out.append(f'<text x="40" y="360" fill="{DIM}" font-size="14">rules decide whether</text>')
+    out.append(f'<text x="40" y="382" fill="{DIM}" font-size="14">the wall decides what</text>')
+    return f'<svg width="640" height="420" viewBox="0 0 640 420">{"".join(out)}</svg>'
+
+
 COVERS = [
     # (slug, badge, title with <br>, title font size, tagline, mono caption, motif)
     ("cc-01-what-claude-code-is", "PART 1 · CH 1", "What Claude Code<br>Actually Is", 54,
@@ -228,6 +262,9 @@ COVERS = [
     ("cc-03-permission-modes", "PART 1 · CH 3", "Permission<br>Modes", 62,
      "Six modes, a classifier, and the paths no mode will approve.",
      "3 in a row and auto mode <i>stops trusting itself</i>", art_gates),
+    ("cc-04-permissions-sandboxing", "PART 1 · CH 4", "Permissions &amp;<br>Sandboxing", 54,
+     "Rules decide whether a call happens. The sandbox decides what it can touch.",
+     "a deny rule cannot carry <i>exceptions</i>", art_boundary),
     ("hello-transformers", "PART 1 · CH 1", "How a Transformer<br>Actually Predicts", 54,
      "One token at a time, and everything else follows from that.",
      "the model outputs a <i>distribution</i>, not a word", art_tokens),

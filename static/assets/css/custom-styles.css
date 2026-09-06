@@ -2361,3 +2361,108 @@ body.dz-open { overflow: hidden; }
   .pm-table td { border-top: none; padding: 0.1rem 0; }
   .pm-act { width: auto; }
 }
+
+/* ------------------------------------------------------------------
+   Rule matcher (Chapter 4). A rule and a command in, a verdict and the
+   matching steps out. Same card shape as .pm-sim.
+   ------------------------------------------------------------------ */
+.rm-box {
+  margin: 1.5rem 0;
+  padding: 1rem 1.1rem 1.1rem;
+  background: var(--bg-alt, #f8fafc);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+}
+
+.rm-tiers { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-bottom: 0.9rem; }
+
+.rm-tier {
+  padding: 0.3rem 0.7rem;
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  cursor: pointer;
+}
+.rm-tier:hover { border-color: var(--primary); }
+.rm-tier.on { color: #fff; background: var(--primary); border-color: var(--primary); font-weight: 600; }
+
+.rm-lbl {
+  display: block;
+  margin: 0.55rem 0 0.25rem;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.rm-in {
+  width: 100%;
+  padding: 0.5rem 0.65rem;
+  font-family: var(--mono);
+  font-size: 0.85rem;
+  color: var(--text);
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+}
+.rm-in:focus { outline: none; border-color: var(--primary); }
+
+.rm-verdict {
+  margin: 0.9rem 0 0;
+  padding: 0.55rem 0.7rem;
+  font-size: 0.88rem;
+  font-weight: 600;
+  border-radius: 6px;
+  border-left: 3px solid;
+}
+.rm-good { color: #14532d; background: #dcfce7; border-color: #16a34a; }
+.rm-warn { color: #854d0e; background: #fef3c7; border-color: #ca8a04; }
+.rm-bad  { color: #991b1b; background: #fee2e2; border-color: #dc2626; }
+
+.rm-steps { margin-top: 0.5rem; }
+.rm-step {
+  margin: 0.3rem 0;
+  font-size: 0.82rem;
+  line-height: 1.5;
+  color: var(--text-muted);
+}
+.rm-step code { font-size: 0.78rem; }
+.rm-y { color: #15803d; font-weight: 600; }
+.rm-n { color: #b91c1c; font-weight: 600; }
+.rm-note { opacity: 0.75; }
+
+.rm-presets { display: flex; flex-wrap: wrap; gap: 0.3rem; margin-top: 0.9rem; }
+.rm-preset {
+  padding: 0.25rem 0.55rem;
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  cursor: pointer;
+  text-align: left;
+}
+.rm-preset:hover { border-color: var(--primary); color: var(--text); }
+.rm-preset code { font-size: 0.7rem; background: none; padding: 0; color: inherit; }
+
+[data-theme="dark"] .rm-box { background: #1e293b !important; border-color: #334155 !important; }
+[data-theme="dark"] .rm-tier,
+[data-theme="dark"] .rm-in,
+[data-theme="dark"] .rm-preset { color: #94a3b8 !important; background: #0f172a !important; border-color: #334155 !important; }
+[data-theme="dark"] .rm-in { color: #e2e8f0 !important; }
+[data-theme="dark"] .rm-tier.on { color: #fff !important; background: var(--primary) !important; border-color: var(--primary) !important; }
+[data-theme="dark"] .rm-preset:hover { color: #e2e8f0 !important; }
+[data-theme="dark"] .rm-good { color: #bbf7d0 !important; background: #14532d !important; }
+[data-theme="dark"] .rm-warn { color: #fde68a !important; background: #713f12 !important; }
+[data-theme="dark"] .rm-bad  { color: #fecaca !important; background: #7f1d1d !important; }
+[data-theme="dark"] .rm-y { color: #86efac !important; }
+[data-theme="dark"] .rm-n { color: #fca5a5 !important; }
+
+@media only screen and (max-width: 40em) {
+  .rm-box { padding: 0.8rem 0.85rem 0.9rem; }
+  .rm-preset { width: 100%; }
+}

@@ -15,7 +15,7 @@ A 23-chapter tutorial that takes a reader from "I installed it" to genuine exper
 | 1 | What Claude Code Actually Is | Foundations | ✅ [Published](https://ai.devops-monk.com/2026/09/what-claude-code-actually-is/) |
 | 2 | Three Ways to Talk to It | Foundations | ✅ [Published](https://ai.devops-monk.com/2026/09/three-ways-to-talk-to-claude-code/) |
 | 3 | Permission Modes | Foundations | ✅ [Published](https://ai.devops-monk.com/2026/09/permission-modes/) |
-| 4 | Permissions & Sandboxing | Foundations | ⬜ Not started |
+| 4 | Permissions & Sandboxing | Foundations | ✅ [Published](https://ai.devops-monk.com/2026/09/permissions-and-sandboxing/) |
 | 5 | Settings: the Control Panel | Context Engineering | ⬜ Not started |
 | 6 | CLAUDE.md | Context Engineering | ⬜ Not started |
 | 7 | Rules & Auto Memory | Context Engineering | ⬜ Not started |
@@ -225,7 +225,8 @@ Chapters 1 to 3 are the reference for this standard: technical register, concept
 1. Re-read the source slides, then fetch every documentation page listed for the chapter. Never write a technical claim from the deck alone.
 2. Draft with the front matter from `archetypes/default.md`. **Date it in the past.** CI passes `--buildFuture` but a bare local `hugo` does not, so a future-dated chapter builds in CI and vanishes locally — the two stop agreeing, which is the worst way for this to fail. `series` is the part name, `series_order` is the chapter's position within that part, `draft: true` until verified.
 3. Diagrams as ` ```mermaid ` fences. No semicolons inside labels — a semicolon silently kills the whole diagram.
-4. Widget as a single raw HTML block with no blank lines anywhere inside it. Styles into `custom-styles.css` under a short prefix, with a `[data-theme="dark"]` variant and a `40em` fallback.
+4. Widget as a single raw HTML block with no blank lines anywhere inside it. **No `//` comments in its JavaScript** — collapsing to one line turns one into a line-swallower and the minifier fails the whole build with `unexpected EOF`. Use `/* */`. Styles into `custom-styles.css` under a short prefix, with a `[data-theme="dark"]` variant and a `40em` fallback.
+   Drive a widget that makes technical claims: click every preset in headless Chrome and check each verdict against the docs. Chapter 4's matcher shipped one wrong verdict (`timeout 30 npm test`) that only this caught.
 5. Cover: add an `art_*()` motif and a `COVERS` entry, then `python3 tools/gen_covers.py <slug>` and `python3 tools/gen_social.py`.
 6. Verify, drop `draft: true`, add the chapter to `content/pages/guide.md`, commit and push.
 

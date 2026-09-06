@@ -243,24 +243,24 @@ point the deck makes that the chapter does not.
 | 51–57 | 9 | ✅ fixed — grants reset on resume and fork, directory-not-branch scoping, document-and-clear |
 | 58–62 | 9 | ✅ none |
 | 63–64 | 2 | ✅ none |
-| 65–69 | 16 | ⬜ **how Claude builds a PR** — gather context, prepare the branch, analyse the commits, `gh pr create`. ⬜ the `commit-commands` plugin (`/commit`, `/commit-push-pr`, `/clean_gone`) |
+| 65–69 | 16 | ✅ fixed — the four-step PR flow and the `commit-commands` plugin |
 | 70–72 | 9 | ✅ fixed — full worktrees section, enriched with the enforcement rules, `.worktreeinclude` and `worktree.baseRef` |
 | 73–76 | 16 | ✅ none |
 | 77–78 | 8 | ✅ fixed — the status line, and `/statusline` writing the script |
 | 79–81 | 7 | ✅ fixed — priority saturation, the 400-vs-100-line arithmetic, and a placement table |
 | 82–89 | 7 | ✅ fixed — session memory named as the third layer |
-| 90–97 | 11 | ⬜ `assets/` and `references/` in the canonical skill layout. ⬜ a **CLAUDE.md vs rules vs skills** comparison |
+| 90–97 | 11 | ✅ fixed — the four-directory layout and why a script costs no context, plus a four-mechanism comparison |
 | 98–100 | 11 | ✅ none |
-| 101–109 | 12 | ⬜ **hooks are isolated from the context window** — they run externally and cost zero context unless they return `additionalContext`. ⬜ **language choice and startup cost** — bash ~10–20ms, Node ~50–100ms, Python ~200–400ms, and why that matters for `PreToolUse`. ⬜ the desktop-notification hook as a worked example |
+| 101–109 | 12 | ✅ fixed — hooks outside the context window, interpreter startup cost, the notification hook |
 | 110–115 | 14 | ✅ none |
-| 116–122 | 15 | ⬜ **the three named servers** — Chrome DevTools, Playwright, Context7 — with their add commands, and the four cross-tool scenarios |
+| 116–122 | 15 | ✅ fixed — Chrome DevTools, Playwright and Context7 with add commands, plus the four cross-tool shapes |
 | 123–124 | 14 | ✅ none |
 | 125–136 | 17–18 | ⬜ not yet written — audit while writing |
 
 ## Writing a chapter
 
 1. Re-read the source slides, then fetch every documentation page listed for the chapter. Never write a technical claim from the deck alone.
-2. Draft with the front matter from `archetypes/default.md`. **Date it in the past.** CI passes `--buildFuture` but a bare local `hugo` does not, so a future-dated chapter builds in CI and vanishes locally — the two stop agreeing, which is the worst way for this to fail. `series` is the part name, `series_order` is the chapter's position within that part, `draft: true` until verified.
+2. Draft with the front matter from `archetypes/default.md`. **Date it in the past, and check it is still in the past when you edit it later** — Ch 15 and 16 were dated 09:00 and 10:00 on the 6th, published via CI's `--buildFuture`, and then silently vanished from a local build during the deck audit. Keep one hour apart per chapter, minutes when you run out of hours. CI passes `--buildFuture` but a bare local `hugo` does not, so a future-dated chapter builds in CI and vanishes locally — the two stop agreeing, which is the worst way for this to fail. `series` is the part name, `series_order` is the chapter's position within that part, `draft: true` until verified.
 3. Diagrams as ` ```mermaid ` fences. No semicolons inside labels — a semicolon silently kills the whole diagram.
 4. Widget as a single raw HTML block with no blank lines anywhere inside it. **No `//` comments in its JavaScript** — collapsing to one line turns one into a line-swallower and the minifier fails the whole build with `unexpected EOF`. Use `/* */`. Styles into `custom-styles.css` under a short prefix, with a `[data-theme="dark"]` variant and a `40em` fallback.
    A `<pre>` inside a widget inherits the global `pre { background: var(--code-bg) !important }` but not `pre code`'s light colour, so it renders dark-on-dark. Set an explicit `color` on it.

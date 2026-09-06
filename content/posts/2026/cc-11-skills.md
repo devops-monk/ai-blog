@@ -45,11 +45,16 @@ Once invoked, content **persists across turns** — it is not re-read from the f
 
 ```text
 .claude/skills/cut-a-release/
-├── SKILL.md          # frontmatter + instructions — keep under 500 lines
-├── reference.md      # loaded on demand
-└── scripts/
-    └── bump.sh       # executed, not loaded as text
+├── SKILL.md          # REQUIRED — frontmatter + instructions, under 500 lines
+├── references/       # docs and API guides, loaded into context when needed
+│   └── changelog-format.md
+├── scripts/          # executed, never loaded as text
+│   └── bump.sh
+└── assets/           # templates, images, fonts used in the output
+    └── release-notes.tmpl
 ```
+
+The three optional directories are not decoration — they map onto how an expert actually works. `SKILL.md` is the approach; `references/` is the specialised knowledge you look up rather than memorise; `scripts/` are the tools; `assets/` are the raw materials. Splitting them that way is what makes progressive disclosure work: only the first is ever loaded by default, and a script is *run* rather than read, so a 400-line Python helper costs no context at all.
 
 Skills live at five scopes — enterprise, `~/.claude/skills/`, `.claude/skills/`, a nested `.claude/skills/` in a subdirectory, and inside a plugin. Within one level, the first match wins in the order enterprise → personal → project. A nested skill that clashes with a project one stays available under a qualified name, `/apps/web:deploy`.
 
@@ -126,6 +131,23 @@ They run once, at invocation, in the session shell's current directory, with a t
 
 These commands **never prompt for permission**; a failed permission check aborts the invocation instead. Organisations can switch the whole mechanism off with `disableSkillShellExecution`.
 
+## Four mechanisms, one table
+
+Part 2 and Part 3 have now introduced four ways to give Claude standing instruction, and they are easy to confuse because three of them are Markdown files. The distinction is *when* each loads and *who* pulls the trigger:
+
+| | `CLAUDE.md` | Rules | Skills |
+|---|---|---|---|
+| **Purpose** | General project context | File-scoped guidelines | Task-specific workflows |
+| **Answers** | How should Claude behave? | How should Claude behave *here*? | How should Claude *do this*? |
+| **Loaded** | Always | Always, or when a path matches | When invoked, or when the description matches |
+| **Triggered by** | Nothing — it is just there | Nothing — the file match | You, or Claude |
+| **Shape** | One file | Files in a directory | A directory with supporting files |
+| **Context cost** | Always | Always, or on demand | Only when used |
+
+The one-line version: **`CLAUDE.md` and rules are passive — Claude reads them while doing something else. A skill is active — it *is* the something else.** If your instruction has steps, it is a skill.
+
+Chapter 12 adds the fourth, which is not a Markdown file at all and does not depend on Claude reading anything.
+
 ## Skills absorbed custom commands
 
 `.claude/commands/deploy.md` and `.claude/skills/deploy/SKILL.md` both produce `/deploy` and behave identically in their basic form. Commands still work, and where both exist with the same name, **the skill wins**.
@@ -167,6 +189,8 @@ Two mechanisms, for two different problems.
 ## Summary
 
 - Three tiers: **listings always in context** (~1% budget), content on invocation, bundled files on demand.
+- The layout mirrors how an expert works: `SKILL.md` the approach, `references/` the lookups, `scripts/` the tools, `assets/` the raw materials. **A script is run, not read, so it costs no context.**
+- `CLAUDE.md` and rules are **passive**; a skill is **active**. If the instruction has steps, it is a skill.
 - A vague `description` costs twice — it wastes listing budget and fails to trigger.
 - Invoked content **persists across turns**, and compaction keeps only the **first 5,000 tokens** of each. Important instructions go at the top.
 - `disable-model-invocation: true` → users only, and the description leaves Claude's context. `user-invocable: false` → Claude only. **Both true and nobody can invoke it.**

@@ -2,7 +2,7 @@
 title: "GitHub, GitLab & CI"
 image: /images/articles/cc-16-github-gitlab-ci.webp
 toc: true
-date: 2026-09-06T10:00:00+00:00
+date: 2026-09-05T23:40:00+00:00
 description: "Three levels of integration, from Claude running git for you to Claude as a CI step. The @claude bot, the two modes a workflow can run in, and what a headless run does with permissions when nobody is there to answer."
 tags: ["claude-code", "github-actions", "ci", "headless", "automation"]
 categories: ["Fundamentals"]
@@ -43,7 +43,30 @@ enhance the PR description with more context about the security improvements
 
 The first step is not politeness — it is your chance to catch a wrong mental model **before** it becomes the PR description.
 
+### What "create a pr" actually does
+
+It is not one `gh` call. Four steps run, and knowing them tells you where to intervene:
+
+1. **Gather context** — `git status`, `git diff`, `git log`, and `git diff main...HEAD`, to establish what actually changed rather than what you said changed.
+2. **Prepare the branch** — check you are not on the default branch, that the work is committed, and that the branch exists on the remote. Anything missing gets handled.
+3. **Analyse the commits** — read everything since the branch point and decide what kind of change this is, then draft a summary about **why**, not just what.
+4. **Open it** — `gh pr create`, with a title, description and test plan.
+
+Step 3 is the one worth your attention, and it is why Chapter 15's recipe summarises *before* generating. A PR description written from the diff alone describes the change; one written after you have corrected Claude's understanding describes the intent.
+
 One thing worth knowing for later: **Claude Code links the session to the PR** when Claude creates it with `gh pr create` or `glab mr create`. `claude --from-pr 1234` reopens the picker filtered to sessions for that PR, and pasting a PR URL into `/resume` search finds it too.
+
+### Or skip the prose entirely
+
+The `commit-commands` plugin — install it from `/plugin` — collapses the routine parts into single commands:
+
+| Command | Does |
+|---|---|
+| `/commit` | Reviews the changes, stages, and writes the message |
+| `/commit-push-pr` | All of that, plus a feature branch and an opened PR |
+| `/clean_gone` | Deletes local branches whose remote is already gone |
+
+Chapter 13's argument in miniature: the plugin adds no capability Claude lacked, it removes the typing.
 
 ## Level 2: GitHub Actions
 
@@ -144,6 +167,8 @@ The levers: `--max-turns` in `claude_args`, workflow-level timeouts, GitHub conc
 ## Summary
 
 - **Three levels**, and level 1 needs no setup — `gh` is just a command Claude can run.
+- "Create a pr" is four steps: gather context, prepare the branch, analyse the commits, open it. **Summarise first** so the description carries intent rather than a restated diff.
+- The `commit-commands` plugin collapses the routine parts into `/commit` and `/commit-push-pr`.
 - `/install-github-app` does the whole GitHub setup. For an organisation, use an **API key**, not an OAuth token tied to one person.
 - **The presence of a `prompt` input is the mode switch**: with it, the workflow runs; without it, it waits for `@claude`.
 - Two trigger checks: **write access**, and a **bot check that stops Claude triggering itself**. Scheduled runs are attributed to whoever last edited the cron.

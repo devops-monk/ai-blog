@@ -2,7 +2,7 @@
 title: "MCP in Practice"
 image: /images/articles/cc-15-mcp-in-practice.webp
 toc: true
-date: 2026-09-06T09:00:00+00:00
+date: 2026-09-05T23:20:00+00:00
 description: "When a server earns its place and when Bash already does the job, the native Chrome integration and its safety model, and the prompt shapes that actually get useful work out of both."
 tags: ["claude-code", "mcp", "chrome", "browser-automation", "workflows"]
 categories: ["Fundamentals"]
@@ -83,6 +83,47 @@ Claude can attach local files to a page (v2.1.211+), and the restrictions are al
 
 Two smaller notes. Enabling Chrome by default loads browser tools every session, which costs context — Chapter 8's argument, so prefer `--chrome` when you need it. And the extension's service worker goes idle in long sessions; `/chrome` → **Reconnect extension** is the fix when browser tools stop responding.
 
+## Three servers worth knowing
+
+Beyond the built-in Chrome integration, three third-party servers come up constantly because each fixes a distinct blind spot. They are not Anthropic's, so treat the capability lists as what the projects claim and the add commands as the interface:
+
+**Chrome DevTools** — the browser as an instrument rather than a driver.
+
+```bash
+claude mcp add chrome-devtools --scope project -- npx chrome-devtools-mcp@latest
+```
+
+`--scope project` writes it to `.mcp.json` for the team; `npx` means nothing to install. Where the native integration is about *doing* things in a browser you are signed into, this is about *reading* one — console, network, DOM. The difference it makes is on a prompt like "the login form at localhost:5173 always fails, find out why and fix it": with it, Claude opens the page, submits the form, reads the console error and the network response, then traces it back to source. Without it, Claude reads the source and guesses.
+
+**Playwright** — the same browser access, aimed at tests.
+
+```bash
+claude mcp add playwright --scope project npx @playwright/mcp@latest
+```
+
+Cross-browser rather than Chrome-only, headless or headed, and the useful trick is that it can **generate a Playwright test file from actions it just performed** — walk a checkout flow once, get a spec file with the assertions and waits already in place.
+
+**Context7** — documentation newer than the model.
+
+```bash
+claude mcp add --transport http context7 --scope project https://mcp.context7.com/mcp
+```
+
+Note what is missing: no `npx`, no local process. This is a **remote HTTP server**, which is the shape Chapter 14 called the recommended one. It indexes current library documentation and serves the relevant section, which fixes a specific failure mode — a model confidently offering an API that moved. React Router 7's lazy-loading API differs from v6; asking Claude to "use context7 to look up the React Router v7 docs, then refactor" gets the current pattern rather than a remembered one.
+
+### Four shapes that show up repeatedly
+
+Once more than one server is connected, the value is in the chain rather than any single tool:
+
+| Shape | Servers | What it removes |
+|---|---|---|
+| Ticket → code → PR | Jira or Linear + GitHub | Reading the ticket in one window and writing code in another |
+| Production data → change | Postgres + filesystem | Guessing at user impact because querying prod is awkward |
+| Alert → fix | Sentry + GitHub | Triaging a stack trace by hand before you can start |
+| Doc → announcement → issue | Notion + Slack + GitHub | The four-tool shuffle after a spec changes |
+
+The pattern in all four: **the work was never hard, it was scattered.** That is the case for MCP that a single server does not make.
+
 ## Prompts that work
 
 The recipes below are the documented ones. What they have in common is worth naming before you read them: **they specify the target and the symptom, and leave the procedure alone** — Chapter 1's advice, applied.
@@ -105,6 +146,8 @@ The failure mode this avoids is reaching for a server when the answer is a subag
 ## Summary
 
 - Ask whether **Bash already does it** before adding a server. A server earns its place through *typed tools*, not access.
+- Three that repay setup: **Chrome DevTools** (read the browser), **Playwright** (test it, and generate the spec), **Context7** (documentation newer than the model).
+- The real return comes from **chaining** servers — the work was never hard, it was scattered.
 - If the problem is context rather than capability, the answer is a **subagent**.
 - **Chrome shares your login state**, which is why it reaches authenticated apps with no connector or token. It needs a direct Anthropic plan and `/login` — an API key or setup token disables it.
 - In plan mode, browser **reads run and writes prompt** — but `save_to_disk`, `clear` and `createIfEmpty` turn a read into a write.

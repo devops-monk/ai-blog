@@ -29,6 +29,16 @@ A hook is a command Claude Code runs at a fixed point in its lifecycle, **regard
 
 The test from Chapter 6, restated: *does this need to happen every time, or usually?* Every time is a hook.
 
+And there is a second difference that Chapter 11's table was building towards. `CLAUDE.md`, rules and skills all occupy your context window — that is what "Claude reads them" means. **A hook does not.** It runs as an external process, outside the window entirely, and costs you nothing until it chooses to speak:
+
+| | Where it lives | Context cost |
+|---|---|---|
+| `CLAUDE.md`, rules | In the window, from session start | Always |
+| Skills | In the window, from invocation | When used |
+| **Hooks** | **Outside the window** | **Zero, unless the hook returns `additionalContext`** |
+
+So a `PostToolUse` hook that runs your formatter after every edit is free, forever. That is a different kind of cheap from a well-scoped rule, and it is why "automate it" and "instruct it" are not competing answers to the same question.
+
 ## Where hooks fire
 
 There are 33 events. Rather than list them, here is a turn with the main ones in place:
@@ -88,6 +98,18 @@ Matchers are **case-sensitive**, and what they match against depends on the even
 
 `prompt` and `agent` are the interesting pair: they exist for decisions that need **judgment rather than a rule**, which is otherwise the gap between a hook and a permission rule.
 
+### What to write them in
+
+Hooks mostly run **synchronously** — Claude Code waits for them before continuing. So the interpreter's *startup* time, not your script's logic, is usually what you pay. On a `PreToolUse` hook that can fire dozens of times in a session, a 300ms interpreter start is 300ms added to every tool call.
+
+| | Startup | Use for |
+|---|---|---|
+| **Bash** | ~10–20ms | Simple, high-frequency checks |
+| **Node.js** | ~50–100ms | The default for `PreToolUse` and `PostToolUse` |
+| **Python** | ~200–400ms | `SessionStart`, `SessionEnd`, and anything you are still debugging |
+
+The rule of thumb: **frequency decides the language.** Something firing once a session can be written in whatever you think fastest in; something firing on every tool call should be Bash or Node. If a hook must be slow, `"async": true` takes it off the critical path — at the cost of no longer being able to block.
+
 ## The contract
 
 Your hook gets JSON on stdin — `session_id`, `transcript_path`, `cwd`, `permission_mode`, `hook_event_name`, plus event-specific fields like `tool_name` and `tool_input`. It answers through its exit code and stdout.
@@ -138,6 +160,17 @@ Which puts hooks precisely one notch above modes and one notch below deny rules 
 
 **Block edits to files nothing should touch.** A `PreToolUse` hook exiting 2 with a reason on stderr, which holds regardless of permission mode — the enforcement `CLAUDE.md` cannot give you.
 
+**Tell you when Claude wants you.** The first hook most people actually keep, because the failure it fixes is you making coffee while a permission prompt sits unanswered:
+
+```json
+{ "hooks": { "Notification": [{ "matcher": "", "hooks": [{
+  "type": "command",
+  "command": "osascript -e 'display notification \"Claude Code needs your attention\" with title \"Claude Code\"'"
+}] }] } }
+```
+
+Swap `osascript` for `notify-send` on Linux. The `Notification` event is observational, so there is no exit code to get right — it just fires.
+
 **Re-inject context after a compact.** Chapter 8's compaction table has a row for this: a `SessionStart` hook matching `compact` runs and its output is added to the compacted context. It is the supported way to make something survive compaction that otherwise would not.
 
 ## Where they can live
@@ -166,6 +199,8 @@ Two subtler ones. Stdout that *looks* like JSON but is malformed reports a parse
 ## Summary
 
 - A hook runs **regardless of what Claude decides**. That is the entire difference from `CLAUDE.md` and skills.
+- **Hooks run outside the context window and cost nothing** unless they return `additionalContext`.
+- Hooks are synchronous, so **interpreter startup is the cost**: Bash ~10–20ms, Node ~50–100ms, Python ~200–400ms. Frequency decides the language.
 - 33 events, but only a small subset can **block** — `PreToolUse`, `UserPromptSubmit`, `Stop`, `PreModelSwitch` and a few more. `PostToolUse` cannot undo anything.
 - Matcher syntax is decided by its characters: an unexpected one silently makes it a regex. Case-sensitive.
 - **Exit `2` blocks and beats any JSON you also printed.** Exit `0` plus JSON is the expressive path.

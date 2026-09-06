@@ -33,7 +33,7 @@ Write **from the deck's coverage, in our own words**. The deck is a paid third-p
 | 15 | MCP in Practice | Connecting to the World | ✅ [Published](https://ai.devops-monk.com/2026/09/mcp-in-practice/) |
 | 16 | GitHub, GitLab & CI | Connecting to the World | ✅ [Published](https://ai.devops-monk.com/2026/09/github-gitlab-and-ci/) |
 | 17 | Sub-Agents | Agents & Autonomy | ✅ [Published](https://ai.devops-monk.com/2026/09/subagents/) |
-| 18 | Agent Teams & Parallel Work | Agents & Autonomy | ⬜ Not started |
+| 18 | Agent Teams & Parallel Work | Agents & Autonomy | ✅ [Published](https://ai.devops-monk.com/2026/09/agent-teams-and-parallel-work/) |
 | 19 | Automation & Scheduling | Agents & Autonomy | ⬜ Not started |
 | 20 | Claude Code Everywhere | Agents & Autonomy | ⬜ Not started |
 | 21 | Cost, Monitoring & Security | Running It for Real | ⬜ Not started |
@@ -142,9 +142,10 @@ Context drowning, what a subagent is, the built-ins, `/agents`, frontmatter, per
 *Interactive:* **context-isolation visualiser** — the same task with and without delegation
 
 **18. Agent Teams & Parallel Work**
-Agent view, agent teams, cross-session messaging, dynamic workflows, worktrees end to end, when parallelism actually pays.
-`P68–70` · `D agents, agent-view, agent-teams, cross-session-messaging, workflows, worktrees`
-*Interactive:* worktree layout diagram
+Agent view, agent teams, cross-session messaging, dynamic workflows, when parallelism actually pays.
+`P—` (not in the deck; its parallel content is subagents, in Ch 17) · `D agents, agent-view, agent-teams, cross-session-messaging, workflows`
+*Interactive:* **parallelism chooser** — three questions, one approach
+**Note:** the old `P68–70` mapping was wrong — those slides are the commit plugin and the PR flow, both used in Ch 16. Worktrees (slides 70–72) went to Ch 9.
 
 **19. Automation & Scheduling**
 `/loop` in all three forms plus `loop.md` and its limits, `/goal`, cloud routines, desktop scheduled tasks, channels, deep links.

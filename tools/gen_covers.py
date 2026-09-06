@@ -588,6 +588,30 @@ def art_delegate():
     return f'<svg width="640" height="420" viewBox="0 0 640 420">{"".join(out)}</svg>'
 
 
+def art_team():
+    """A lead over teammates who also talk to each other."""
+    out = []
+    out.append(f'<rect x="248" y="66" width="140" height="42" rx="8" fill="{PURPLE}" opacity=".28" '
+               f'stroke="{BLUE}" stroke-opacity=".85"/>')
+    out.append(f'<text x="318" y="93" fill="#eae4fb" font-size="15" text-anchor="middle" '
+               f'font-family="ui-monospace,monospace">lead</text>')
+    mates = [(96, "security"), (248, "perf"), (400, "tests")]
+    for x, label in mates:
+        out.append(f'<path d="M318 112 L{x + 62} 196" stroke="{FAINT}" stroke-opacity=".55" stroke-width="1.4"/>')
+        out.append(f'<rect x="{x}" y="200" width="124" height="40" rx="7" fill="{GREEN}" opacity=".2" '
+                   f'stroke="{GREEN}" stroke-opacity=".65"/>')
+        out.append(f'<text x="{x + 62}" y="225" fill="#d9efdf" font-size="13.5" text-anchor="middle" '
+                   f'font-family="ui-monospace,monospace">{label}</text>')
+    # The lateral messaging is what distinguishes a team from subagents.
+    for x1, x2 in [(224, 248), (372, 400)]:
+        out.append(f'<path d="M{x1} 220 L{x2} 220" stroke="{PINK}" stroke-opacity=".85" stroke-width="1.8"/>')
+        out.append(f'<path d="M-5 -4 L5 0 L-5 4 Z" fill="{PINK}" opacity=".9" transform="translate({x2} 220)"/>')
+        out.append(f'<path d="M5 -4 L-5 0 L5 4 Z" fill="{PINK}" opacity=".9" transform="translate({x1} 220)"/>')
+    out.append(f'<text x="318" y="272" fill="{PINK}" font-size="13" text-anchor="middle" opacity=".9">they message each other</text>')
+    out.append(f'<text x="96" y="330" fill="{DIM}" font-size="14">no worktrees — partition the files yourself</text>')
+    return f'<svg width="640" height="420" viewBox="0 0 640 420">{"".join(out)}</svg>'
+
+
 COVERS = [
     # (slug, badge, title with <br>, title font size, tagline, mono caption, motif)
     ("cc-01-what-claude-code-is", "PART 1 · CH 1", "What Claude Code<br>Actually Is", 54,
@@ -641,6 +665,9 @@ COVERS = [
     ("cc-17-subagents", "PART 5 · CH 17", "Sub-Agents", 64,
      "Delegation as context management, not as extra horsepower.",
      "a blank slate with its own <i>window</i>", art_delegate),
+    ("cc-18-agent-teams", "PART 5 · CH 18", "Agent Teams &amp;<br>Parallel Work", 50,
+     "Four ways to run sessions at once, and the questions that pick between them.",
+     "teams do not <i>isolate</i> teammates", art_team),
     ("hello-transformers", "PART 1 · CH 1", "How a Transformer<br>Actually Predicts", 54,
      "One token at a time, and everything else follows from that.",
      "the model outputs a <i>distribution</i>, not a word", art_tokens),

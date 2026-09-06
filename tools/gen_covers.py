@@ -455,6 +455,31 @@ def art_lifecycle():
     return f'<svg width="640" height="420" viewBox="0 0 640 420">{"".join(out)}</svg>'
 
 
+def art_bundle():
+    """Loose components on the left, gathered into one installable unit."""
+    out = []
+    parts = [("skills/", GREEN, 92), ("agents/", BLUE, 140), ("hooks/", AMBER, 188),
+             (".mcp.json", PINK, 236), ("bin/", PURPLE, 284)]
+    for label, col, y in parts:
+        out.append(f'<rect x="46" y="{y-16}" width="130" height="33" rx="6" fill="{col}" opacity=".16" '
+                   f'stroke="{col}" stroke-opacity=".55" stroke-dasharray="4 4"/>')
+        out.append(f'<text x="60" y="{y+5}" fill="#8b93a7" font-size="12.5" '
+                   f'font-family="ui-monospace,monospace">{label}</text>')
+        out.append(f'<path d="M180 {y} Q250 {y} 268 188" fill="none" stroke="{col}" '
+                   f'stroke-opacity=".4" stroke-width="1.3"/>')
+    # The bundle everything resolves into.
+    out.append(f'<rect x="272" y="120" width="200" height="136" rx="12" fill="{PURPLE}" opacity=".2" '
+               f'stroke="{BLUE}" stroke-opacity=".8"/>')
+    out.append(f'<text x="372" y="176" fill="#e9e3fb" font-size="17" text-anchor="middle" '
+               f'font-family="ui-monospace,monospace">release-tools</text>')
+    out.append(f'<text x="372" y="202" fill="{DIM}" font-size="14" text-anchor="middle">v1.2.0</text>')
+    out.append(f'<path d="M472 188 L534 188" stroke="{GREEN}" stroke-opacity=".8" stroke-width="1.8"/>')
+    out.append(f'<path d="M-6 -5 L6 0 L-6 5 Z" fill="{GREEN}" opacity=".9" transform="translate(538 188)"/>')
+    out.append(f'<text x="504" y="170" fill="{GREEN}" font-size="13" text-anchor="middle" opacity=".85">install</text>')
+    out.append(f'<text x="46" y="342" fill="{DIM}" font-size="14">no new capability — one installable unit</text>')
+    return f'<svg width="640" height="420" viewBox="0 0 640 420">{"".join(out)}</svg>'
+
+
 COVERS = [
     # (slug, badge, title with <br>, title font size, tagline, mono caption, motif)
     ("cc-01-what-claude-code-is", "PART 1 · CH 1", "What Claude Code<br>Actually Is", 54,
@@ -493,6 +518,9 @@ COVERS = [
     ("cc-12-hooks", "PART 3 · CH 12", "Hooks", 72,
      "The layer that turns an instruction into a guarantee.",
      "hooks tighten, never <i>loosen</i>", art_lifecycle),
+    ("cc-13-plugins", "PART 3 · CH 13", "Plugins &amp;<br>Marketplaces", 54,
+     "One installable unit for skills, hooks, agents and MCP servers.",
+     "only plugin.json goes in <i>.claude-plugin/</i>", art_bundle),
     ("hello-transformers", "PART 1 · CH 1", "How a Transformer<br>Actually Predicts", 54,
      "One token at a time, and everything else follows from that.",
      "the model outputs a <i>distribution</i>, not a word", art_tokens),

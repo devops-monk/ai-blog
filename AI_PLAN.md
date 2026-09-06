@@ -196,7 +196,7 @@ The source deck predates the current documentation. These must be written correc
 | `/output-style` switches the style | The standalone command was deprecated in v2.1.73 and removed in v2.1.91. Use `/config` → **Output style**, or the `outputStyle` key, which `/config` writes to `.claude/settings.local.json` |
 | Plan mode cannot run bash commands | It runs them. When auto mode is available and `useAutoModeDuringPlan` is on (the default), the classifier reviews shell commands during planning and approved ones run |
 
-Unverified deck claims to confirm while writing the relevant chapter: `/loop` task expiry. **Resolved:** voice dictation has hold and tap modes (Ch 2); `MEMORY.md` lives at `~/.claude/projects/<project>/memory/` and only its first 200 lines or 25KB load (Ch 7); checkpoints keep snapshots for the 100 most recent per session and are swept with transcripts after `cleanupPeriodDays`, 30 days by default (Ch 9); `claude --worktree <name>` exists and needs at least one commit in the repository (Ch 15).
+Unverified deck claims: **none left.** `/loop` recurring tasks auto-expire after 7 days with one final fire, tasks run only while Claude Code is open and idle, a fresh conversation clears session-scoped tasks, and `--resume` restores unexpired ones (slides 125–127, for Ch 19). **Resolved:** voice dictation has hold and tap modes (Ch 2); `MEMORY.md` lives at `~/.claude/projects/<project>/memory/` and only its first 200 lines or 25KB load (Ch 7); checkpoints keep snapshots for the 100 most recent per session and are swept with transcripts after `cleanupPeriodDays`, 30 days by default (Ch 9); `claude --worktree <name>` exists and needs at least one commit in the repository (Ch 15).
 
 Areas the deck never mentions, all in scope: plugins and marketplaces, agent teams, agent view, cross-session messaging, dynamic workflows, routines, artifacts, channels, `/goal`, sandboxing, sandbox environments, GitLab CI/CD, code review, model configuration, fast mode, the advisor tool, cost and monitoring, security and enterprise deployment, large codebases, and the Agent SDK.
 
@@ -227,8 +227,9 @@ Chapters 1 to 3 are the reference for this standard: technical register, concept
 
 ## Deck audit and gap register
 
-Every published chapter re-checked against the slides mapped to it. **Open gaps are work to do**; each is a
-point the deck makes that the chapter does not.
+**All 136 slides read.** Every published chapter re-checked against the slides mapped to it, and every gap
+closed. Slides 125–136 map only to unwritten chapters, so **chapters 1–16 are complete against the deck**.
+Open rows below are chapters not yet written.
 
 | Slides | Ch | Gaps to close |
 |---|---|---|
@@ -255,7 +256,8 @@ point the deck makes that the chapter does not.
 | 110–115 | 14 | ✅ none |
 | 116–122 | 15 | ✅ fixed — Chrome DevTools, Playwright and Context7 with add commands, plus the four cross-tool shapes |
 | 123–124 | 14 | ✅ none |
-| 125–136 | 17–18 | ⬜ not yet written — audit while writing |
+| 125–127 | 19 | ⬜ `/loop` — not yet written |
+| 128–136 | 17 | ⬜ sub-agents — not yet written |
 
 ## Writing a chapter
 

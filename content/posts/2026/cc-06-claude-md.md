@@ -124,6 +124,16 @@ A symlink works too if you need nothing extra — though on Windows that require
 
 **Structure.** Headers and bullets. Claude scans structure the way you do; a dense paragraph is harder to follow than a grouped list.
 
+**Emphasis, sparingly.** Marking a rule **IMPORTANT** or **YOU MUST** does measurably improve adherence — which is exactly why it stops working if you mark everything. Spend it on the two or three rules whose violation would actually cost you.
+
+### Never put a secret in it
+
+`CLAUDE.md` is loaded into context every session and, at project scope, committed to your repository. Two categories do not belong in it:
+
+- **Credentials, API keys, tokens.** Beyond the obvious, this file is *designed* to be read aloud into a model's context on every run. There is no scenario where a secret in it is contained.
+- **Rules a linter already enforces.** ESLint, Prettier and Checkstyle enforce; `CLAUDE.md` only asks. Duplicating them spends context and adherence budget on something already guaranteed elsewhere.
+
+
 One small mechanic worth knowing: **block-level HTML comments are stripped before the content reaches context.** `<!-- maintainer note -->` costs you nothing, so notes to human maintainers are free.
 
 ### Where does this instruction belong?
@@ -149,6 +159,8 @@ In order:
 3. **Make it specific.** Vague instructions are followed vaguely.
 4. **Look for a contradiction** across parent files, nested files and rules.
 
+Two symptoms point at specific causes rather than the list above. **If Claude keeps ignoring one rule**, the file is probably too long and that rule is buried — trim, or mark it. **If Claude keeps asking about something the file already answers**, the phrasing is ambiguous rather than missing; rewrite it as something you could verify.
+
 If none of that fixes it, the instruction may be in the wrong mechanism. Something that must happen at a specific moment — before every commit, after each edit — is a hook, because hooks run regardless of what Claude decides. For system-prompt-level instruction there is `--append-system-prompt`, though it must be passed every invocation, which suits scripts rather than interactive work.
 
 > Debugging tip: the `InstructionsLoaded` hook logs exactly which instruction files loaded, when, and why. It is the only way to see path-scoped and lazily-loaded files resolve in real time.
@@ -166,6 +178,8 @@ So if an instruction vanished after a compact, it was almost certainly given **i
 - Subdirectory files load on demand when Claude reads files there.
 - `@path` imports nest four deep, skip backticked text, and prompt once for anything resolving outside the working directory. **They do not reduce context.**
 - **It is context, not configuration.** Under 200 lines, specific enough to verify, structured. HTML comments are free.
+- **`IMPORTANT` and `YOU MUST` improve adherence** — and stop working if you mark everything.
+- **Never a secret, and never a rule your linter already enforces.**
 - Cut what Claude can derive from the code; keep what contradicts the defaults.
 - `/context` says what loaded, `/memory` edits it, `/init` generates it, `/doctor` trims it.
 - An instruction that must fire at a fixed moment is a **hook**, not a line in this file.

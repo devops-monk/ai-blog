@@ -221,6 +221,25 @@ Every chapter follows the same skeleton, so a reader who has read one knows wher
 
 Chapters 1 to 3 are the reference for this standard: technical register, concept-first, exhaustive detail delegated to docs links.
 
+## Deck audit
+
+The source deck is a paid third-party course (eazybytes, watermarked on every slide) and its pages are
+images, so `pdftotext` returns nothing — read it with the Read tool's `pages` parameter instead.
+
+**Use it as a coverage checklist only.** Do not carry over its analogies, section labels, or slide
+structure; write independently from the docs. That is both the right editorial call and the right one
+legally.
+
+Audit status, checking each published chapter against the slides that map to it:
+
+| Slides | Chapters | Status |
+|---|---|---|
+| 1–12 | front matter | ✅ nothing technical |
+| 13–26 | 2, 3 | ✅ covered; deck errors on `#`, bash-mode cost and plan-mode bash all corrected |
+| 27–40 | 5, 6 | ⚠️ two gaps found and fixed in Ch 6 — emphasis (`IMPORTANT`/`YOU MUST`) for adherence, and never putting secrets or linter-enforced rules in the file |
+| 41–73 | 7, 8, 9, 16 | ⬜ not yet audited |
+| 74–136 | 17–23 | ⬜ not yet written |
+
 ## Writing a chapter
 
 1. Re-read the source slides, then fetch every documentation page listed for the chapter. Never write a technical claim from the deck alone.

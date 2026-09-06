@@ -40,7 +40,7 @@ The context window is the budget everything else spends. This part is about spen
 
 Turning your preferences into capabilities, and your hopes into guarantees.
 
-10. Output Styles
+10. [Output Styles](/2026/09/output-styles/) — the one extension point that edits the system prompt itself, the five built-ins, and why `keep-coding-instructions` defaulting to false is the field that matters.
 11. Skills
 12. Hooks
 13. Plugins & Marketplaces

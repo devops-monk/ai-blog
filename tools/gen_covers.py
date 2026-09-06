@@ -383,6 +383,30 @@ def art_rewind():
     return f'<svg width="640" height="420" viewBox="0 0 640 420">{"".join(out)}</svg>'
 
 
+def art_prompt():
+    """The system prompt, with the built-in engineering block swapped out."""
+    out = []
+    blocks = [
+        ("core instructions", PURPLE, 96, True),
+        ("tool definitions", PURPLE, 152, True),
+        ("software engineering", FAINT, 208, False),
+        ("your output style", GREEN, 264, True),
+    ]
+    for label, col, y, on in blocks:
+        dash = '' if on else ' stroke-dasharray="5 4"'
+        out.append(f'<rect x="70" y="{y-21}" width="330" height="42" rx="8" fill="{col}" '
+                   f'opacity="{".22" if on else ".07"}" stroke="{col}" stroke-opacity="{".8" if on else ".5"}"{dash}/>')
+        out.append(f'<text x="90" y="{y+6}" fill="{"#e6e0f8" if on else "#5b6475"}" font-size="15" '
+                   f'font-family="ui-monospace,monospace">{label}</text>')
+    # The engineering block is the one keep-coding-instructions decides on.
+    out.append(f'<path d="M400 208 L470 208" stroke="{RED}" stroke-opacity=".7" stroke-width="1.6"/>')
+    out.append(f'<text x="480" y="204" fill="{RED}" font-size="13" opacity=".9">dropped unless</text>')
+    out.append(f'<text x="480" y="222" fill="{RED}" font-size="13" opacity=".9">you keep it</text>')
+    out.append(f'<text x="70" y="60" fill="{DIM}" font-size="14">system prompt</text>')
+    out.append(f'<text x="70" y="330" fill={chr(34)}{DIM}{chr(34)} font-size="14">every other mechanism adds context around this</text>')
+    return f'<svg width="640" height="420" viewBox="0 0 640 420">{"".join(out)}</svg>'
+
+
 COVERS = [
     # (slug, badge, title with <br>, title font size, tagline, mono caption, motif)
     ("cc-01-what-claude-code-is", "PART 1 · CH 1", "What Claude Code<br>Actually Is", 54,
@@ -412,6 +436,9 @@ COVERS = [
     ("cc-09-sessions-checkpoints", "PART 2 · CH 9", "Sessions, Checkpoints<br>&amp; Rewind", 46,
      "Resume, branch, rewind — and the four changes rewind cannot undo.",
      "checkpoints are not <i>version control</i>", art_rewind),
+    ("cc-10-output-styles", "PART 3 · CH 10", "Output<br>Styles", 62,
+     "The one extension point that edits the system prompt itself.",
+     "keep-coding-instructions defaults to <i>false</i>", art_prompt),
     ("hello-transformers", "PART 1 · CH 1", "How a Transformer<br>Actually Predicts", 54,
      "One token at a time, and everything else follows from that.",
      "the model outputs a <i>distribution</i>, not a word", art_tokens),

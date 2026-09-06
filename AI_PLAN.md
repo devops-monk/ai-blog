@@ -21,7 +21,7 @@ A 23-chapter tutorial that takes a reader from "I installed it" to genuine exper
 | 7 | Rules & Auto Memory | Context Engineering | ✅ [Published](https://ai.devops-monk.com/2026/09/rules-and-auto-memory/) |
 | 8 | The Context Window | Context Engineering | ✅ [Published](https://ai.devops-monk.com/2026/09/context-window/) |
 | 9 | Sessions, Checkpoints & Rewind | Context Engineering | ✅ [Published](https://ai.devops-monk.com/2026/09/sessions-checkpoints-rewind/) |
-| 10 | Output Styles | Teaching New Tricks | ⬜ Not started |
+| 10 | Output Styles | Teaching New Tricks | ✅ [Published](https://ai.devops-monk.com/2026/09/output-styles/) |
 | 11 | Skills | Teaching New Tricks | ⬜ Not started |
 | 12 | Hooks | Teaching New Tricks | ⬜ Not started |
 | 13 | Plugins & Marketplaces | Teaching New Tricks | ⬜ Not started |
@@ -189,6 +189,7 @@ The source deck predates the current documentation. These must be written correc
 | Shell mode (`!`) is free and consumes no tokens | Not since v2.1.186. Claude responds to `!` output automatically and that response costs a normal prompt. `respondToBashCommands: false` restores the silent behaviour |
 | `#` adds a note to Claude's memory | No longer in the documentation. Say "remember that…" in plain language; auto memory picks it up |
 | Voice dictation is hold-`Space` | Two modes, hold and tap, and `voice:pushToTalk` is rebindable |
+| `/output-style` switches the style | The standalone command was deprecated in v2.1.73 and removed in v2.1.91. Use `/config` → **Output style**, or the `outputStyle` key, which `/config` writes to `.claude/settings.local.json` |
 | Plan mode cannot run bash commands | It runs them. When auto mode is available and `useAutoModeDuringPlan` is on (the default), the classifier reviews shell commands during planning and approved ones run |
 
 Unverified deck claims to confirm while writing the relevant chapter: the `--worktree` flag and `/loop` task expiry. **Resolved:** voice dictation has hold and tap modes (Ch 2); `MEMORY.md` lives at `~/.claude/projects/<project>/memory/` and only its first 200 lines or 25KB load (Ch 7); checkpoints keep snapshots for the 100 most recent per session and are swept with transcripts after `cleanupPeriodDays`, 30 days by default (Ch 9).

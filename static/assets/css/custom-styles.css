@@ -3131,3 +3131,91 @@ textarea.os-in { resize: vertical; line-height: 1.55; }
   .sk-cols { flex-direction: column; gap: 0.9rem; }
   .sk-left { flex: 1 1 auto; }
 }
+
+/* ------------------------------------------------------------------
+   Hook lifecycle timeline (Chapter 12). Events grouped by phase, with
+   the blocking ones marked.
+   ------------------------------------------------------------------ */
+.hk-box {
+  margin: 1.5rem 0;
+  padding: 1rem 1.1rem 1.1rem;
+  background: var(--bg-alt, #f8fafc);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+}
+
+.hk-cols { display: flex; gap: 1.2rem; }
+.hk-left { flex: 0 0 16rem; }
+.hk-right { flex: 1 1 auto; min-width: 0; }
+
+.hk-ph { margin-bottom: 0.7rem; padding-left: 0.7rem; border-left: 2px solid var(--border); }
+.hk-phn {
+  display: block;
+  margin-bottom: 0.25rem;
+  font-size: 0.66rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.hk-ev {
+  display: block;
+  width: 100%;
+  margin-bottom: 0.15rem;
+  padding: 0.26rem 0.5rem;
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  text-align: left;
+  color: var(--text-muted);
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  cursor: pointer;
+}
+.hk-ev:hover { border-color: var(--primary); color: var(--text); }
+.hk-ev.on { color: #fff; background: var(--primary); border-color: var(--primary); font-weight: 600; }
+.hk-ev.blk { border-left: 3px solid #dc2626; }
+.hk-ev i {
+  float: right;
+  font-family: var(--sans, inherit);
+  font-size: 0.62rem;
+  font-style: normal;
+  color: #dc2626;
+  opacity: 0.85;
+}
+.hk-ev.on i { color: #fecaca; }
+
+.hk-name { display: block; font-family: var(--mono); font-size: 0.98rem; font-weight: 700; }
+.hk-tags { display: flex; flex-wrap: wrap; gap: 0.35rem; margin: 0.45rem 0 0.7rem; }
+.hk-tag {
+  padding: 0.15rem 0.55rem;
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  font-weight: 600;
+  border-radius: 999px;
+}
+.hk-yes { color: #991b1b; background: #fee2e2; }
+.hk-no { color: #475569; background: #e2e8f0; }
+.hk-m { color: var(--text-muted); background: var(--bg); border: 1px solid var(--border); font-weight: 400; }
+
+.hk-w, .hk-u { margin: 0 0 0.5rem; font-size: 0.84rem; line-height: 1.55; }
+.hk-u { color: var(--text-muted); }
+.hk-u code { font-size: 0.78rem; }
+
+[data-theme="dark"] .hk-box { background: #1e293b !important; border-color: #334155 !important; }
+[data-theme="dark"] .hk-ph { border-left-color: #334155; }
+[data-theme="dark"] .hk-ev,
+[data-theme="dark"] .hk-m { background: #0f172a !important; border-color: #334155 !important; color: #94a3b8 !important; }
+[data-theme="dark"] .hk-ev:hover { color: #e2e8f0 !important; }
+[data-theme="dark"] .hk-ev.on { color: #fff !important; background: var(--primary) !important; border-color: var(--primary) !important; }
+[data-theme="dark"] .hk-ev.blk { border-left-color: #f87171 !important; }
+[data-theme="dark"] .hk-ev i { color: #f87171 !important; }
+[data-theme="dark"] .hk-yes { color: #fecaca !important; background: #7f1d1d !important; }
+[data-theme="dark"] .hk-no { color: #cbd5e1 !important; background: #334155 !important; }
+
+@media only screen and (max-width: 40em) {
+  .hk-box { padding: 0.8rem 0.85rem 0.9rem; }
+  .hk-cols { flex-direction: column; gap: 0.9rem; }
+  .hk-left { flex: 1 1 auto; }
+}

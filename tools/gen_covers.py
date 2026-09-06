@@ -429,6 +429,32 @@ def art_disclosure():
     return f'<svg width="640" height="420" viewBox="0 0 640 420">{"".join(out)}</svg>'
 
 
+def art_lifecycle():
+    """A turn's spine with hook events hanging off it; the blockers have a bar."""
+    out = []
+    out.append(f'<path d="M100 70 L100 350" stroke="{FAINT}" stroke-width="2"/>')
+    evs = [
+        ("SessionStart", 90, False),
+        ("UserPromptSubmit", 138, True),
+        ("PreToolUse", 186, True),
+        ("PostToolUse", 234, False),
+        ("Stop", 282, True),
+        ("SessionEnd", 330, False),
+    ]
+    for label, y, blocks in evs:
+        col = RED if blocks else PURPLE
+        out.append(f'<circle cx="100" cy="{y}" r="6" fill="{col}" opacity="{".9" if blocks else ".5"}"/>')
+        out.append(f'<path d="M106 {y} L150 {y}" stroke="{col}" stroke-opacity=".5" stroke-width="1.4"/>')
+        out.append(f'<text x="160" y="{y+5}" fill="{"#e8dcdc" if blocks else "#8b93a7"}" font-size="14" '
+                   f'font-family="ui-monospace,monospace">{label}</text>')
+        if blocks:
+            # A blocking event can stop the turn dead.
+            out.append(f'<path d="M400 {y-11} L400 {y+11}" stroke="{RED}" stroke-width="3.5"/>')
+            out.append(f'<text x="416" y="{y+5}" fill="{RED}" font-size="13" opacity=".85">blocks</text>')
+    out.append(f'<text x="70" y="386" fill="{DIM}" font-size="14">a deny here holds even under bypassPermissions</text>')
+    return f'<svg width="640" height="420" viewBox="0 0 640 420">{"".join(out)}</svg>'
+
+
 COVERS = [
     # (slug, badge, title with <br>, title font size, tagline, mono caption, motif)
     ("cc-01-what-claude-code-is", "PART 1 · CH 1", "What Claude Code<br>Actually Is", 54,
@@ -464,6 +490,9 @@ COVERS = [
     ("cc-11-skills", "PART 3 · CH 11", "Skills", 72,
      "Instructions that stay out of context until they are needed.",
      "the description is the <i>trigger</i>", art_disclosure),
+    ("cc-12-hooks", "PART 3 · CH 12", "Hooks", 72,
+     "The layer that turns an instruction into a guarantee.",
+     "hooks tighten, never <i>loosen</i>", art_lifecycle),
     ("hello-transformers", "PART 1 · CH 1", "How a Transformer<br>Actually Predicts", 54,
      "One token at a time, and everything else follows from that.",
      "the model outputs a <i>distribution</i>, not a word", art_tokens),

@@ -23,7 +23,7 @@ A 23-chapter tutorial that takes a reader from "I installed it" to genuine exper
 | 9 | Sessions, Checkpoints & Rewind | Context Engineering | ✅ [Published](https://ai.devops-monk.com/2026/09/sessions-checkpoints-rewind/) |
 | 10 | Output Styles | Teaching New Tricks | ✅ [Published](https://ai.devops-monk.com/2026/09/output-styles/) |
 | 11 | Skills | Teaching New Tricks | ✅ [Published](https://ai.devops-monk.com/2026/09/claude-code-skills/) |
-| 12 | Hooks | Teaching New Tricks | ⬜ Not started |
+| 12 | Hooks | Teaching New Tricks | ✅ [Published](https://ai.devops-monk.com/2026/09/claude-code-hooks/) |
 | 13 | Plugins & Marketplaces | Teaching New Tricks | ⬜ Not started |
 | 14 | MCP Fundamentals | Connecting to the World | ⬜ Not started |
 | 15 | MCP in Practice | Connecting to the World | ⬜ Not started |
@@ -229,7 +229,7 @@ Chapters 1 to 3 are the reference for this standard: technical register, concept
 4. Widget as a single raw HTML block with no blank lines anywhere inside it. **No `//` comments in its JavaScript** — collapsing to one line turns one into a line-swallower and the minifier fails the whole build with `unexpected EOF`. Use `/* */`. Styles into `custom-styles.css` under a short prefix, with a `[data-theme="dark"]` variant and a `40em` fallback.
    A `<pre>` inside a widget inherits the global `pre { background: var(--code-bg) !important }` but not `pre code`'s light colour, so it renders dark-on-dark. Set an explicit `color` on it.
    Drive a widget that makes technical claims: click every preset in headless Chrome and check each verdict against the docs. Chapter 4's matcher shipped one wrong verdict (`timeout 30 npm test`) that only this caught.
-5. Cover: add an `art_*()` motif and a `COVERS` entry, then `python3 tools/gen_covers.py <slug>` and `python3 tools/gen_social.py`.
+5. Cover: add an `art_*()` motif and a `COVERS` entry. **Check the name is not a prefix of an existing one** — an `art_gate` guard passes `"def art_gate" not in s` only if `art_gates` does not already exist. Then then `python3 tools/gen_covers.py <slug>` and `python3 tools/gen_social.py`.
 6. Verify, drop `draft: true`, add the chapter to `content/pages/guide.md`, commit and push.
 
 Keep `series_order` in step with the `PART n · CH n` badge baked into the cover.

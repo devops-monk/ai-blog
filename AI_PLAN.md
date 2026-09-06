@@ -16,7 +16,7 @@ A 23-chapter tutorial that takes a reader from "I installed it" to genuine exper
 | 2 | Three Ways to Talk to It | Foundations | ✅ [Published](https://ai.devops-monk.com/2026/09/three-ways-to-talk-to-claude-code/) |
 | 3 | Permission Modes | Foundations | ✅ [Published](https://ai.devops-monk.com/2026/09/permission-modes/) |
 | 4 | Permissions & Sandboxing | Foundations | ✅ [Published](https://ai.devops-monk.com/2026/09/permissions-and-sandboxing/) |
-| 5 | Settings: the Control Panel | Context Engineering | ⬜ Not started |
+| 5 | Settings: the Control Panel | Context Engineering | ✅ [Published](https://ai.devops-monk.com/2026/09/claude-code-settings/) |
 | 6 | CLAUDE.md | Context Engineering | ⬜ Not started |
 | 7 | Rules & Auto Memory | Context Engineering | ⬜ Not started |
 | 8 | The Context Window | Context Engineering | ⬜ Not started |

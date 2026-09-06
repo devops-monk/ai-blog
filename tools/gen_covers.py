@@ -251,6 +251,34 @@ def art_boundary():
     return f'<svg width="640" height="420" viewBox="0 0 640 420">{"".join(out)}</svg>'
 
 
+def art_stack():
+    """Five settings scopes stacked, with the value from the top one winning."""
+    out = []
+    rows = [
+        ("managed", PINK, 90, True),
+        ("--settings", AMBER, 150, False),
+        ("settings.local.json", BLUE, 210, False),
+        ("settings.json", BLUE, 270, False),
+        ("~/.claude/settings.json", PURPLE, 330, False),
+    ]
+    for label, col, y, wins in rows:
+        # Only the winning row is drawn solid; the rest are shadowed by it.
+        op = ".26" if wins else ".10"
+        out.append(f'<rect x="70" y="{y-21}" width="330" height="42" rx="8" fill="{col}" '
+                   f'opacity="{op}" stroke="{col}" stroke-opacity="{".85" if wins else ".45"}"/>')
+        out.append(f'<text x="90" y="{y+6}" fill="{"#f3eefe" if wins else "#8b93a7"}" '
+                   f'font-size="15" font-family="ui-monospace,monospace">{label}</text>')
+    out.append(f'<path d="M430 90 L430 330" stroke="{FAINT}" stroke-width="1.6" stroke-dasharray="4 5"/>')
+    out.append(f'<path d="M400 90 L466 90" stroke="{PINK}" stroke-width="1.8"/>')
+    out.append(f'<path d="M-6 -5 L6 0 L-6 5 Z" fill="{PINK}" opacity=".9" transform="translate(470 90)"/>')
+    out.append(f'<text x="486" y="95" fill="{DIM}" font-size="15">wins</text>')
+    for _, _, y, _ in rows[1:]:
+        out.append(f'<path d="M400 {y} L430 {y}" stroke="{FAINT}" stroke-width="1.4"/>')
+        out.append(f'<text x="446" y="{y+5}" fill="{FAINT}" font-size="14">shadowed</text>')
+    out.append(f'<text x="70" y="376" fill="{DIM}" font-size="14">highest level that sets the key</text>')
+    return f'<svg width="640" height="420" viewBox="0 0 640 420">{"".join(out)}</svg>'
+
+
 COVERS = [
     # (slug, badge, title with <br>, title font size, tagline, mono caption, motif)
     ("cc-01-what-claude-code-is", "PART 1 · CH 1", "What Claude Code<br>Actually Is", 54,
@@ -265,6 +293,9 @@ COVERS = [
     ("cc-04-permissions-sandboxing", "PART 1 · CH 4", "Permissions &amp;<br>Sandboxing", 54,
      "Rules decide whether a call happens. The sandbox decides what it can touch.",
      "a deny rule cannot carry <i>exceptions</i>", art_boundary),
+    ("cc-05-settings", "PART 2 · CH 5", "Settings:<br>the Control Panel", 54,
+     "Four files, one precedence stack, and the keys that break its rules.",
+     "your team's file <i>outranks</i> your own", art_stack),
     ("hello-transformers", "PART 1 · CH 1", "How a Transformer<br>Actually Predicts", 54,
      "One token at a time, and everything else follows from that.",
      "the model outputs a <i>distribution</i>, not a word", art_tokens),

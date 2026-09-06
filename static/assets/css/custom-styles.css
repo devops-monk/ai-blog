@@ -2466,3 +2466,89 @@ body.dz-open { overflow: hidden; }
   .rm-box { padding: 0.8rem 0.85rem 0.9rem; }
   .rm-preset { width: 100%; }
 }
+
+/* ------------------------------------------------------------------
+   Precedence resolver (Chapter 5). Five scopes, one key, one winner.
+   ------------------------------------------------------------------ */
+.sp-box {
+  margin: 1.5rem 0;
+  padding: 1rem 1.1rem 1.1rem;
+  background: var(--bg-alt, #f8fafc);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+}
+
+.sp-keys { display: flex; flex-wrap: wrap; gap: 0.35rem; }
+
+.sp-key {
+  padding: 0.3rem 0.7rem;
+  font-family: var(--mono);
+  font-size: 0.73rem;
+  color: var(--text-muted);
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  cursor: pointer;
+}
+.sp-key:hover { border-color: var(--primary); }
+.sp-key.on { color: #fff; background: var(--primary); border-color: var(--primary); font-weight: 600; }
+
+.sp-hint { margin: 0.75rem 0 0.4rem; font-size: 0.83rem; line-height: 1.5; color: var(--text-muted); }
+
+.sp-table { width: 100%; margin: 0; border-collapse: collapse; font-size: 0.85rem; }
+.sp-table td { padding: 0.45rem 0.5rem 0.45rem 0; border-top: 1px solid var(--border); vertical-align: middle; }
+
+.sp-lvl strong { display: block; font-size: 0.83rem; }
+.sp-lvl code { font-size: 0.7rem; background: none; padding: 0; color: var(--text-muted); }
+.sp-val { width: 12em; }
+.sp-mark { width: 5em; font-family: var(--mono); font-size: 0.7rem; color: var(--text-muted); text-align: right; }
+
+.sp-sel {
+  width: 100%;
+  padding: 0.3rem 0.4rem;
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  color: var(--text);
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 5px;
+}
+.sp-sel:focus { outline: none; border-color: var(--primary); }
+
+.sp-row.win td { background: rgba(124, 58, 237, 0.07); }
+.sp-row.win .sp-mark { color: var(--primary); font-weight: 700; }
+.sp-row.skip .sp-lvl, .sp-row.skip .sp-val { opacity: 0.5; }
+.sp-row.skip .sp-mark { color: #b45309; }
+
+.sp-result {
+  margin-top: 0.9rem;
+  padding: 0.55rem 0.7rem;
+  font-size: 0.9rem;
+  background: #ede9fe;
+  border-left: 3px solid var(--primary);
+  border-radius: 6px;
+  color: #4c1d95;
+}
+.sp-result code { background: none; padding: 0; color: inherit; font-size: 0.82rem; }
+.sp-none { opacity: 0.7; }
+
+.sp-why { margin: 0.45rem 0 0; font-size: 0.82rem; line-height: 1.5; color: var(--text-muted); }
+.sp-why code { font-size: 0.78rem; }
+
+[data-theme="dark"] .sp-box { background: #1e293b !important; border-color: #334155 !important; }
+[data-theme="dark"] .sp-key,
+[data-theme="dark"] .sp-sel { color: #94a3b8 !important; background: #0f172a !important; border-color: #334155 !important; }
+[data-theme="dark"] .sp-sel { color: #e2e8f0 !important; }
+[data-theme="dark"] .sp-key.on { color: #fff !important; background: var(--primary) !important; border-color: var(--primary) !important; }
+[data-theme="dark"] .sp-table td { border-color: #334155; }
+[data-theme="dark"] .sp-lvl code { color: #64748b !important; }
+[data-theme="dark"] .sp-row.win td { background: rgba(167, 139, 250, 0.12); }
+[data-theme="dark"] .sp-result { color: #ddd6fe !important; background: #2e1065 !important; }
+[data-theme="dark"] .sp-row.skip .sp-mark { color: #fbbf24 !important; }
+
+@media only screen and (max-width: 40em) {
+  .sp-box { padding: 0.8rem 0.85rem 0.9rem; }
+  .sp-table td { padding: 0.35rem 0.35rem 0.35rem 0; }
+  .sp-val { width: 8.5em; }
+  .sp-mark { display: none; }
+}

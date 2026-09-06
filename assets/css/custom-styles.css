@@ -3219,3 +3219,70 @@ textarea.os-in { resize: vertical; line-height: 1.55; }
   .hk-cols { flex-direction: column; gap: 0.9rem; }
   .hk-left { flex: 1 1 auto; }
 }
+
+/* ------------------------------------------------------------------
+   Plugin anatomy explorer (Chapter 13). A tree on the left, what each
+   node is and its gotcha on the right.
+   ------------------------------------------------------------------ */
+.pl-box {
+  margin: 1.5rem 0;
+  padding: 1rem 1.1rem 1.1rem;
+  background: var(--bg-alt, #f8fafc);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+}
+
+.pl-cols { display: flex; gap: 1.2rem; }
+.pl-tree { flex: 0 0 15rem; display: flex; flex-direction: column; gap: 0.12rem; }
+.pl-panel { flex: 1 1 auto; min-width: 0; }
+
+.pl-n {
+  display: block;
+  width: 100%;
+  padding: 0.28rem 0.5rem;
+  font-family: var(--mono);
+  font-size: 0.74rem;
+  text-align: left;
+  color: var(--text-muted);
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  cursor: pointer;
+}
+.pl-n:hover { border-color: var(--primary); color: var(--text); }
+.pl-n.on { color: #fff; background: var(--primary); border-color: var(--primary); font-weight: 600; }
+.pl-dir { font-weight: 600; }
+.pl-file { opacity: 0.92; }
+
+.pl-t { display: block; font-size: 0.95rem; font-weight: 700; }
+.pl-p { margin: 0.4rem 0 0.7rem; font-size: 0.85rem; line-height: 1.6; }
+
+.pl-g {
+  padding: 0.55rem 0.7rem;
+  font-size: 0.82rem;
+  line-height: 1.55;
+  color: #854d0e;
+  background: #fef3c7;
+  border-left: 3px solid #ca8a04;
+  border-radius: 6px;
+}
+.pl-gh {
+  display: block;
+  margin-bottom: 0.15rem;
+  font-size: 0.66rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+[data-theme="dark"] .pl-box { background: #1e293b !important; border-color: #334155 !important; }
+[data-theme="dark"] .pl-n { background: #0f172a !important; border-color: #334155 !important; color: #94a3b8 !important; }
+[data-theme="dark"] .pl-n:hover { color: #e2e8f0 !important; }
+[data-theme="dark"] .pl-n.on { color: #fff !important; background: var(--primary) !important; border-color: var(--primary) !important; }
+[data-theme="dark"] .pl-g { color: #fde68a !important; background: #713f12 !important; }
+
+@media only screen and (max-width: 40em) {
+  .pl-box { padding: 0.8rem 0.85rem 0.9rem; }
+  .pl-cols { flex-direction: column; gap: 0.9rem; }
+  .pl-tree { flex: 1 1 auto; }
+}

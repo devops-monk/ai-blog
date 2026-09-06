@@ -532,6 +532,32 @@ def art_browser():
     return f'<svg width="640" height="420" viewBox="0 0 640 420">{"".join(out)}</svg>'
 
 
+def art_pipeline():
+    """Three levels: your session, a workflow, a pipeline step."""
+    out = []
+    rows = [
+        ("your session", "claude", PURPLE, 100),
+        ("a workflow", "@claude", BLUE, 190),
+        ("any pipeline", "claude -p", GREEN, 280),
+    ]
+    for label, cmd, col, y in rows:
+        out.append(f'<text x="60" y="{y-26}" fill="{DIM}" font-size="13">{label}</text>')
+        out.append(f'<rect x="60" y="{y-14}" width="150" height="38" rx="7" fill="{col}" opacity=".22" '
+                   f'stroke="{col}" stroke-opacity=".75"/>')
+        out.append(f'<text x="78" y="{y+11}" fill="#e6e0f8" font-size="14" '
+                   f'font-family="ui-monospace,monospace">{cmd}</text>')
+        out.append(f'<path d="M214 {y+5} L360 {y+5}" stroke="{col}" stroke-opacity=".5" stroke-width="1.5"/>')
+        out.append(f'<path d="M-6 -5 L6 0 L-6 5 Z" fill="{col}" opacity=".8" transform="translate(364 {y+5})"/>')
+    # All three land on the same place.
+    out.append(f'<rect x="382" y="120" width="176" height="150" rx="10" fill="{PINK}" opacity=".13" '
+               f'stroke="{PINK}" stroke-opacity=".6"/>')
+    out.append(f'<text x="470" y="188" fill="#f3d9e6" font-size="15" text-anchor="middle" '
+               f'font-family="ui-monospace,monospace">a pull request</text>')
+    out.append(f'<text x="470" y="214" fill="{DIM}" font-size="13" text-anchor="middle">reviewed by a person</text>')
+    out.append(f'<text x="60" y="352" fill="{DIM}" font-size="14">level 1 needs no setup at all</text>')
+    return f'<svg width="640" height="420" viewBox="0 0 640 420">{"".join(out)}</svg>'
+
+
 COVERS = [
     # (slug, badge, title with <br>, title font size, tagline, mono caption, motif)
     ("cc-01-what-claude-code-is", "PART 1 · CH 1", "What Claude Code<br>Actually Is", 54,
@@ -579,6 +605,9 @@ COVERS = [
     ("cc-15-mcp-in-practice", "PART 4 · CH 15", "MCP in<br>Practice", 62,
      "When a server earns its place, and when Bash already did the job.",
      "Chrome inherits your <i>login state</i>", art_browser),
+    ("cc-16-github-gitlab-ci", "PART 4 · CH 16", "GitHub, GitLab<br>&amp; CI", 52,
+     "Three levels, from Claude running git to Claude as a CI step.",
+     "the <i>prompt</i> input is the mode switch", art_pipeline),
     ("hello-transformers", "PART 1 · CH 1", "How a Transformer<br>Actually Predicts", 54,
      "One token at a time, and everything else follows from that.",
      "the model outputs a <i>distribution</i>, not a word", art_tokens),

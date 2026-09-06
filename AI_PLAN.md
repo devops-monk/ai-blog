@@ -27,7 +27,7 @@ A 23-chapter tutorial that takes a reader from "I installed it" to genuine exper
 | 13 | Plugins & Marketplaces | Teaching New Tricks | ✅ [Published](https://ai.devops-monk.com/2026/09/plugins-and-marketplaces/) |
 | 14 | MCP Fundamentals | Connecting to the World | ✅ [Published](https://ai.devops-monk.com/2026/09/mcp-fundamentals/) |
 | 15 | MCP in Practice | Connecting to the World | ✅ [Published](https://ai.devops-monk.com/2026/09/mcp-in-practice/) |
-| 16 | GitHub, GitLab & CI | Connecting to the World | ⬜ Not started |
+| 16 | GitHub, GitLab & CI | Connecting to the World | ✅ [Published](https://ai.devops-monk.com/2026/09/github-gitlab-and-ci/) |
 | 17 | Sub-Agents | Agents & Autonomy | ⬜ Not started |
 | 18 | Agent Teams & Parallel Work | Agents & Autonomy | ⬜ Not started |
 | 19 | Automation & Scheduling | Agents & Autonomy | ⬜ Not started |

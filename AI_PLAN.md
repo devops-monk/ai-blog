@@ -18,7 +18,7 @@ A 23-chapter tutorial that takes a reader from "I installed it" to genuine exper
 | 4 | Permissions & Sandboxing | Foundations | ✅ [Published](https://ai.devops-monk.com/2026/09/permissions-and-sandboxing/) |
 | 5 | Settings: the Control Panel | Context Engineering | ✅ [Published](https://ai.devops-monk.com/2026/09/claude-code-settings/) |
 | 6 | CLAUDE.md | Context Engineering | ✅ [Published](https://ai.devops-monk.com/2026/09/claude-md/) |
-| 7 | Rules & Auto Memory | Context Engineering | ⬜ Not started |
+| 7 | Rules & Auto Memory | Context Engineering | ✅ [Published](https://ai.devops-monk.com/2026/09/rules-and-auto-memory/) |
 | 8 | The Context Window | Context Engineering | ⬜ Not started |
 | 9 | Sessions, Checkpoints & Rewind | Context Engineering | ⬜ Not started |
 | 10 | Output Styles | Teaching New Tricks | ⬜ Not started |
@@ -191,7 +191,7 @@ The source deck predates the current documentation. These must be written correc
 | Voice dictation is hold-`Space` | Two modes, hold and tap, and `voice:pushToTalk` is rebindable |
 | Plan mode cannot run bash commands | It runs them. When auto mode is available and `useAutoModeDuringPlan` is on (the default), the classifier reviews shell commands during planning and approved ones run |
 
-Unverified deck claims to confirm while writing the relevant chapter: checkpoint expiry, the `MEMORY.md` line limit and path, the `--worktree` flag, voice dictation's push-to-talk key, and `/loop` task expiry.
+Unverified deck claims to confirm while writing the relevant chapter: checkpoint expiry, the `--worktree` flag, and `/loop` task expiry. **Resolved:** voice dictation has hold and tap modes (Ch 2); `MEMORY.md` lives at `~/.claude/projects/<project>/memory/` and only its first 200 lines or 25KB load (Ch 7).
 
 Areas the deck never mentions, all in scope: plugins and marketplaces, agent teams, agent view, cross-session messaging, dynamic workflows, routines, artifacts, channels, `/goal`, sandboxing, sandbox environments, GitLab CI/CD, code review, model configuration, fast mode, the advisor tool, cost and monitoring, security and enterprise deployment, large codebases, and the Agent SDK.
 
@@ -226,6 +226,7 @@ Chapters 1 to 3 are the reference for this standard: technical register, concept
 2. Draft with the front matter from `archetypes/default.md`. **Date it in the past.** CI passes `--buildFuture` but a bare local `hugo` does not, so a future-dated chapter builds in CI and vanishes locally — the two stop agreeing, which is the worst way for this to fail. `series` is the part name, `series_order` is the chapter's position within that part, `draft: true` until verified.
 3. Diagrams as ` ```mermaid ` fences. No semicolons inside labels — a semicolon silently kills the whole diagram.
 4. Widget as a single raw HTML block with no blank lines anywhere inside it. **No `//` comments in its JavaScript** — collapsing to one line turns one into a line-swallower and the minifier fails the whole build with `unexpected EOF`. Use `/* */`. Styles into `custom-styles.css` under a short prefix, with a `[data-theme="dark"]` variant and a `40em` fallback.
+   A `<pre>` inside a widget inherits the global `pre { background: var(--code-bg) !important }` but not `pre code`'s light colour, so it renders dark-on-dark. Set an explicit `color` on it.
    Drive a widget that makes technical claims: click every preset in headless Chrome and check each verdict against the docs. Chapter 4's matcher shipped one wrong verdict (`timeout 30 npm test`) that only this caught.
 5. Cover: add an `art_*()` motif and a `COVERS` entry, then `python3 tools/gen_covers.py <slug>` and `python3 tools/gen_social.py`.
 6. Verify, drop `draft: true`, add the chapter to `content/pages/guide.md`, commit and push.

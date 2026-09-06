@@ -305,6 +305,34 @@ def art_layers():
     return f'<svg width="640" height="420" viewBox="0 0 640 420">{"".join(out)}</svg>'
 
 
+def art_scoped():
+    """Rules waiting off to one side; opening a file pulls two of them in."""
+    out = []
+    # The context column: what is loaded right now.
+    out.append(f'<rect x="52" y="70" width="210" height="270" rx="10" fill="{PURPLE}" '
+               f'opacity=".10" stroke="{BLUE}" stroke-opacity=".5"/>')
+    out.append(f'<text x="68" y="96" fill="{BLUE}" font-size="13" opacity=".9">in context</text>')
+    loaded = [("CLAUDE.md", 130), ("code-style.md", 176), ("api.md", 222)]
+    for label, y in loaded:
+        col = GREEN if label == "api.md" else PURPLE
+        out.append(f'<rect x="70" y="{y-15}" width="174" height="32" rx="6" fill="{col}" '
+                   f'opacity=".26" stroke="{col}" stroke-opacity=".8"/>')
+        out.append(f'<text x="84" y="{y+6}" fill="#e6e0f8" font-size="13" '
+                   f'font-family="ui-monospace,monospace">{label}</text>')
+    # The rules that stay out until a matching file is read.
+    waiting = [("components.md", 130), ("testing.md", 176), ("docs.md", 222)]
+    for label, y in waiting:
+        out.append(f'<rect x="400" y="{y-15}" width="180" height="32" rx="6" fill="{FAINT}" '
+                   f'opacity=".22" stroke="{FAINT}" stroke-opacity=".7" stroke-dasharray="4 4"/>')
+        out.append(f'<text x="414" y="{y+6}" fill="#6b7280" font-size="13" '
+                   f'font-family="ui-monospace,monospace">{label}</text>')
+    out.append(f'<path d="M398 222 L266 222" stroke="{GREEN}" stroke-opacity=".8" stroke-width="1.8"/>')
+    out.append(f'<path d="M6 -5 L-6 0 L6 5 Z" fill="{GREEN}" opacity=".9" transform="translate(262 222)"/>')
+    out.append(f'<text x="290" y="252" fill="{DIM}" font-size="13" text-anchor="middle">src/api/users.ts</text>')
+    out.append(f'<text x="52" y="378" fill={chr(34)}{DIM}{chr(34)} font-size="14">a rule with no paths: field is CLAUDE.md with extra steps</text>')
+    return f'<svg width="640" height="420" viewBox="0 0 640 420">{"".join(out)}</svg>'
+
+
 COVERS = [
     # (slug, badge, title with <br>, title font size, tagline, mono caption, motif)
     ("cc-01-what-claude-code-is", "PART 1 · CH 1", "What Claude Code<br>Actually Is", 54,
@@ -325,6 +353,9 @@ COVERS = [
     ("cc-06-claude-md", "PART 2 · CH 6", "CLAUDE.md", 68,
      "The file that stops you re-explaining your project every session.",
      "it is <i>context</i>, not configuration", art_layers),
+    ("cc-07-rules-auto-memory", "PART 2 · CH 7", "Rules &amp;<br>Auto Memory", 54,
+     "Instructions that cost nothing until they are relevant, and the notes Claude keeps.",
+     "only the first 200 lines <i>load</i>", art_scoped),
     ("hello-transformers", "PART 1 · CH 1", "How a Transformer<br>Actually Predicts", 54,
      "One token at a time, and everything else follows from that.",
      "the model outputs a <i>distribution</i>, not a word", art_tokens),

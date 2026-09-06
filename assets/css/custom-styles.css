@@ -2828,3 +2828,105 @@ body.dz-open { overflow: hidden; }
   .cw-controls { grid-template-columns: 1fr; }
   .cw-mark span { display: none; }
 }
+
+/* ------------------------------------------------------------------
+   Rewind timeline (Chapter 9). Pick a point and an action; see which
+   changes come back and which stay on disk.
+   ------------------------------------------------------------------ */
+.tl-box {
+  margin: 1.5rem 0;
+  padding: 1rem 1.1rem 1.1rem;
+  background: var(--bg-alt, #f8fafc);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+}
+
+.tl-cols { display: flex; gap: 1.1rem; }
+.tl-left { flex: 0 0 17rem; }
+.tl-right { flex: 1 1 auto; min-width: 0; }
+
+.tl-lbl {
+  display: block;
+  margin-bottom: 0.4rem;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.tl-events { margin: 0; padding: 0; list-style: none; }
+
+.tl-ev {
+  display: flex;
+  gap: 0.5rem;
+  align-items: baseline;
+  padding: 0.3rem 0.5rem;
+  margin: 0 0 0.15rem;
+  font-size: 0.77rem;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-left: 3px solid transparent;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.tl-ev:hover { border-color: var(--primary); }
+.tl-num { font-family: var(--mono); font-size: 0.68rem; color: var(--text-muted); }
+.tl-t { color: var(--text-muted); }
+.tl-ev.tl-prompt .tl-t { font-weight: 600; color: var(--text); }
+.tl-ev.tl-edit { border-left-color: #2563eb; }
+.tl-ev.tl-bash { border-left-color: #d97706; }
+.tl-ev.tl-sub { border-left-color: #db2777; }
+.tl-ev.target { border-color: var(--primary); border-left-color: var(--primary); }
+.tl-ev.target .tl-t { color: var(--text); font-weight: 600; }
+.tl-ev.after { opacity: 0.45; }
+
+.tl-acts { display: flex; flex-wrap: wrap; gap: 0.3rem; }
+.tl-act {
+  padding: 0.3rem 0.6rem;
+  font-size: 0.73rem;
+  color: var(--text-muted);
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  cursor: pointer;
+}
+.tl-act:hover { border-color: var(--primary); }
+.tl-act.on { color: #fff; background: var(--primary); border-color: var(--primary); font-weight: 600; }
+
+.tl-out { margin-top: 0.75rem; font-size: 0.82rem; }
+.tl-conv { margin: 0 0 0.6rem; line-height: 1.55; }
+.tl-grp { margin-bottom: 0.55rem; }
+.tl-gh {
+  display: block;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+.tl-good .tl-gh { color: #15803d; }
+.tl-bad .tl-gh { color: #b91c1c; }
+.tl-grp ul { margin: 0.2rem 0 0; padding-left: 1rem; }
+.tl-grp li { margin: 0.12rem 0; line-height: 1.45; }
+.tl-grp li code { font-size: 0.75rem; }
+.tl-grp li span { color: var(--text-muted); font-size: 0.78rem; }
+.tl-none, .tl-note { margin: 0.4rem 0 0; color: var(--text-muted); font-size: 0.79rem; line-height: 1.5; }
+.tl-note { font-style: italic; }
+
+[data-theme="dark"] .tl-box { background: #1e293b !important; border-color: #334155 !important; }
+[data-theme="dark"] .tl-ev,
+[data-theme="dark"] .tl-act { background: #0f172a !important; border-color: #334155 !important; }
+[data-theme="dark"] .tl-ev.tl-edit { border-left-color: #60a5fa !important; }
+[data-theme="dark"] .tl-ev.tl-bash { border-left-color: #fbbf24 !important; }
+[data-theme="dark"] .tl-ev.tl-sub { border-left-color: #f472b6 !important; }
+[data-theme="dark"] .tl-ev.target { border-color: var(--primary) !important; border-left-color: var(--primary) !important; }
+[data-theme="dark"] .tl-act { color: #94a3b8 !important; }
+[data-theme="dark"] .tl-act.on { color: #fff !important; background: var(--primary) !important; border-color: var(--primary) !important; }
+[data-theme="dark"] .tl-good .tl-gh { color: #86efac !important; }
+[data-theme="dark"] .tl-bad .tl-gh { color: #fca5a5 !important; }
+
+@media only screen and (max-width: 40em) {
+  .tl-box { padding: 0.8rem 0.85rem 0.9rem; }
+  .tl-cols { flex-direction: column; gap: 0.9rem; }
+  .tl-left { flex: 1 1 auto; }
+}

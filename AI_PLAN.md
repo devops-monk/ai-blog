@@ -210,6 +210,14 @@ Written for a software engineer who wants the mechanism, in detail. Specifically
 - **Keep the corrections and the traps.** These are the parts no doc page gives the reader — deck errors, silently-ignored settings, defaults that surprise. They earn their length; reference tables do not.
 - An analogy is acceptable only when it carries technical weight that plain description cannot — and never as an opener.
 
+## Chapter shape
+
+Every chapter follows the same skeleton, so a reader who has read one knows where to look in the next:
+
+1. **`## Overview`** — first section, before anything else. One line ("This chapter covers:") then four or five bullets stating what the chapter *establishes*, not what its headings are called. A bullet should be readable as a claim, so the overview is worth reading even if you already know the section titles.
+2. **The topic sections** — the body, opening on the mechanism.
+3. **`## Summary`** — the load-bearing points as a bulleted list, then one line pointing at the next chapter.
+
 Chapters 1 to 3 are the reference for this standard: technical register, concept-first, exhaustive detail delegated to docs links.
 
 ## Writing a chapter

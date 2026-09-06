@@ -11,6 +11,18 @@ series: "Part 1 — Foundations"
 series_order: 3
 ---
 
+## Overview
+
+This chapter covers:
+
+- The order permissions are evaluated in, and why `deny` and `ask` rules outrank everything downstream
+- What each of the six modes actually approves — including which one your plan starts you in, which is probably not the one you assume
+- How auto mode's classifier decides, what it blocks by default, and how to teach it about your own infrastructure
+- The circuit breaker that pauses auto mode and hands you back the prompts
+- The protected and critical paths that no mode waves through, `bypassPermissions` included
+
+## Where the mode sits
+
 Chapter 1 established the asymmetry: reading is free, changing costs a question. A **permission mode** decides where that line falls for a session.
 
 The mode is one gate among several, and the order matters more than any individual mode.

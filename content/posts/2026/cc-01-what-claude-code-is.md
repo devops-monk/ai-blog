@@ -11,6 +11,18 @@ series: "Part 1 — Foundations"
 series_order: 1
 ---
 
+## Overview
+
+This chapter covers:
+
+- Why a language model on its own cannot read your files, and what Claude Code adds to close that gap
+- The agentic loop — gather, act, verify — and why every step is conditioned on the last result
+- The five categories of tool, and the single rule that decides which of them stop to ask you
+- What a session can see, and why a 40,000-file repository does not cost 40,000 files of context
+- Installing it, steering it mid-task, and the two commands worth knowing on day one
+
+## The gap a model cannot cross
+
 A language model is a text-to-text function. No filesystem handle, no shell, no network socket. Ask one to explain a file on your disk and the only correct answer is that it cannot read files.
 
 ```mermaid

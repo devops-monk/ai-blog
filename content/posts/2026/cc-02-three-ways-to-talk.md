@@ -11,6 +11,18 @@ series: "Part 1 — Foundations"
 series_order: 2
 ---
 
+## Overview
+
+This chapter covers:
+
+- The three input channels, separated by when they are parsed and whether the model ever sees them
+- Why two of the three cost no tokens at all — and the mistake that gives that saving away
+- CLI arguments: print mode as a shell filter, the flags worth memorising, and the pair that debugs your configuration
+- Slash commands and sigils — `@` to pass a file in, `!` to run your own shell, and the change that made `!` stop being free
+- Editing, queueing and dictating at the prompt
+
+## The three channels
+
 Claude Code takes input through three channels. They differ in *when* they are parsed and *whether the model ever sees them*.
 
 | Channel | Parsed | Reaches the model | Example |

@@ -32,7 +32,7 @@ Write **from the deck's coverage, in our own words**. The deck is a paid third-p
 | 14 | MCP Fundamentals | Connecting to the World | ✅ [Published](https://ai.devops-monk.com/2026/09/mcp-fundamentals/) |
 | 15 | MCP in Practice | Connecting to the World | ✅ [Published](https://ai.devops-monk.com/2026/09/mcp-in-practice/) |
 | 16 | GitHub, GitLab & CI | Connecting to the World | ✅ [Published](https://ai.devops-monk.com/2026/09/github-gitlab-and-ci/) |
-| 17 | Sub-Agents | Agents & Autonomy | ⬜ Not started |
+| 17 | Sub-Agents | Agents & Autonomy | ✅ [Published](https://ai.devops-monk.com/2026/09/subagents/) |
 | 18 | Agent Teams & Parallel Work | Agents & Autonomy | ⬜ Not started |
 | 19 | Automation & Scheduling | Agents & Autonomy | ⬜ Not started |
 | 20 | Claude Code Everywhere | Agents & Autonomy | ⬜ Not started |
@@ -193,6 +193,7 @@ The source deck predates the current documentation. These must be written correc
 | Shell mode (`!`) is free and consumes no tokens | Not since v2.1.186. Claude responds to `!` output automatically and that response costs a normal prompt. `respondToBashCommands: false` restores the silent behaviour |
 | `#` adds a note to Claude's memory | No longer in the documentation. Say "remember that…" in plain language; auto memory picks it up |
 | Voice dictation is hold-`Space` | Two modes, hold and tap, and `voice:pushToTalk` is rebindable |
+| `/agents` opens a Create New Agent wizard | The interactive wizard existed up to v2.1.197. From v2.1.198 `/agents` just points at the directory — describe the agent you want and Claude writes the file |
 | `/output-style` switches the style | The standalone command was deprecated in v2.1.73 and removed in v2.1.91. Use `/config` → **Output style**, or the `outputStyle` key, which `/config` writes to `.claude/settings.local.json` |
 | Plan mode cannot run bash commands | It runs them. When auto mode is available and `useAutoModeDuringPlan` is on (the default), the classifier reviews shell commands during planning and approved ones run |
 
@@ -257,7 +258,7 @@ Open rows below are chapters not yet written.
 | 116–122 | 15 | ✅ fixed — Chrome DevTools, Playwright and Context7 with add commands, plus the four cross-tool shapes |
 | 123–124 | 14 | ✅ none |
 | 125–127 | 19 | ⬜ `/loop` — not yet written |
-| 128–136 | 17 | ⬜ sub-agents — not yet written |
+| 128–136 | 17 | ✅ covered in Ch 17 |
 
 ## Writing a chapter
 

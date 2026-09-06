@@ -558,6 +558,36 @@ def art_pipeline():
     return f'<svg width="640" height="420" viewBox="0 0 640 420">{"".join(out)}</svg>'
 
 
+def art_delegate():
+    """Noisy work sent out to its own window; only a summary comes back."""
+    out = []
+    # Your window, holding only the summary.
+    out.append(f'<rect x="48" y="110" width="196" height="180" rx="10" fill="{PURPLE}" opacity=".14" '
+               f'stroke="{BLUE}" stroke-opacity=".75"/>')
+    out.append(f'<text x="146" y="98" fill="{DIM}" font-size="13" text-anchor="middle">your window</text>')
+    out.append(f'<rect x="70" y="180" width="152" height="34" rx="6" fill="{GREEN}" opacity=".3" '
+               f'stroke="{GREEN}" stroke-opacity=".8"/>')
+    out.append(f'<text x="146" y="202" fill="#dff3e4" font-size="14" text-anchor="middle" '
+               f'font-family="ui-monospace,monospace">summary</text>')
+    # The subagent's own window, holding the noise.
+    out.append(f'<rect x="386" y="76" width="206" height="248" rx="10" fill="{FAINT}" opacity=".16" '
+               f'stroke="{FAINT}" stroke-opacity=".7" stroke-dasharray="5 4"/>')
+    out.append(f'<text x="489" y="64" fill="{DIM}" font-size="13" text-anchor="middle">its own window</text>')
+    for i, label in enumerate(["test output", "11 files read", "API docs", "grep results"]):
+        y = 118 + i * 52
+        out.append(f'<rect x="406" y="{y-15}" width="166" height="32" rx="5" fill="{AMBER}" opacity=".16" '
+                   f'stroke="{AMBER}" stroke-opacity=".45"/>')
+        out.append(f'<text x="420" y="{y+5}" fill="#8b8270" font-size="12.5" '
+                   f'font-family="ui-monospace,monospace">{label}</text>')
+    out.append(f'<path d="M248 168 L382 130" stroke="{DIM}" stroke-opacity=".5" stroke-width="1.4" '
+               f'stroke-dasharray="4 4"/>')
+    out.append(f'<text x="315" y="140" fill="{DIM}" font-size="12" text-anchor="middle">task</text>')
+    out.append(f'<path d="M382 250 L252 206" stroke="{GREEN}" stroke-opacity=".8" stroke-width="1.8"/>')
+    out.append(f'<path d="M6 -5 L-6 0 L6 5 Z" fill="{GREEN}" opacity=".9" transform="translate(248 204)"/>')
+    out.append(f'<text x="48" y="352" fill="{DIM}" font-size="14">verbose work in, a summary back</text>')
+    return f'<svg width="640" height="420" viewBox="0 0 640 420">{"".join(out)}</svg>'
+
+
 COVERS = [
     # (slug, badge, title with <br>, title font size, tagline, mono caption, motif)
     ("cc-01-what-claude-code-is", "PART 1 · CH 1", "What Claude Code<br>Actually Is", 54,
@@ -608,6 +638,9 @@ COVERS = [
     ("cc-16-github-gitlab-ci", "PART 4 · CH 16", "GitHub, GitLab<br>&amp; CI", 52,
      "Three levels, from Claude running git to Claude as a CI step.",
      "the <i>prompt</i> input is the mode switch", art_pipeline),
+    ("cc-17-subagents", "PART 5 · CH 17", "Sub-Agents", 64,
+     "Delegation as context management, not as extra horsepower.",
+     "a blank slate with its own <i>window</i>", art_delegate),
     ("hello-transformers", "PART 1 · CH 1", "How a Transformer<br>Actually Predicts", 54,
      "One token at a time, and everything else follows from that.",
      "the model outputs a <i>distribution</i>, not a word", art_tokens),

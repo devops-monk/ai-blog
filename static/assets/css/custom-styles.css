@@ -3508,3 +3508,79 @@ textarea.os-in { resize: vertical; line-height: 1.55; }
   .ci-box { padding: 0.8rem 0.85rem 0.9rem; }
   .ci-out { font-size: 0.68rem !important; }
 }
+
+/* ------------------------------------------------------------------
+   Context-isolation visualiser (Chapter 17). The same task, with and
+   without delegation.
+   ------------------------------------------------------------------ */
+.sa-box {
+  margin: 1.5rem 0;
+  padding: 1rem 1.1rem 1.1rem;
+  background: var(--bg-alt, #f8fafc);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+}
+
+.sa-task { margin: 0 0 0.8rem; font-size: 0.83rem; line-height: 1.5; color: var(--text-muted); }
+
+.sa-items { display: flex; flex-direction: column; gap: 0.3rem; }
+.sa-item {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 0.2rem 0.55rem;
+  align-items: center;
+  padding: 0.42rem 0.6rem;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--border);
+  border-radius: 6px;
+  cursor: pointer;
+}
+.sa-item:hover { border-color: var(--primary); }
+.sa-item.on { border-left-color: #16a34a; }
+.sa-item input { width: 15px; height: 15px; accent-color: var(--primary); }
+.sa-n { font-size: 0.83rem; font-weight: 600; }
+.sa-t { font-family: var(--mono); font-size: 0.74rem; color: var(--text-muted); white-space: nowrap; }
+.sa-why { grid-column: 2 / -1; font-size: 0.76rem; line-height: 1.45; color: var(--text-muted); }
+
+.sa-bars { margin-top: 1rem; }
+.sa-row { display: flex; align-items: center; gap: 0.7rem; margin-bottom: 0.4rem; }
+.sa-rl { flex: 0 0 9.5rem; font-size: 0.78rem; color: var(--text-muted); }
+.sa-track {
+  position: relative;
+  flex: 1 1 auto;
+  height: 20px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  overflow: hidden;
+}
+.sa-fill { display: block; height: 100%; }
+.sa-main { background: #dc2626; opacity: 0.7; }
+.sa-sub { background: #16a34a; opacity: 0.65; }
+.sa-v { flex: 0 0 3.4rem; font-family: var(--mono); font-size: 0.76rem; text-align: right; }
+
+.sa-read {
+  margin-top: 0.85rem;
+  padding: 0.55rem 0.7rem;
+  font-size: 0.84rem;
+  line-height: 1.55;
+  border-left: 3px solid;
+  border-radius: 6px;
+}
+.sa-good { color: #14532d; background: #dcfce7; border-color: #16a34a; }
+.sa-hot { color: #991b1b; background: #fee2e2; border-color: #dc2626; }
+
+[data-theme="dark"] .sa-box { background: #1e293b !important; border-color: #334155 !important; }
+[data-theme="dark"] .sa-item,
+[data-theme="dark"] .sa-track { background: #0f172a !important; border-color: #334155 !important; }
+[data-theme="dark"] .sa-item.on { border-left-color: #4ade80 !important; }
+[data-theme="dark"] .sa-v { color: #e2e8f0 !important; }
+[data-theme="dark"] .sa-good { color: #bbf7d0 !important; background: #14532d !important; }
+[data-theme="dark"] .sa-hot { color: #fecaca !important; background: #7f1d1d !important; }
+
+@media only screen and (max-width: 40em) {
+  .sa-box { padding: 0.8rem 0.85rem 0.9rem; }
+  .sa-row { flex-wrap: wrap; gap: 0.3rem 0.5rem; }
+  .sa-rl { flex: 1 1 100%; }
+}

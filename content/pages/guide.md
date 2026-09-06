@@ -57,7 +57,7 @@ Claude knows your code. This part is about everything else it needs to know.
 
 One agent is a pair programmer. Several are a team.
 
-17. Sub-Agents
+17. [Sub-Agents](/2026/09/subagents/) — delegation as context management: what a subagent starts with, the four things it deliberately does not inherit, and the difference between a subagent and a fork.
 18. Agent Teams & Parallel Work
 19. Automation & Scheduling
 20. Claude Code Everywhere

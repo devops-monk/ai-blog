@@ -108,7 +108,15 @@ Claude reads, explores and writes a plan without editing source. Edits stay bloc
 
 **Shell commands do run in plan mode.** This is worth stating plainly, because plan mode is widely described as forbidding them. When auto mode is available — it is, by default — the classifier reviews planning commands instead of prompting you. Without auto mode, anything outside the read-only set prompts.
 
-Enter with `Shift+Tab`, or `/plan` for a single prompt, or `claude --permission-mode plan`. When the plan is ready you get three options: approve and switch to auto mode, approve and review each edit manually, or keep planning. `Ctrl+G` opens the plan in your `$EDITOR` first.
+Enter with `Shift+Tab`, or `/plan` for a single prompt, or `claude --permission-mode plan`.
+
+The workflow it is built for is three steps, and the middle one is the point:
+
+1. **State the goal, not the method.** "I want to add OAuth2 authentication. Create a detailed plan."
+2. **Review and refine.** Ask follow-ups, push back, iterate until the plan is right. Nothing has touched disk yet, so this is free.
+3. **Approve and switch.** When the plan is ready you get three options — approve and switch to auto mode, approve and review each edit manually, or keep planning. `Ctrl+G` opens the plan in your `$EDITOR` first.
+
+> **Planning costs fewer tokens than execution.** Getting the approach wrong in step 2 costs you a paragraph; getting it wrong after step 3 costs you a diff, a test run, and the context to unpick both. Do the thinking here.
 
 ## `auto`
 
@@ -250,7 +258,7 @@ The Bash sandbox and auto mode are independent and combine well. Chapter 4 cover
 - **On Pro, Max and Team plans, terminal and VS Code sessions start in `auto`, not Manual.**
 - `Shift+Tab` runs `default → acceptEdits → plan → default`, optional modes after `plan`. From `auto`, the first press goes to `default`.
 - `"auto"` and `"bypassPermissions"` are ignored in project settings files — user settings only.
-- **Plan mode runs shell commands**, reviewed by the classifier.
+- **Plan mode runs shell commands**, reviewed by the classifier. Do the arguing in the plan — it is cheaper than arguing with a diff.
 - Auto mode strips tool results before the classifier sees them, so file contents cannot address it.
 - Its circuit breaker is **3 consecutive or 20 total blocks**, then prompting resumes. Not configurable.
 - Conversational boundaries are re-read from the transcript each check, so compaction can lose one. Use a rule for a guarantee.

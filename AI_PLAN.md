@@ -2,7 +2,11 @@
 
 A 23-chapter tutorial that takes a reader from "I installed it" to genuine expertise with Claude Code.
 
-**Sources:** a 135-slide bootcamp deck (July 2026) for coverage, and the official documentation at `code.claude.com/docs` (166 pages) for truth. The deck is used as a checklist of what to cover — every technical claim is verified against the docs before it ships, because the deck is materially stale in several places (see [Known corrections](#known-corrections)).
+**Method — deck first, docs to enrich.** The 136-slide bootcamp deck is the **base**: it decides what each chapter covers and which points get made. The official documentation at `code.claude.com/docs` then **enriches and verifies** — it supplies exact flags, thresholds, version numbers and edge cases the deck does not have, and it overrules the deck wherever the two disagree (see [Known corrections](#known-corrections)).
+
+Write **from the deck's coverage, in our own words**. The deck is a paid third-party course, watermarked on every slide: take the topics and the points, never the prose, the analogies, or the section labels.
+
+**Reading it:** the pages are images, so `pdftotext` returns nothing. Use the Read tool's `pages` parameter, ~14 pages per call.
 
 **Home:** [ai.devops-monk.com](https://ai.devops-monk.com/) · index at [/guide/](https://ai.devops-monk.com/guide/)
 
@@ -221,24 +225,37 @@ Every chapter follows the same skeleton, so a reader who has read one knows wher
 
 Chapters 1 to 3 are the reference for this standard: technical register, concept-first, exhaustive detail delegated to docs links.
 
-## Deck audit
+## Deck audit and gap register
 
-The source deck is a paid third-party course (eazybytes, watermarked on every slide) and its pages are
-images, so `pdftotext` returns nothing — read it with the Read tool's `pages` parameter instead.
+Every published chapter re-checked against the slides mapped to it. **Open gaps are work to do**; each is a
+point the deck makes that the chapter does not.
 
-**Use it as a coverage checklist only.** Do not carry over its analogies, section labels, or slide
-structure; write independently from the docs. That is both the right editorial call and the right one
-legally.
-
-Audit status, checking each published chapter against the slides that map to it:
-
-| Slides | Chapters | Status |
+| Slides | Ch | Gaps to close |
 |---|---|---|
-| 1–12 | front matter | ✅ nothing technical |
-| 13–26 | 2, 3 | ✅ covered; deck errors on `#`, bash-mode cost and plan-mode bash all corrected |
-| 27–40 | 5, 6 | ⚠️ two gaps found and fixed in Ch 6 — emphasis (`IMPORTANT`/`YOU MUST`) for adherence, and never putting secrets or linter-enforced rules in the file |
-| 41–73 | 7, 8, 9, 16 | ⬜ not yet audited |
-| 74–136 | 17–23 | ⬜ not yet written |
+| 1–12 | — | ✅ front matter, nothing technical |
+| 13–15 | 2 | ✅ none |
+| 16–26 | 3 | ✅ fixed — plan mode's three-step workflow, and planning costing fewer tokens than execution |
+| 27–33 | 6 | ✅ fixed — emphasis for adherence, no secrets, no linter-enforced rules, two diagnostic symptoms |
+| 34–40 | 5 | ✅ none |
+| 41–45 | 4 | ✅ fixed — the approval-lifetime table, and the shapes that need `--add-dir` |
+| 46–48 | 10 | ✅ none |
+| 49–50 | 8 | ⬜ a **Compact Instructions section in `CLAUDE.md`** as an alternative to `/compact <instructions>` |
+| 51–57 | 9 | ⬜ **session-scoped permission grants reset on resume and on fork** — both need re-approval. ⬜ sessions are tied to a directory, **not a branch**: switching branches keeps the conversation and swaps the files. ⬜ the five session habits, especially **document-and-clear** (write plan to a `.md`, `/clear`, new session reads it) |
+| 58–62 | 9 | ✅ none |
+| 63–64 | 2 | ✅ none |
+| 65–69 | 16 | ⬜ **how Claude builds a PR** — gather context, prepare the branch, analyse the commits, `gh pr create`. ⬜ the `commit-commands` plugin (`/commit`, `/commit-push-pr`, `/clean_gone`) |
+| 70–72 | 9 | ⬜ **git worktrees** — `claude --worktree <name>` / `-w`, stored at `<repo>/.claude/worktrees/<name>` on branch `worktree-<name>`, or just ask Claude to start one mid-session |
+| 73–76 | 16 | ✅ none |
+| 77–78 | 8 | ⬜ **the status line** — JSON in on stdin, text out on stdout; `/statusline <description>` writes the script for you |
+| 79–81 | 7 | ⬜ **priority saturation** as the framing for why rules exist. ⬜ a **rules vs CLAUDE.md** placement table |
+| 82–89 | 7 | ⬜ **the third memory layer** — session memory / conversation continuity, alongside CLAUDE.md and auto memory |
+| 90–97 | 11 | ⬜ `assets/` and `references/` in the canonical skill layout. ⬜ a **CLAUDE.md vs rules vs skills** comparison |
+| 98–100 | 11 | ✅ none |
+| 101–109 | 12 | ⬜ **hooks are isolated from the context window** — they run externally and cost zero context unless they return `additionalContext`. ⬜ **language choice and startup cost** — bash ~10–20ms, Node ~50–100ms, Python ~200–400ms, and why that matters for `PreToolUse`. ⬜ the desktop-notification hook as a worked example |
+| 110–115 | 14 | ✅ none |
+| 116–122 | 15 | ⬜ **the three named servers** — Chrome DevTools, Playwright, Context7 — with their add commands, and the four cross-tool scenarios |
+| 123–124 | 14 | ✅ none |
+| 125–136 | 17–18 | ⬜ not yet written — audit while writing |
 
 ## Writing a chapter
 

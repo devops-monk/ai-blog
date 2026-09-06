@@ -51,6 +51,17 @@ The distinction matters most when it fails. A `Read(./.env)` deny rule stops Cla
 | `ask` | Prompts, always |
 | `deny` | Blocked |
 
+Underneath the tiers is the default behaviour when no rule matches, and it is worth knowing that **an approval's lifetime depends on what you approved**:
+
+| Tool type | Prompts? | "Yes, and don't ask again" lasts |
+|---|---|---|
+| Read-only — reads, `Grep` | No, inside the working directories | — |
+| Bash commands | Yes, except the built-in read-only set | **Permanently, per repository and command** |
+| File modification — `Edit`, `Write` | Yes | **Until the session ends** |
+| `WebFetch` | Yes, except pre-approved documentation domains | Permanently, per repository and domain |
+
+That asymmetry catches people: approve a Bash command once and it is saved to `.claude/settings.local.json` for good, while approving a file edit buys you nothing next session. It is deliberate — a command is a fixed string you can reason about, an edit is not.
+
 **Rules are evaluated deny → ask → allow, and the first match wins. Specificity is not consulted.** That one sentence has a consequence people repeatedly design around and lose to:
 
 ```json
@@ -152,6 +163,8 @@ Rules follow the normal settings precedence, with one override: **deny wins from
 
 Claude starts with access to the directory you launched it in. Three ways to widen that: `--add-dir <path>` at startup, `/add-dir` mid-session, or `additionalDirectories` in settings.
 
+The cases that need it are all the same shape — the code you are working on is not all in one checkout: a multi-module project, microservices in sibling repositories, a shared configuration library, or documentation and scripts kept outside the main repo.
+
 They are not equivalent, and the difference is easy to miss:
 
 | Added via | File access | Skills, commands, subagents |
@@ -222,6 +235,7 @@ The rule of thumb: **auto mode is a per-action control, the sandbox is a boundar
 
 - Rules decide **whether** a call happens; the sandbox decides **what it can touch**. Neither substitutes for the other.
 - Evaluation is **deny → ask → allow, first match wins**, across scopes as well as within a file. A deny rule cannot carry allowlist exceptions.
+- **A Bash approval is saved permanently per repository; a file-edit approval dies with the session.**
 - **Put the `*` after the subcommand.** `Bash(git * main)` allows every git subcommand, `-c` included.
 - Wrapper stripping does not cover `npx`, `docker exec` or `devbox run`, so `Bash(devbox run *)` is a rule for arbitrary commands.
 - **`/path` anchors at the settings file, not the filesystem root.** Use `//` for absolute.

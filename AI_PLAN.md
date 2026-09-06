@@ -205,10 +205,12 @@ Written for a software engineer who wants the mechanism, in detail. Specifically
 - **No coaching register.** Drop rhetorical questions, second-person pep talk, and "here's the thing" asides. Describe behaviour; let the reader draw the conclusion.
 - **Specify rather than gesture.** Exact flags, file paths, version numbers, defaults, thresholds and the conditions under which behaviour changes. "Shell mode costs a normal prompt as of v2.1.186" beats "shell mode isn't free any more".
 - **Tables and diagrams over prose** wherever the content is a set of options, a sequence, or a mapping.
-- **Length is not a constraint; completeness is.** A full reference table earns its place. Filler does not.
+- **Teach the concept; link out for the catalogue.** A chapter explains the mechanism and the handful of cases a reader actually hits. Exhaustive lists — every CLI flag, every slash command, every classifier rule — belong behind a link to the Claude Code docs, which stay current in a way a chapter cannot. Give the *shape* of a long list (grouped themes, the trap in it) rather than transcribing it.
+- **Target 8 to 12 minutes.** Past that the chapter is a reference document, not a chapter. Chapter 3 shipped at 22 minutes and had to be cut in half.
+- **Keep the corrections and the traps.** These are the parts no doc page gives the reader — deck errors, silently-ignored settings, defaults that surprise. They earn their length; reference tables do not.
 - An analogy is acceptable only when it carries technical weight that plain description cannot — and never as an opener.
 
-Chapters 1 and 2 were rewritten to this standard after an initial draft pitched too low; use their current text as the reference.
+Chapters 1 to 3 are the reference for this standard: technical register, concept-first, exhaustive detail delegated to docs links.
 
 ## Writing a chapter
 

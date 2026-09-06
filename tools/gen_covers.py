@@ -685,6 +685,31 @@ def art_meter():
     return f'<svg width="640" height="420" viewBox="0 0 640 420">{"".join(out)}</svg>'
 
 
+def art_triage():
+    """Four failure groups, four pages. The first job is picking the branch."""
+    out = []
+    out.append(f'<rect x="238" y="52" width="164" height="42" rx="8" fill="{PURPLE}" opacity=".26" '
+               f'stroke="{BLUE}" stroke-opacity=".85"/>')
+    out.append(f'<text x="320" y="79" fill="#eae4fb" font-size="14" text-anchor="middle" '
+               f'font-family="ui-monospace,monospace">how far did it get?</text>')
+    rows = [("never started", "install", 150, GREEN, "#d9efdf"),
+            ("config ignored", "debug-your-config", 208, BLUE, "#dbe4fb"),
+            ("slow or stuck", "troubleshooting", 266, PINK, "#f3d9e6"),
+            ("a message", "errors", 324, PURPLE, "#eae4fb")]
+    for label, page, y, colour, ink in rows:
+        out.append(f'<path d="M320 94 L320 {y} L196 {y}" stroke="{colour}" stroke-opacity=".4" '
+                   f'stroke-width="1.2" fill="none"/>')
+        out.append(f'<rect x="52" y="{y-15}" width="146" height="31" rx="6" fill="{colour}" opacity=".2" '
+                   f'stroke="{colour}" stroke-opacity=".6"/>')
+        out.append(f'<text x="125" y="{y+5}" fill="{ink}" font-size="12.5" text-anchor="middle" '
+                   f'font-family="ui-monospace,monospace">{label}</text>')
+        out.append(f'<path d="M320 {y} L390 {y}" stroke="{colour}" stroke-opacity=".4" stroke-width="1.2"/>')
+        out.append(f'<text x="398" y="{y+5}" fill="{DIM}" font-size="12.5" '
+                   f'font-family="ui-monospace,monospace">{page}</text>')
+    out.append(f'<text x="52" y="378" fill="{DIM}" font-size="14">route it before you debug it</text>')
+    return f'<svg width="640" height="420" viewBox="0 0 640 420">{"".join(out)}</svg>'
+
+
 COVERS = [
     # (slug, badge, title with <br>, title font size, tagline, mono caption, motif)
     ("cc-01-what-claude-code-is", "PART 1 · CH 1", "What Claude Code<br>Actually Is", 54,
@@ -753,6 +778,9 @@ COVERS = [
     ("cc-21-cost-monitoring-security", "PART 6 · CH 21", "Cost, Monitoring<br>&amp; Security", 50,
      "What it costs, why an idle session keeps spending, and the model underneath the prompts.",
      "no system is <i>completely immune</i>", art_meter),
+    ("cc-22-when-it-goes-wrong", "PART 6 · CH 22", "When It<br>Goes Wrong", 60,
+     "Four groups of failure, and the commands that show what actually loaded.",
+     "look at what loaded, don't <i>reason about it</i>", art_triage),
 ]
 
 def build(only=None):

@@ -37,7 +37,7 @@ Write **from the deck's coverage, in our own words**. The deck is a paid third-p
 | 19 | Automation & Scheduling | Agents & Autonomy | ✅ [Published](https://ai.devops-monk.com/2026/09/automation-and-scheduling/) |
 | 20 | Claude Code Everywhere | Agents & Autonomy | ✅ [Published](https://ai.devops-monk.com/2026/09/claude-code-everywhere/) |
 | 21 | Cost, Monitoring & Security | Running It for Real | ✅ [Published](https://ai.devops-monk.com/2026/09/cost-monitoring-and-security/) |
-| 22 | When It Goes Wrong | Running It for Real | ⬜ Not started |
+| 22 | When It Goes Wrong | Running It for Real | ✅ [Published](https://ai.devops-monk.com/2026/09/when-it-goes-wrong/) |
 | 23 | Becoming an Expert | Closing | ⬜ Not started |
 
 ---
@@ -167,7 +167,7 @@ VS Code, JetBrains, desktop, web, mobile, Remote Control, `--cloud` / `--telepor
 **22. When It Goes Wrong**
 `/doctor`, debugging why configuration isn't taking effect, the error reference, high CPU and memory, auto-compact thrashing, search problems, install and login failures.
 `D troubleshooting, debug-your-config, errors, troubleshoot-install`
-*Interactive:* symptom → cause lookup
+*Interactive:* symptom lookup — 21 symptoms, filterable and grouped by which of the four pages owns them. Docs-only chapter; the deck has no troubleshooting material.
 
 ### Closing
 
@@ -268,6 +268,7 @@ Open rows below are chapters not yet written.
 3. Diagrams as ` ```mermaid ` fences. No semicolons inside labels — a semicolon silently kills the whole diagram.
 4. Widget as a single raw HTML block with no blank lines anywhere inside it. **No `//` comments in its JavaScript** — collapsing to one line turns one into a line-swallower and the minifier fails the whole build with `unexpected EOF`. Use `/* */`. Styles into `custom-styles.css` under a short prefix, with a `[data-theme="dark"]` variant and a `40em` fallback.
    A `<pre>` inside a widget inherits the global `pre { background: var(--code-bg) !important }` but not `pre code`'s light colour, so it renders dark-on-dark. Set an explicit `color` on it.
+   A `display: grid` label row shatters if its value is built from inline HTML: each `<code>` and each text node becomes its own grid item, so a two-column row turns into six stacked cells. Wrap the value in a single `<span>`. Chapter 22's panel shipped this way until a dark-mode screenshot caught it.
    Drive a widget that makes technical claims: click every preset in headless Chrome and check each verdict against the docs. Chapter 4's matcher shipped one wrong verdict (`timeout 30 npm test`) that only this caught.
 5. Cover: add an `art_*()` motif and a `COVERS` entry. **Check the name is not a prefix of an existing one** — an `art_gate` guard passes `"def art_gate" not in s` only if `art_gates` does not already exist. Then then `python3 tools/gen_covers.py <slug>` and `python3 tools/gen_social.py`.
 6. Verify, drop `draft: true`, add the chapter to `content/pages/guide.md`, commit and push.

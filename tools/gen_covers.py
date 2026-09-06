@@ -662,6 +662,29 @@ def art_surfaces():
     return f'<svg width="640" height="420" viewBox="0 0 640 420">{"".join(out)}</svg>'
 
 
+def art_meter():
+    """Every turn re-sends the whole conversation. The staircase is the bill."""
+    out = []
+    heights = [26, 44, 60, 79, 96, 116, 134, 156, 176, 200]
+    for i, h in enumerate(heights):
+        x = 60 + i * 52
+        colour = GREEN if i < 4 else (BLUE if i < 7 else PINK)
+        out.append(f'<rect x="{x}" y="{312-h}" width="34" height="{h}" rx="4" fill="{colour}" '
+                   f'opacity=".{22 + i*4}" stroke="{colour}" stroke-opacity=".65"/>')
+    out.append(f'<path d="M60 312 L580 312" stroke="{DIM}" stroke-opacity=".5" stroke-width="1.2"/>')
+    out.append(f'<text x="77" y="332" fill="{DIM}" font-size="12" text-anchor="middle" '
+               f'font-family="ui-monospace,monospace">turn 1</text>')
+    out.append(f'<text x="545" y="332" fill="{DIM}" font-size="12" text-anchor="middle" '
+               f'font-family="ui-monospace,monospace">turn 10</text>')
+    out.append(f'<rect x="330" y="56" width="250" height="46" rx="8" fill="{PINK}" opacity=".18" '
+               f'stroke="{PINK}" stroke-opacity=".6"/>')
+    out.append(f'<text x="455" y="85" fill="#f3d9e6" font-size="15" text-anchor="middle" '
+               f'font-family="ui-monospace,monospace">one question, all of it</text>')
+    out.append(f'<path d="M455 104 L455 128" stroke="{PINK}" stroke-opacity=".5" stroke-width="1.4"/>')
+    out.append(f'<text x="60" y="372" fill="{DIM}" font-size="14">the context is paid again every turn</text>')
+    return f'<svg width="640" height="420" viewBox="0 0 640 420">{"".join(out)}</svg>'
+
+
 COVERS = [
     # (slug, badge, title with <br>, title font size, tagline, mono caption, motif)
     ("cc-01-what-claude-code-is", "PART 1 · CH 1", "What Claude Code<br>Actually Is", 54,
@@ -727,6 +750,9 @@ COVERS = [
     ("hello-transformers", "PART 1 · CH 1", "How a Transformer<br>Actually Predicts", 54,
      "One token at a time, and everything else follows from that.",
      "the model outputs a <i>distribution</i>, not a word", art_tokens),
+    ("cc-21-cost-monitoring-security", "PART 6 · CH 21", "Cost, Monitoring<br>&amp; Security", 50,
+     "What it costs, why an idle session keeps spending, and the model underneath the prompts.",
+     "no system is <i>completely immune</i>", art_meter),
 ]
 
 def build(only=None):

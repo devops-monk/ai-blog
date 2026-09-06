@@ -36,7 +36,7 @@ Write **from the deck's coverage, in our own words**. The deck is a paid third-p
 | 18 | Agent Teams & Parallel Work | Agents & Autonomy | ✅ [Published](https://ai.devops-monk.com/2026/09/agent-teams-and-parallel-work/) |
 | 19 | Automation & Scheduling | Agents & Autonomy | ✅ [Published](https://ai.devops-monk.com/2026/09/automation-and-scheduling/) |
 | 20 | Claude Code Everywhere | Agents & Autonomy | ✅ [Published](https://ai.devops-monk.com/2026/09/claude-code-everywhere/) |
-| 21 | Cost, Monitoring & Security | Running It for Real | ⬜ Not started |
+| 21 | Cost, Monitoring & Security | Running It for Real | ✅ [Published](https://ai.devops-monk.com/2026/09/cost-monitoring-and-security/) |
 | 22 | When It Goes Wrong | Running It for Real | ⬜ Not started |
 | 23 | Becoming an Expert | Closing | ⬜ Not started |
 
@@ -162,7 +162,7 @@ VS Code, JetBrains, desktop, web, mobile, Remote Control, `--cloud` / `--telepor
 **21. Cost, Monitoring & Security**
 `/usage` and `/cost`, cutting token spend, OpenTelemetry, team analytics and spend limits, the security model, prompt injection, data usage and ZDR, managed settings, dev containers, cloud providers.
 `D costs, monitoring-usage, analytics, security, data-usage, zero-data-retention, managed-settings, devcontainer, third-party-integrations`
-*Interactive:* cost estimator
+*Interactive:* session spend estimator — turn count and five levers against an illustrative token bill. Docs-only chapter; the deck has no cost or security material.
 
 **22. When It Goes Wrong**
 `/doctor`, debugging why configuration isn't taking effect, the error reference, high CPU and memory, auto-compact thrashing, search problems, install and login failures.

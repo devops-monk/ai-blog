@@ -66,7 +66,7 @@ One agent is a pair programmer. Several are a team.
 
 What it costs, how it's secured, and what to do at 2am when it won't behave.
 
-21. Cost, Monitoring & Security
+21. [Cost, Monitoring & Security](/2026/09/cost-monitoring-and-security/) — what a seat actually costs, the six reasons an idle session keeps spending, the levers that move it, and the sentence in the docs that says what the injection defences do not cover.
 22. When It Goes Wrong
 
 ## Closing

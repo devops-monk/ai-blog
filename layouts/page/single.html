@@ -8,6 +8,10 @@
                     <h2 class="entry-title">{{ .Title }}</h2>
                 </header>
                 {{ end }}
+                {{/* Pages opt into a table of contents the same way posts do,
+                     with `toc: true` in front matter. Long project pages need
+                     it; short ones like /contact/ leave it off. */}}
+                {{ partial "toc.html" . }}
                 <div class="entry-content">
                     {{ .Content }}
                 </div>

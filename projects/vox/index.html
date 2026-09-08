@@ -1,0 +1,252 @@
+<!doctype html><html lang=en-US prefix="og: http://ogp.me/ns#"><head><meta charset=UTF-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=title property="title" content="AI Engineering - Vox — Local Voice-to-Text"><meta name=description property="description" content="AI engineering worked out end to end — from what a transformer does on every token to shipping real work with Claude Code and the agents built on it. - A cross-platform desktop dictation app that runs entirely offline. Press a hotkey, speak, and the text lands in whatever app you're focused on — no cloud API, no account, no audio leaving your machine."><title>AI Engineering - Vox — Local Voice-to-Text</title><meta property="og:url" content="https://ai.devops-monk.com/projects/vox/"><meta property="og:site_name" content="AI Engineering"><meta property="og:title" content="Vox — Local Voice-to-Text"><meta property="og:description" content="A cross-platform desktop dictation app that runs entirely offline. Press a hotkey, speak, and the text lands in whatever app you're focused on — no cloud API, no account, no audio leaving your machine."><meta property="og:locale" content="en_us"><meta property="og:type" content="article"><meta property="article:section" content="pages"><meta property="article:published_time" content="2026-09-08T09:30:00+00:00"><meta property="article:modified_time" content="2026-09-08T09:30:00+00:00"><meta property="og:image" content="https://ai.devops-monk.com/images/og-default.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="Vox — Local Voice-to-Text"><meta name=twitter:card content="summary_large_image"><meta name=twitter:title content="Vox — Local Voice-to-Text"><meta name=twitter:description content="A cross-platform desktop dictation app that runs entirely offline. Press a hotkey, speak, and the text lands in whatever app you're focused on — no cloud API, no account, no audio leaving your machine."><meta name=twitter:image content="https://ai.devops-monk.com/images/og-default.png"><meta name=twitter:image:alt content="Vox — Local Voice-to-Text"><link rel=canonical href=https://ai.devops-monk.com/projects/vox/><link rel=stylesheet href=/assets/css/custom-fonts.css type=text/css media=all><link rel=stylesheet href=/assets/css/style.css type=text/css media=all><link rel=stylesheet href=/assets/css/genericons.css type=text/css media=all><link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css media=all><link rel=stylesheet href=/assets/css/socicon.css type=text/css media=all><link rel=stylesheet href=/assets/css/social-logos/social-logos.css type=text/css media=all><link rel=stylesheet href=/assets/css/jetpack.css type=text/css media=all><link rel=stylesheet href=/assets/css/custom-styles.css type=text/css media=all><script type=text/javascript src=/assets/js/jquery-1.12.4.min.js></script><script type=text/javascript src=/assets/js/html5shiv.min.js></script><script type=text/javascript src=/assets/js/navigation.js></script><link rel="shortcut icon" href=/favicon.png type=image/x-icon><script type=application/ld+json>{"@context":"https://schema.org","@graph":[{"@type":"WebPage","author":{"@type":"Person","name":"Abhay"},"dateModified":"2026-09-08","datePublished":"2026-09-08","description":"A cross-platform desktop dictation app that runs entirely offline. Press a hotkey, speak, and the text lands in whatever app you're focused on — no cloud API, no account, no audio leaving your machine.","headline":"Vox — Local Voice-to-Text","image":"https://ai.devops-monk.com/images/og-default.png","inLanguage":"en-US","keywords":[],"mainEntityOfPage":{"@id":"https://ai.devops-monk.com/projects/vox/","@type":"WebPage"},"name":"Vox — Local Voice-to-Text","publisher":{"@type":"Organization","name":"AI Engineering by Abhay","sameAs":["https://github.com/abhi15sep","https://www.linkedin.com/in/abhay-singh-831997b5"],"url":"https://ai.devops-monk.com/"},"url":"https://ai.devops-monk.com/projects/vox/","wordCount":1937},{"@type":"Organization","name":"AI Engineering by Abhay","sameAs":["https://github.com/abhi15sep","https://www.linkedin.com/in/abhay-singh-831997b5"],"url":"https://ai.devops-monk.com/"}]}</script><script src=https://cdn.jsdelivr.net/npm/fuse.js@7/dist/fuse.min.js defer></script><script src=/assets/js/search.js defer></script><script src=/assets/js/enhancements.js defer></script><script type=module>
+      import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+
+      
+      const isDark = () =>
+        document.documentElement.getAttribute('data-theme') === 'dark';
+
+      
+      
+      const vars = {
+        light: {
+          background: '#ffffff', mainBkg: '#ede9fe',
+          primaryColor: '#ede9fe', primaryTextColor: '#1e293b',
+          primaryBorderColor: '#7c3aed', secondaryColor: '#f0fdf4',
+          secondaryTextColor: '#166534', secondaryBorderColor: '#10b981',
+          tertiaryColor: '#f8fafc', tertiaryTextColor: '#1e293b',
+          tertiaryBorderColor: '#cbd5e1',
+          lineColor: '#475569', textColor: '#1e293b', titleColor: '#0f172a',
+          clusterBkg: '#f8fafc', clusterBorder: '#cbd5e1',
+          edgeLabelBackground: '#ffffff', nodeBorder: '#7c3aed',
+          actorBkg: '#ede9fe', actorBorder: '#7c3aed', actorTextColor: '#1e293b',
+          signalColor: '#475569', signalTextColor: '#1e293b',
+          labelBoxBkgColor: '#ede9fe', labelBoxBorderColor: '#7c3aed',
+          labelTextColor: '#1e293b', loopTextColor: '#1e293b',
+          noteBkgColor: '#fffbeb', noteBorderColor: '#f59e0b', noteTextColor: '#92400e',
+        },
+        dark: {
+          background: '#1b1533', mainBkg: '#3b2a6b',
+          primaryColor: '#3b2a6b', primaryTextColor: '#e2e8f0',
+          primaryBorderColor: '#7c3aed', secondaryColor: '#10291f',
+          secondaryTextColor: '#6ee7b7', secondaryBorderColor: '#10b981',
+          tertiaryColor: '#171233', tertiaryTextColor: '#e2e8f0',
+          tertiaryBorderColor: '#4c3a75',
+          lineColor: '#94a3b8', textColor: '#e2e8f0', titleColor: '#f1f5f9',
+          clusterBkg: '#171233', clusterBorder: '#3a2c63',
+          edgeLabelBackground: '#1b1533', nodeBorder: '#7c3aed',
+          actorBkg: '#3b2a6b', actorBorder: '#7c3aed', actorTextColor: '#e2e8f0',
+          signalColor: '#94a3b8', signalTextColor: '#e2e8f0',
+          labelBoxBkgColor: '#3b2a6b', labelBoxBorderColor: '#7c3aed',
+          labelTextColor: '#e2e8f0', loopTextColor: '#e2e8f0',
+          noteBkgColor: '#2a1d10', noteBorderColor: '#f59e0b', noteTextColor: '#fcd34d',
+        },
+      };
+
+      
+      
+      
+      function sourceOf(el) {
+        const t = document.createElement('textarea');
+        t.innerHTML = el.dataset.src;
+        return t.value;
+      }
+
+      let seq = 0;
+
+      async function draw() {
+        const blocks = [...document.querySelectorAll('pre.mermaid')];
+        blocks.forEach((el) => {
+          if (el.dataset.src === undefined) el.dataset.src = el.innerHTML;
+        });
+
+        mermaid.initialize({
+          startOnLoad: false,
+          theme: 'base',
+          themeVariables: {
+            fontFamily: "Inter, -apple-system, BlinkMacSystemFont, sans-serif",
+            fontSize: '15px',
+            ...(isDark() ? vars.dark : vars.light),
+          },
+          securityLevel: 'loose',
+          
+          
+          
+          
+          
+          
+          
+          
+          flowchart: {
+            htmlLabels: true,
+            useMaxWidth: false,
+            curve: 'basis',
+            padding: 14,
+            nodeSpacing: 46,
+            rankSpacing: 58,
+            diagramPadding: 10,
+          },
+          sequence: {
+            useMaxWidth: false,
+            
+            mirrorActors: false,
+            actorMargin: 48,
+            boxMargin: 10,
+            diagramMarginY: 12,
+            actorFontSize: 14,
+            messageFontSize: 13,
+            noteFontSize: 13,
+          },
+        });
+
+        
+        
+        
+        
+        
+        for (const el of blocks) {
+          const id = 'mermaid-svg-' + (seq++);
+          try {
+            const { svg, bindFunctions } = await mermaid.render(id, sourceOf(el));
+            el.innerHTML = svg;
+            if (bindFunctions) bindFunctions(el);
+          } catch (err) {
+            console.error('mermaid: failed to render diagram', err);
+          }
+        }
+      }
+
+      document.addEventListener('DOMContentLoaded', draw);
+      new MutationObserver((m) => {
+        if (m.some((r) => r.attributeName === 'data-theme')) draw();
+      }).observe(document.documentElement, { attributes: true });
+    </script></head><body class="home blog post-layout-one-column"><button onclick=topFunction() id=scrollTopBtn title="Go to top">
+<i class="fa-solid fa-arrow-up"></i></button><div id=header-top class=header-bar-wrap></div><div id=page class=site><a class="skip-link screen-reader-text" href=#content>Skip to content</a><header id=masthead class="site-header clearfix" role=banner><div class="header-main container clearfix"><div id=logo class="site-branding clearfix"><h1 class=site-title><a href=/ title="AI Engineering" rel=home>AI Engineering</a></h1><p class=site-description>How AI actually works</p></div><button id=dark-mode-toggle title="Toggle dark mode" aria-label="Toggle dark mode">
+<i class="fa-solid fa-moon" id=dm-icon></i></button></div><div id=main-navigation-wrap class=primary-navigation-wrap><nav id=main-navigation class="primary-navigation navigation container clearfix" role=navigation><ul id=menu-home class=main-navigation-menu><li class="menu-item menu-item-type-custom menu-item-object-custom"><a href=/>Home</a></li><li class="menu-item menu-item-type-custom menu-item-object-custom"><a href=/guide/>Guide</a></li><li class="menu-item menu-item-type-custom menu-item-object-custom current-menu-item current_page_item"><a href=/projects/>Projects</a></li><li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children"><a href=#>Topics</a><ul class=sub-menu><li class=menu-item><a href=/tags/permissions/>Permissions</a></li><li class=menu-item><a href=/tags/context/>Context</a></li><li class=menu-item><a href=/tags/skills/>Skills</a></li><li class=menu-item><a href=/tags/hooks/>Hooks</a></li><li class=menu-item><a href=/tags/mcp/>MCP</a></li><li class=menu-item><a href=/tags/subagents/>Subagents</a></li></ul></li><li class="menu-item menu-item-type-custom menu-item-object-custom"><a href=/about/>About</a></li><li class="menu-item nav-rss"><a href=/index.xml title="Subscribe via RSS" target=_blank rel=noopener><i class="fa-solid fa-rss"></i> RSS</a></li></ul></nav></div></header><div id=content class="site-content container clearfix"><section id=primary class="content-archive content-area post-content-area"><main id=main class=site-main role=main><article class="post type-page static-page"><div class=post-inner-content><header class=entry-header><h2 class=entry-title>Vox — Local Voice-to-Text</h2></header><nav class=toc-widget><h3 class=toc-title><i class="fa-solid fa-list"></i> Contents</h3><div class=toc-links><nav id=TableOfContents><ul><li><a href=#what-it-is>What it is</a></li><li><a href=#why-local-first>Why local-first</a></li><li><a href=#the-core-loop>The core loop</a></li><li><a href=#audio-capture>Audio capture</a></li><li><a href=#getting-text-into-the-other-app>Getting text into the other app</a></li><li><a href=#the-model-manager>The model manager</a></li><li><a href=#the-interface>The interface</a></li><li><a href=#design-decisions-worth-defending>Design decisions worth defending</a></li><li><a href=#where-its-going>Where it&rsquo;s going</a></li><li><a href=#get-it>Get it</a></li></ul></nav></div></nav><div class=entry-content><p>Press a hotkey. Speak. The text appears in whatever app you&rsquo;re focused on.</p><p>That&rsquo;s the whole product. What makes it worth writing about is the constraint underneath it: <strong>everything runs on your machine.</strong> No cloud API, no account, no network call — the audio never leaves your laptop, because there is nowhere for it to go.</p><div class=dl-wrap><a class=dl-btn href=https://github.com/devops-monk/vox/releases>Download Vox ↗</a><p class=dl-note>macOS (Intel & Apple Silicon) · Windows · Linux · v0.1.0</p></div><h2 id=what-it-is>What it is</h2><p>Vox is a <a href=https://tauri.app>Tauri</a> desktop app — a Rust backend with a React/TypeScript frontend — that turns speech into text through a bundled <a href=https://github.com/ggerganov/whisper.cpp>whisper.cpp</a> model.</p><table><thead><tr><th>Piece</th><th>What it is</th></tr></thead><tbody><tr><td><strong>Backend</strong></td><td>Rust — audio capture, inference, input injection, tray</td></tr><tr><td><strong>Frontend</strong></td><td>React 19 + TypeScript + Tailwind, in two windows</td></tr><tr><td><strong>Speech model</strong></td><td>whisper.cpp via <code>whisper-rs</code>, bundled at build time</td></tr><tr><td><strong>Platforms</strong></td><td>macOS (Intel + Apple Silicon), Windows, Linux</td></tr><tr><td><strong>Default hotkey</strong></td><td><code>Control+Alt+Space</code></td></tr><tr><td><strong>Network calls</strong></td><td>None, for transcription</td></tr></tbody></table><p>It runs <strong>tray-first</strong>: no dock icon, no window on launch. You&rsquo;ll find it in the menu bar, and most of the time you never open it at all — you press the hotkey and keep working.</p><h2 id=why-local-first>Why local-first</h2><p>Dictation is an unusually personal input stream. It captures whatever is on the microphone, which in practice means meetings, half-formed thoughts, and whatever someone nearby happens to say. Sending that to a third-party API is a meaningful decision, and most dictation tools make it for you silently.</p><p>Running the model locally removes the decision entirely:</p><ul><li><strong>Nothing to leak.</strong> There is no upload path in the code.</li><li><strong>No account, no subscription, no rate limit.</strong></li><li><strong>It works on a plane.</strong> Offline is the normal case, not a degraded one.</li><li><strong>Latency is yours to control</strong> — it depends on your CPU and your chosen model, not on someone&rsquo;s queue.</li></ul><p>The cost is real and worth stating: <strong>you pay for it in CPU and disk.</strong> A better model is a bigger download and a slower transcription. That trade is the central tension in the design, and the model manager exists to let you place yourself on it.</p><h2 id=the-core-loop>The core loop</h2><p>Everything in the app hangs off one state machine with three states. The hotkey toggles it.</p><pre class=mermaid>stateDiagram-v2
+    [*] --> Idle
+    Idle --> Recording: hotkey
+    Recording --> Transcribing: hotkey again<br>or 60s cutoff
+    Recording --> Idle: cancel
+    Transcribing --> Idle: text pasted
+    Transcribing --> Transcribing: hotkey ignored
+
+    note right of Transcribing
+        Presses are ignored here —
+        the work is already committed
+    end note
+</pre><p>That last transition is a small decision with a large effect. <strong>A hotkey press during transcription does nothing at all</strong>, rather than queuing or cancelling. Once inference has started the audio is already captured and the CPU is already spent, so the only honest options are &ldquo;finish&rdquo; or &ldquo;throw away work you&rsquo;ve paid for&rdquo;. Ignoring the press is the least surprising.</p><p>The full path from keypress to text:</p><pre class=mermaid>flowchart TD
+    K["Global hotkey<br>Control+Alt+Space"] --> R{State?}
+    R -->|Idle| S["Start capture<br>cpal on its own thread"]
+    S --> OV["Show overlay<br>bottom-centre, always on top"]
+    S -.->|"RMS every 50ms"| OV
+    R -->|Recording| ST["Stop capture"]
+    ST --> RS["Resample to 16kHz mono<br>rubato"]
+    RS --> W["whisper.cpp inference<br>on a blocking thread"]
+    W --> P["Inject text into<br>the focused app"]
+    P --> I["Hide overlay, back to Idle"]
+
+    style W fill:#ede9fe,stroke:#7c3aed,color:#4c1d95
+    style P fill:#dcfce7,stroke:#16a34a,color:#14532d
+    style S fill:#dbeafe,stroke:#2563eb,color:#1e3a8a
+</pre><p>There is a <strong>60-second cutoff</strong>, enforced in two places: the audio thread stops itself, and an app-level watchdog fires two seconds later in case it didn&rsquo;t. The watchdog checks a <strong>generation counter</strong> before acting, so a stale timer from an earlier recording can&rsquo;t terminate a new one that started in the meantime.</p><h2 id=audio-capture>Audio capture</h2><p>The capture path has more engineering in it than you&rsquo;d expect, because Whisper wants exactly one thing and audio hardware provides everything but.</p><p><strong>Whisper needs 16 kHz mono <code>f32</code> PCM.</strong> Your microphone offers whatever it feels like — 44.1 or 48 kHz, one or two channels, in <code>f32</code>, <code>i16</code> or <code>u16</code>. Every mismatch has to be fixed before inference.</p><pre class=mermaid>flowchart TD
+    D["Input device<br>44.1 or 48kHz · 1-2 channels<br>f32 / i16 / u16"] --> C["cpal callback — every few ms"]
+    C --> N["Normalise samples to f32"]
+    N --> M["Downmix to mono<br>average the channels"]
+    M --> B["Growing buffer"]
+    M -.->|"RMS, throttled to 50ms"| E["audio-level event<br>→ overlay waveform"]
+    B --> RS["rubato FftFixedIn<br>resample to 16kHz"]
+    RS --> WH["whisper.cpp inference"]
+
+    style D fill:#dbeafe,stroke:#2563eb,color:#1e3a8a
+    style RS fill:#fef3c7,stroke:#d97706,color:#78350f
+    style WH fill:#ede9fe,stroke:#7c3aed,color:#4c1d95
+    style E fill:#dcfce7,stroke:#16a34a,color:#14532d
+</pre><p>Three details in there were each worth the trouble:</p><p><strong>The cpal stream lives on its own dedicated thread</strong>, for its entire lifetime. Platform stream handles aren&rsquo;t safely movable between threads once built, so the thread builds it, blocks on a stop channel, and tears it down in the same place.</p><p><strong>The waveform is throttled to one event every 50 ms.</strong> The audio callback fires every few milliseconds; emitting an event per callback would flood the frontend with far more updates than a 20-bar waveform can use. RMS is computed in the callback, then gained by 6× — speech RMS sits well below 1.0, and without the gain the waveform barely moves at normal talking volume.</p><p><strong>Resampling has to be fed in fixed chunks.</strong> <code>rubato</code>&rsquo;s fixed-input resamplers expect repeated small chunks, not one giant buffer. Passing the whole recording in a single call produced <em>empty output with no error</em> — a silent failure that looks exactly like a broken microphone.</p><h2 id=getting-text-into-the-other-app>Getting text into the other app</h2><p>This is the part that sounds trivial and isn&rsquo;t. Vox has to insert text into an application it has no relationship with, and the right method depends on the app.</p><p>Three methods ship, and the setting is exposed because <strong>no single one works everywhere</strong>:</p><table><thead><tr><th>Method</th><th>How it works</th><th>When it&rsquo;s right</th></tr></thead><tbody><tr><td><strong>Direct</strong> <em>(default)</em></td><td>Types the text as simulated keystrokes</td><td>Never touches your clipboard — nothing to restore, nothing to lose</td></tr><tr><td><strong>Ctrl/Cmd+V</strong></td><td>Writes the clipboard, sends the paste shortcut, restores the old clipboard</td><td>Apps that reject synthetic keystrokes for text entry</td></tr><tr><td><strong>Clipboard only</strong></td><td>Writes the clipboard and stops</td><td>You paste it yourself, where and when you want</td></tr></tbody></table><p>The clipboard method hides a genuine race condition, and it&rsquo;s the kind of bug that only appears under load:</p><pre class=mermaid>sequenceDiagram
+    participant V as Vox
+    participant CB as System clipboard
+    participant A as Focused app
+
+    V->>CB: write transcript
+    Note over V: sleep 50ms — let the OS settle
+    V->>A: synthetic Cmd/Ctrl+V
+    Note over A: queued — the app reads<br>on its own run loop
+    Note over V: sleep 300ms
+    V->>CB: restore previous contents
+    A-->>CB: reads clipboard
+</pre><p><strong>The synthetic paste is only queued, not performed.</strong> The target app reads the clipboard whenever its run loop gets around to it — which can lag noticeably right after the CPU spike from inference. Restore too early and you win the race: the app pastes <em>whatever was on the clipboard before</em>, usually something the user copied ten minutes ago. The 300 ms delay is what keeps that from happening.</p><p>There&rsquo;s also a platform trap worth knowing if you ever build something similar. <strong>On macOS, the paste must happen on the main thread.</strong> <code>enigo</code>&rsquo;s macOS backend resolves layout-dependent keycodes through TSM/HIToolbox, which assert they&rsquo;re called on the main thread — calling from a Tokio worker doesn&rsquo;t fail, it <strong>crashes the entire app</strong>. The transcription result gets marshalled back to the main thread through a oneshot channel before any keystroke is simulated.</p><h2 id=the-model-manager>The model manager</h2><p>The bundled model is Base (English), around 141 MB — enough to be useful immediately without a first-run download. Everything beyond that is opt-in.</p><p><img src=/images/projects/vox-models.webp alt="The Vox model manager, showing the bundled Base (English) model marked active alongside downloadable Tiny, Small, Medium and Large v3 Turbo checkpoints"></p><p>The catalog covers <strong>every whisper.cpp GGML checkpoint</strong> published upstream — five size tiers, English-only and multilingual variants, and the quantized builds alongside each full-precision one. That last part matters more than it sounds:</p><table><thead><tr><th>Tier</th><th>F16</th><th>Q5</th><th>Q8</th></tr></thead><tbody><tr><td>Tiny</td><td>74 MB</td><td>31 MB</td><td>42 MB</td></tr><tr><td>Base</td><td>141 MB</td><td>57 MB</td><td>78 MB</td></tr><tr><td>Small</td><td>465 MB</td><td>181 MB</td><td>252 MB</td></tr><tr><td>Medium</td><td>1463 MB</td><td>514 MB</td><td>785 MB</td></tr><tr><td>Large v3 Turbo</td><td>1549 MB</td><td>547 MB</td><td>834 MB</td></tr></tbody></table><p><strong>Quantization is the most useful axis and the least understood.</strong> Large v3 Turbo at Q8_0 is 834 MB against 1549 MB for the full checkpoint, with near-identical accuracy — roughly half the disk for an accuracy difference you are unlikely to notice in dictation. That is a far better trade than dropping a whole size tier, which is what people usually do when a model feels too big.</p><p>Models resolve from two places, checked in order: the <strong>bundled resource directory</strong> for the shipped default, then the <strong>app-data directory</strong> for anything downloaded. Downloads stream to disk with progress events, so the UI can show a real progress bar rather than a spinner.</p><p>Multilingual checkpoints recognise <strong>99 languages</strong>. <code>.en</code>-suffixed ones are English-only and ignore the language setting entirely. There&rsquo;s a subtlety here that&rsquo;s easy to get wrong: whisper.cpp defaults to <code>"en"</code> when no language is specified, so a <em>multilingual</em> model with no explicit language will silently mistranscribe non-English speech rather than detecting it. Vox passes <code>None</code> for auto-detect explicitly.</p><h2 id=the-interface>The interface</h2><p>Two windows, and one of them you&rsquo;ll barely see.</p><p><strong>The overlay</strong> is 380×72, undecorated, transparent, always on top, and skips the taskbar. It appears bottom-centre of whichever monitor you&rsquo;re on when recording starts, shows a live 20-bar waveform and elapsed time, and offers one action — cancel. Then it disappears.</p><p><strong>The settings window</strong> is the one in the screenshot: General, Models, About. It&rsquo;s hidden rather than destroyed when you close it, because the tray menu looks the window up by label to reopen it — destroy it on close and &ldquo;Settings…&rdquo; becomes a silent no-op.</p><p>Both windows are the same React bundle, routed by URL fragment.</p><h2 id=design-decisions-worth-defending>Design decisions worth defending</h2><p><strong>Toggle, not push-to-talk.</strong> Hold-to-talk needs reliable key-up handling, which is where cross-platform hotkey libraries are weakest. Toggle mode works identically on all three platforms today; push-to-talk is a later phase, once the mechanism is proven.</p><p><strong>A fixed 60-second cutoff instead of voice activity detection.</strong> VAD — stopping automatically when you stop speaking — is the better experience and it&rsquo;s the top of the roadmap. But it&rsquo;s an extra model, an extra inference loop and an extra failure mode, and shipping it in v1 would have delayed proving the harder bet: that local STT and input injection work reliably on three operating systems.</p><p><strong>Direct typing as the default paste method.</strong> It never touches the clipboard, so there is no race to lose and nothing of yours to overwrite. Clipboard paste is more reliable in some apps, so it&rsquo;s one setting away — but the default should be the method that can&rsquo;t damage anything.</p><p><strong>CI builds every platform natively.</strong> Cross-compiling a Tauri app with native audio, GPU and GTK dependencies from one host isn&rsquo;t practical. GitHub Actions builds on macOS ARM, macOS Intel, Ubuntu and Windows runners, and publishes the installers as a draft release.</p><h2 id=where-its-going>Where it&rsquo;s going</h2><p>v0.1.0 is the MVP: one bundled model, toggle recording, three paste methods, the full model catalog. The roadmap, in rough order:</p><table><thead><tr><th>Phase</th><th>What lands</th></tr></thead><tbody><tr><td><strong>2</strong></td><td>VAD auto-stop, push-to-talk, SQLite history with search</td></tr><tr><td><strong>3</strong></td><td>Optional local LLM cleanup — punctuation, filler removal, tone</td></tr><tr><td><strong>4</strong></td><td>Localised UI, custom word dictionary, accessibility</td></tr><tr><td><strong>5</strong></td><td>Auto-updater, code signing and notarisation, portable mode</td></tr></tbody></table><p>The ordering is deliberate: prove the hardest technical bet first, then fix the biggest UX gap it left behind.</p><h2 id=get-it>Get it</h2><div class=dl-wrap><a class=dl-btn href=https://github.com/devops-monk/vox/releases>Download Vox ↗</a><p class=dl-note>Latest release on GitHub</p></div><p>Builds are published for macOS (Intel and Apple Silicon), Windows and Linux.</p><p><strong>On first launch, expect a Gatekeeper or SmartScreen warning</strong> — v0.1.0 builds are unsigned, and signing is a later phase. On macOS you&rsquo;ll also be asked for two permissions: <strong>Microphone</strong>, for obvious reasons, and <strong>Accessibility</strong>, which is required both to register the global hotkey and to simulate the keystroke that delivers your text.</p><p>Source, issues and the full build instructions are on <a href=https://github.com/devops-monk/vox>GitHub</a>.</p></div></div></article></main></section><section id=secondary class="sidebar widget-area clearfix" role=complementary><aside id=search class="widget clearfix"><div class=widget-header><h3 class=widget-title>Search</h3></div><form onsubmit=return!1><input id=search-query type=text placeholder="Search posts..." autocomplete=off>
+<button id=search-btn type=button><i class="fa-solid fa-magnifying-glass"></i></button></form><div id=search-results></div></aside><aside id=rss-subscribe class="widget clearfix"><div class=widget-header><h3 class=widget-title>Subscribe</h3></div><a href=/index.xml class=rss-subscribe-btn target=_blank rel=noopener><i class="fa-solid fa-rss"></i> Subscribe via RSS</a></aside><aside id=recent-posts class="widget clearfix"><div class=widget-header><h3 class=widget-title>Recent Posts</h3></div><ul><li class=widget__item><a class=widget__link href=/2026/09/becoming-an-expert/>Becoming an Expert</a></li><li class=widget__item><a class=widget__link href=/2026/09/when-it-goes-wrong/>When It Goes Wrong</a></li><li class=widget__item><a class=widget__link href=/2026/09/cost-monitoring-and-security/>Cost, Monitoring & Security</a></li><li class=widget__item><a class=widget__link href=/2026/09/claude-code-everywhere/>Claude Code Everywhere</a></li><li class=widget__item><a class=widget__link href=/2026/09/automation-and-scheduling/>Automation & Scheduling</a></li></ul></aside><aside id=categories class="widget clearfix"><div class=widget-header><h3 class=widget-title>Categories</h3></div><ul><li><a href=/categories/fundamentals/ title=fundamentals>fundamentals</a></li></ul></aside><aside id=tag_cloud class="widget widget_tag_cloud clearfix"><div class=widget-header><h3 class=widget-title>Tags</h3></div><div class=tagcloud><div class=widget__content><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/agent-sdk/ title=agent-sdk>agent-sdk
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/agent-teams/ title=agent-teams>agent-teams
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/agent-view/ title=agent-view>agent-view
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/agents/ title=agents>agents
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/auto-memory/ title=auto-memory>auto-memory
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/auto-mode/ title=auto-mode>auto-mode
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/automation/ title=automation>automation
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/best-practices/ title=best-practices>best-practices
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/browser-automation/ title=browser-automation>browser-automation
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/capstone/ title=capstone>capstone
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/checkpointing/ title=checkpointing>checkpointing
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/chrome/ title=chrome>chrome
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/ci/ title=ci>ci
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/classifier/ title=classifier>classifier
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/claude-code/ title=claude-code>claude-code
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/claude-md/ title=claude-md>claude-md
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/cli/ title=cli>cli
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/commands/ title=commands>commands
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/compaction/ title=compaction>compaction
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/configuration/ title=configuration>configuration
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/context-engineering/ title=context-engineering>context-engineering
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/context-window/ title=context-window>context-window
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/conventions/ title=conventions>conventions
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/costs/ title=costs>costs
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/customisation/ title=customisation>customisation
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/debugging/ title=debugging>debugging
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/delegation/ title=delegation>delegation
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/distribution/ title=distribution>distribution
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/errors/ title=errors>errors
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/getting-started/ title=getting-started>getting-started
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/git/ title=git>git
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/github-actions/ title=github-actions>github-actions
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/headless/ title=headless>headless
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/hooks/ title=hooks>hooks
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/integrations/ title=integrations>integrations
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/lifecycle/ title=lifecycle>lifecycle
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/llm/ title=llm>llm
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/loop/ title=loop>loop
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/marketplaces/ title=marketplaces>marketplaces
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/mcp/ title=mcp>mcp
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/memory/ title=memory>memory
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/mobile/ title=mobile>mobile
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/model-config/ title=model-config>model-config
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/monitoring/ title=monitoring>monitoring
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/monorepo/ title=monorepo>monorepo
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/oauth/ title=oauth>oauth
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/orchestration/ title=orchestration>orchestration
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/output-styles/ title=output-styles>output-styles
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/packaging/ title=packaging>packaging
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/parallel/ title=parallel>parallel
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/permissions/ title=permissions>permissions
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/platforms/ title=platforms>platforms
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/plugins/ title=plugins>plugins
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/precedence/ title=precedence>precedence
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/progressive-disclosure/ title=progressive-disclosure>progressive-disclosure
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/prompt-caching/ title=prompt-caching>prompt-caching
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/prompt-injection/ title=prompt-injection>prompt-injection
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/remote-control/ title=remote-control>remote-control
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/rewind/ title=rewind>rewind
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/routines/ title=routines>routines
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/rules/ title=rules>rules
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/sandboxing/ title=sandboxing>sandboxing
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/scheduling/ title=scheduling>scheduling
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/security/ title=security>security
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/sessions/ title=sessions>sessions
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/settings/ title=settings>settings
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/skills/ title=skills>skills
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/subagents/ title=subagents>subagents
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/surfaces/ title=surfaces>surfaces
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/system-prompt/ title=system-prompt>system-prompt
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/terminal/ title=terminal>terminal
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/tool-search/ title=tool-search>tool-search
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/tools/ title=tools>tools
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/troubleshooting/ title=troubleshooting>troubleshooting
+</a><a class="tag-cloud-link widget__link widget__link--taglist" href=/tags/workflows/ title=workflows>workflows</a></div></div></aside></section></div><div id=footer class=footer-wrap><footer id=colophon class="site-footer container clearfix" role=contentinfo><div id=footer-text class=site-info><span class=credit-link><a href=/>AI Engineering by Abhay</a>
+Copyright © 2026
+</span><span class=footer-rss><a href=/index.xml title="RSS Feed" target=_blank rel=noopener><i class="fa-solid fa-rss"></i> RSS Feed</a></span></div></footer></div></div><script type=text/javascript src=/assets/js/custom.js></script></body></html>

@@ -11,6 +11,16 @@ Writing about how AI systems behave is one thing. Shipping one is where the idea
 
 These are things I've built and use myself. Each page covers what the thing is, how it's put together, and the decisions that turned out to matter — including the ones I got wrong the first time.
 
+## Lector — local text-to-speech
+
+[**Lector**](/projects/lector/) is Vox pointed the other way. Select text anywhere — an article, a PDF, a pull request — press a hotkey, and hear it read aloud.
+
+Also fully **offline**, and with no Python: the speech engine links statically into the binary, so there is no interpreter, no sidecar and no port to bind. 181 voices across twelve models, each auditionable before you commit to it.
+
+[Read the design →](/projects/lector/) · [Download →](https://github.com/devops-monk/lector/releases)
+
+**Built with:** Tauri · Rust · sherpa-onnx · Kokoro &amp; Piper
+
 ## Vox — local voice-to-text
 
 [**Vox**](/projects/vox/) is a cross-platform desktop app for voice dictation. Press a hotkey, speak, and the text appears in whatever app you're focused on.

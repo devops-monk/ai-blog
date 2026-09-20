@@ -17,6 +17,8 @@ These are things I've built and use myself. Each page covers what the thing is, 
 
 Also fully **offline**, and with no Python: the speech engine links statically into the binary, so there is no interpreter, no sidecar and no port to bind. 181 voices across twelve models, each auditionable before you commit to it.
 
+[![The Lector window, showing the voice browser with Kokoro expanded](/images/projects/lector-window.webp)](/projects/lector/)
+
 [Read the design →](/projects/lector/) · [Download →](https://github.com/devops-monk/lector/releases)
 
 **Built with:** Tauri · Rust · sherpa-onnx · Kokoro &amp; Piper

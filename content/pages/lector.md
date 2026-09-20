@@ -29,6 +29,10 @@ Lector is [Vox](/projects/vox/) pointed the other way. Vox turns speech into tex
 | **Default hotkey** | `Option+Shift+Space` |
 | **Network calls** | None, after a voice is downloaded |
 
+![The Lector window: a searchable list of 181 voices with Kokoro expanded and Sarah selected, beside a text pane with a Speak button and speed control](/images/projects/lector-window.webp)
+
+Twelve models, grouped and searchable. Downloaded ones expand into their speakers; the rest show their size and a Get button. Every voice has a play button that auditions it *without* switching to it — with 181 of them, having to adopt a voice just to hear it would make the list useless.
+
 Two entry points, one implementation: the global hotkey, and — on macOS — a right-click → **Services** → *Speak with Lector*. They differ only in where the text comes from. A second surface should be a second *caller*, never a second implementation.
 
 ## Why no Python

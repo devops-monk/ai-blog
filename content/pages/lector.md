@@ -14,7 +14,7 @@ Lector is [Vox](/projects/vox/) pointed the other way. Vox turns speech into tex
 
 <div class="dl-wrap">
   <a class="dl-btn" href="https://github.com/devops-monk/lector/releases">Download Lector ↗</a>
-  <p class="dl-note">macOS (Intel &amp; Apple Silicon) · Windows · Linux · v0.2.2</p>
+  <p class="dl-note">macOS (Intel &amp; Apple Silicon) · Windows · Linux · v0.4.1</p>
 </div>
 
 ## What it is
@@ -25,13 +25,22 @@ Lector is [Vox](/projects/vox/) pointed the other way. Vox turns speech into tex
 | **Frontend** | One HTML file, one stylesheet, 210 lines of DOM calls |
 | **Speech engine** | [sherpa-onnx](https://github.com/k2-fsa/sherpa-onnx), linked statically |
 | **Voices** | 181, across 12 models and three engine families |
+| **Reads** | Selected text · EPUB · PDF · Markdown · plain text · web articles |
 | **Platforms** | macOS (Intel + Apple Silicon), Windows, Linux |
 | **Default hotkey** | `Option+Shift+Space` |
 | **Network calls** | None, after a voice is downloaded |
 
-![The Lector window: a searchable list of 181 voices with Kokoro expanded and Sarah selected, beside a text pane with a Speak button and speed control](/images/projects/lector-window.webp)
+![Lector reading The Jungle Book, with the sentences already spoken highlighted and a "Read from here" tooltip over a later paragraph](/images/projects/lector-reading.webp)
 
-Twelve models, grouped and searchable. Downloaded ones expand into their speakers; the rest show their size and a Get button. Every voice has a play button that auditions it *without* switching to it — with 181 of them, having to adopt a voice just to hear it would make the list useless.
+The passage being spoken is highlighted as you hear it, and clicking any sentence sends the voice there. The highlight is driven by frames the sound card has actually played rather than by what has been generated — synthesis runs several sentences ahead, so a highlight keyed to *that* would sit permanently ahead of the voice.
+
+![Lector searching for "jungle", showing results from Standard Ebooks and Project Gutenberg with The Jungle Book already in the library](/images/projects/lector-library.webp)
+
+Books come from two free catalogues, searched together: Standard Ebooks for carefully typeset editions, Project Gutenberg for breadth. Or bring your own — EPUB, PDF, Markdown and plain text all import, and any article on the web can be read by pasting its address.
+
+![The Lector voice browser, with Jenny marked ACTIVE and Kokoro expanded into its 28 English speakers](/images/projects/lector-voices.webp)
+
+Twelve models, grouped and searchable. Downloaded ones expand into their speakers; the rest show their size and what they cost you. Every voice has a play button that auditions it *without* switching to it — with 181 of them, having to adopt a voice just to hear it would make the list useless.
 
 Two entry points, one implementation: the global hotkey, and — on macOS — a right-click → **Services** → *Speak with Lector*. They differ only in where the text comes from. A second surface should be a second *caller*, never a second implementation.
 
